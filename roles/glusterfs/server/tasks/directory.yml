@@ -9,7 +9,7 @@
     path: /data/
     src: "{{ disk }}"
     fstype: "{{ fstype }}"
-    opts: "rw,user,exec,umask=000"
+    opts: "rw"
     state: present
 
 - name: Mount and bind a volume
