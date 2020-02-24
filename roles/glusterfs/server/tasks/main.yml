@@ -10,7 +10,12 @@
   shell: dd if=/dev/zero of="{{ disk }}" bs=512 count=10
   register: response
 - debug: msg={{ response }}
-  
+
+- name: Check if drives are already mounted
+  shell: df | grep "{{ disk }}" | wc -l
+  register: disk_checked
+- debug: msg="{{ebs_checked}}"
+
 # - name: Create a {{ fstype }} filesystem on {{ disk }}
 #   become: true
 #   filesystem:
