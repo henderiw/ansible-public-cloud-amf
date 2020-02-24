@@ -16,12 +16,14 @@
   register: disk_checked
 - debug: msg="{{disk_checked}}"
 
-# - name: Create a {{ fstype }} filesystem on {{ disk }}
-#   become: true
-#   filesystem:
-#     fstype: "{{ fstype }}"
-#     force: yes
-#     dev: "{{ disk }}"
+- name: Create a {{ fstype }} filesystem on {{ disk }}
+  become: true
+  filesystem:
+    fstype: "{{ fstype }}"
+    force: yes
+    dev: "{{ disk }}"
+  when: "{{item.stdout}} == 0"
+  with_items: disk_checked.results
       
 - name: List block device for {{ disk }}
   shell: lsblk -f "{{ disk }}"
