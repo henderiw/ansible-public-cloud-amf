@@ -1,16 +1,19 @@
 ---
 - name: ansible distribution
   debug: 
-    msg: "Ansible Distribution {{ ansible_distribution_release }}"
+    msg: 
+    - "Ansible Distribution {{ ansible_distribution_release }}"
+    - "Ansible Distribution Release {{ ansible_distribution_release }}"
+    - "Ansible Distribution Version {{ ansible_distribution_version }}" 
 
-- name: ansible distribution release
-  debug: 
-    msg: "Ansible Distribution Release {{ ansible_distribution_release }}"
+# - name: ansible distribution release
+#   debug: 
+    
 
-- name: ansible distribution version
-  debug: 
-    msg: "Ansible Distribution Version {{ ansible_distribution_version }}"  
+# - name: ansible distribution version
+#   debug: 
+#     msg:  
 
-- name: ansible distribution version
-  debug: 
-    msg: "Kernel Version {{ my_kernel }}"
+# - name: ansible distribution version
+#   debug: 
+#     msg: "Kernel Version {{ my_kernel }}"
