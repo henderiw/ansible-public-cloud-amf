@@ -1,14 +1,26 @@
 ---
+- name: Unmount a mounted volume
+  mount:
+    path: /data/brick1/
+    state: unmounted
+
+- name: update fstab to mount directory
+  mount:
+    path: /data/
+    src: "{{ disk }}"
+    fstype: "{{ fstype }}"
+    opts: "defaults"
+    state: present
+
+- name: Mount and bind a volume
+  mount:
+    path: /data/
+    src: "{{ disk }}"
+    fstype: "{{ fstype }}"
+    state: mounted
+
 - name: Create a directory /data/brick1/gv0 if it does not exist
   file:
     path: /data/brick1/gv0
     state: directory
     mode: '0755'
-
-- name: Mount DVD read-only
-  mount:
-    path: /data/brick1/
-    src: "{{ disk }}"
-    fstype: "{{ fstype }}"
-    opts: "defaults"
-    state: present
