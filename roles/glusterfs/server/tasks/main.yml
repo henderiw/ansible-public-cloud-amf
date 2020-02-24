@@ -110,6 +110,10 @@
 - name: create fstab directory tasks
   include_tasks: directory.yml
 
+- name: create gluster peer setup
+  include_tasks: peer.yml
+  run_once: yes
+
 - name: create volume tasks
   include_tasks: volume.yml
   run_once: yes

@@ -5,28 +5,30 @@
 #     state: unmounted
 
 - name: Check if drives are already mounted
-  command: '/bin/mountpoint -q /data/'
-  register: mnt_checked
-  changed_when: "mnt_checked.rc != 0"
-- debug: msg={{ mnt_checked}}
+  shell: df | grep "{{ disk }}" | wc -l
+  register: disk_checked
+- debug: msg="{{disk_checked}}"
 
-# - name: update fstab to mount directory
-#   mount:
-#     path: /data/
-#     src: "{{ disk }}"
-#     fstype: "{{ fstype }}"
-#     opts: "rw"
-#     state: present
+- name: create fstab, mount and directory
+  block:
+    - name: update fstab to mount directory
+      mount:
+        path: /data/
+        src: "{{ disk }}"
+        fstype: "{{ fstype }}"
+        opts: "rw"
+        state: present
 
-# - name: Mount and bind a volume
-#   mount:
-#     path: /data/
-#     src: "{{ disk }}"
-#     fstype: "{{ fstype }}"
-#     state: mounted
+    - name: Mount and bind a volume
+      mount:
+        path: /data/
+        src: "{{ disk }}"
+        fstype: "{{ fstype }}"
+        state: mounted
 
-# - name: Create a directory /data/brick1/gv0 if it does not exist
-#   file:
-#     path: /data/brick1/gv0
-#     state: directory
-#     mode: '0755'
+    - name: Create a directory /data/brick1/gv0 if it does not exist
+      file:
+        path: /data/brick1/gv0
+        state: directory
+        mode: '0755'
+  when: "disk_checked.stdout == 0"
