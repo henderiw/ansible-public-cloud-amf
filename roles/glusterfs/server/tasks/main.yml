@@ -14,7 +14,7 @@
 - name: Check if drives are already mounted
   shell: df | grep "{{ disk }}" | wc -l
   register: disk_checked
-- debug: msg="{{ebs_checked}}"
+- debug: msg="{{disk_checked}}"
 
 # - name: Create a {{ fstype }} filesystem on {{ disk }}
 #   become: true
