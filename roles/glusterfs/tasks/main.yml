@@ -8,8 +8,13 @@
     - { pkgname: "glusterfs-server"  }
 
 - name: Stop the ntpd service if running on {{ inventory_hostname }}
-  service:
+  systemd:
     name: glusterd
     state: stopped
-  register: service
-- debug: msg="{{ service }}"
+  register: status
+- debug: msg="{{ status }}"
+
+- name: Read device information (always use unit when probing)
+  parted: device=/dev/sdc unit=MiB
+  register: sdc_info
+- debug: msg="{{ sdc_info }}"
