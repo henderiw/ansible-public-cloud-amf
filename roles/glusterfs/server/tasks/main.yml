@@ -22,8 +22,7 @@
     fstype: "{{ fstype }}"
     force: yes
     dev: "{{ disk }}"
-  when: "{{item.stdout}} == 0"
-  with_items: disk_checked.results
+  when: "{{disk_checked.stdout}} == 0"
       
 - name: List block device for {{ disk }}
   shell: lsblk -f "{{ disk }}"
