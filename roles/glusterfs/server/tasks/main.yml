@@ -107,9 +107,8 @@
   register: response
 - debug: msg={{ response }}
 
-# - name: create fstab directory tasks
-#   include_tasks: directory.yml
-#   #run_once: yes
+- name: create fstab directory tasks
+  include_tasks: directory.yml
 
 - name: create volume tasks
   include_tasks: volume.yml
