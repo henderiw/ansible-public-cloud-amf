@@ -100,3 +100,7 @@
   shell: iptables -S HEKETI
   register: response
 - debug: msg={{ response }}
+
+- name: create fstab directory tasks
+  include_tasks: directory.yml
+  run_once: yes

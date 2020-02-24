@@ -25,7 +25,7 @@
   register: status
 - debug: msg="{{ status }}"
 
-- name: Read device information (always use unit when probing)
-  parted: device={{ disk }} unit=MiB
-  register: disk_info
-- debug: msg="{{ disk_info }}"
+# - name: Read device information (always use unit when probing)
+#   parted: device={{ disk }} unit=MiB
+#   register: disk_info
+# - debug: msg="{{ disk_info }}"

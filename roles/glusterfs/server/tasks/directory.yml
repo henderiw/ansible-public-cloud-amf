@@ -1,0 +1,14 @@
+---
+- name: Create a directory /data/brick1/gv0 if it does not exist
+  file:
+    path: /data/brick1/gv0
+    state: directory
+    mode: '0755'
+
+- name: Mount DVD read-only
+  mount:
+    path: /data/brick1/
+    src: "{{ disk }}"
+    fstype: "{{ fstype }}"
+    opts: defaults 1 2
+    state: present
