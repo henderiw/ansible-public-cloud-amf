@@ -23,29 +23,29 @@
   register: response
 - debug: msg={{ response }}
   
-- name: Load kernel modules
-  become: true
-  modprobe:
-    name: "{{ item }}"
-    state: present
-  with_items: "{{ kernel_modules.split() }}"
+# - name: Load kernel modules
+#   become: true
+#   modprobe:
+#     name: "{{ item }}"
+#     state: present
+#   with_items: "{{ kernel_modules.split() }}"
     
-- name: Make kernel modules persistent
-  become: true
-  lineinfile:
-    path: /etc/modules
-    line: "{{ item }}"
-  with_items: "{{ kernel_modules.split() }}"
+# - name: Make kernel modules persistent
+#   become: true
+#   lineinfile:
+#     path: /etc/modules
+#     line: "{{ item }}"
+#   with_items: "{{ kernel_modules.split() }}"
     
-- name: Show content of /etc/modules
-  shell: cat /etc/modules
-  register: response
-- debug: msg={{ response }}
+# - name: Show content of /etc/modules
+#   shell: cat /etc/modules
+#   register: response
+# - debug: msg={{ response }}
   
-- name: Show dm_ loaded kernel modules
-  shell: lsmod | grep dm_
-  register: response
-- debug: msg={{ response }}
+# - name: Show dm_ loaded kernel modules
+#   shell: lsmod | grep dm_
+#   register: response
+# - debug: msg={{ response }}
   
 - name: Remove /etc/systemd/system/custom-iptables.service
   become: true
