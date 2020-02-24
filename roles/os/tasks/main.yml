@@ -2,9 +2,9 @@
 - name: ansible distribution
   debug: 
     msg: 
-    - "Ansible Distribution {{ ansible_distribution_release }}"
-    - "Ansible Distribution Release {{ ansible_distribution_release }}"
-    - "Ansible Distribution Version {{ ansible_distribution_version }}"
+    - "Distribution {{ ansible_distribution_release }}"
+    - "Distribution Release {{ ansible_distribution_release }}"
+    - "Distribution Version {{ ansible_distribution_version }}"
     - "Kernel Version {{ ansible_kernel }}"
 
 - name: Enable SELinux

@@ -1,6 +1,6 @@
 - name: Copy file with owner and permissions
   copy:
-    src: "{{ home_dir }}/.ssh/{{ cloud_ssh_key_name }}"
+    src: "/home/{{ cloud_user }}/.ssh/{{ cloud_ssh_key_name }}"
     dest: ~/.ssh/paco_rsa
     owner: "{{ cloud_user }}"
     group: "{{ cloud_user }}"
