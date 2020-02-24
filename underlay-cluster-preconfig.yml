@@ -12,5 +12,5 @@
     # # - { role: docker, tags: docker }
     # # - { role: kubernetes/underlay, tags: underlay }
     # - { role: ssh, tags: ssh }
-    - { role: flusterfs, tags: glusterfs }
+    - { role: glusterfs, tags: glusterfs }
     
