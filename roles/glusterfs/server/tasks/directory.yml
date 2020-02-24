@@ -10,5 +10,5 @@
     path: /data/brick1/
     src: "{{ disk }}"
     fstype: "{{ fstype }}"
-    opts: "defaults 1 2"
+    opts: "defaults"
     state: present
