@@ -8,7 +8,7 @@
     - { pkgname: "glusterfs-server"  }
     - { pkgname: "glusterfs-cli"  }
     - { pkgname: "glusterfs-geo-replication"  }
-    - { pkgname: "glusterfs- fuse"  }
+    - { pkgname: "glusterfs-fuse"  }
     - { pkgname: "glusterfs"  }
 
 - name: Start the glusterd service if running
