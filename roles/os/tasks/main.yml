@@ -1,7 +1,7 @@
 ---
 - name: ansible distribution
   debug: 
-    msg: "Ansible Distribution {{ ansible_distribution }}"
+    msg: "Ansible Distribution {{ ansible_distribution_release }}"
 
 - name: ansible distribution release
   debug: 
