@@ -1,0 +1,14 @@
+---
+- name: install glusterfs
+  yum: 
+    name: "{{ item.pkgname }}"
+    state: "present"
+  with_items:
+    - { pkgname: "glusterfs-server"  }
+
+- name: Stop the ntpd service if running on {{ inventory_hostname }}
+  service:
+    name: glusterd
+    state: stopped
+  register: service
+- debug: msg="{{ service }}"
