@@ -1,0 +1,102 @@
+---
+- name: Get current partitions on {{ disk }}
+  parted:
+      device: "{{ disk }}"
+  register: partitions
+- debug: msg={{ partitions }}
+  
+- name: Remove all partitions on {{ disk }}
+  become: true
+  shell: dd if=/dev/zero of="{{ disk }}" bs=512 count=10
+  register: response
+- debug: msg={{ response }}
+  
+- name: Create a {{ fstype }} filesystem on {{ disk }}
+  become: true
+  filesystem:
+    fstype: "{{ fstype }}"
+    force: yes
+    dev: "{{ disk }}"
+      
+- name: List block device for {{ disk }}
+  shell: lsblk -f "{{ disk }}"
+  register: response
+- debug: msg={{ response }}
+  
+- name: Load kernel modules
+  become: true
+  modprobe:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ kernel_modules.split() }}"
+    
+- name: Make kernel modules persistent
+  become: true
+  lineinfile:
+    path: /etc/modules
+    line: "{{ item }}"
+  with_items: "{{ kernel_modules.split() }}"
+    
+- name: Show content of /etc/modules
+  shell: cat /etc/modules
+  register: response
+- debug: msg={{ response }}
+  
+- name: Show dm_ loaded kernel modules
+  shell: lsmod | grep dm_
+  register: response
+- debug: msg={{ response }}
+  
+- name: Remove /etc/systemd/system/custom-iptables.service
+  become: true
+  file:
+    path: /etc/systemd/system/custom-iptables.service
+    state: absent
+  
+- name: Create /etc/systemd/system/custom-iptables.service
+  become: true
+  copy:
+    dest: /etc/systemd/system/custom-iptables.service
+    mode: '0644'
+    content: |
+      [Unit]
+      Description=define custom iptables rules for HEKETI
+      [Service]
+      ExecStart=/usr/local/bin/custom-iptables.sh
+      [Install]
+      WantedBy=multi-user.target
+  
+- name: Remove /usr/local/bin/custom-iptables.sh
+  become: true
+  file:
+    path: /usr/local/bin/custom-iptables.sh
+    state: absent
+  
+- name: Create /usr/local/bin/custom-iptables.sh
+  become: true
+  copy:
+    dest: /usr/local/bin/custom-iptables.sh
+    mode: '0755'
+    content: |
+      #!/bin/bash
+      /sbin/iptables --flush HEKETI
+      /sbin/iptables -X HEKETI
+      /sbin/iptables -N HEKETI
+      /sbin/iptables -A HEKETI -p tcp -m state --state NEW -m tcp --dport 24007 -j ACCEPT
+      /sbin/iptables -A HEKETI -p tcp -m state --state NEW -m tcp --dport 24008 -j ACCEPT
+      /sbin/iptables -A HEKETI -p tcp -m state --state NEW -m tcp --dport 2222 -j ACCEPT
+      /sbin/iptables -A HEKETI -p tcp -m state --state NEW -m multiport --dports 49152:49251 -j ACCEPT
+
+- name: Enable service custom-iptables
+  become: true
+  systemd:
+    daemon_reload: yes
+    name: custom-iptables
+    state: restarted
+    enabled: yes
+  
+- name: Show iptables for HEKEII
+  become: true
+  shell: iptables -S HEKETI
+  register: response
+- debug: msg={{ response }}

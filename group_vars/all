@@ -3,3 +3,7 @@ cloud_ssh_key_name: paco_rsa
 
 bootstrap_server_list:
   - 10.0.1.10
+
+disk: /dev/sdc
+fstype: ext4
+kernel_modules: "dm_snapshot dm_mirror dm_thin_pool"
