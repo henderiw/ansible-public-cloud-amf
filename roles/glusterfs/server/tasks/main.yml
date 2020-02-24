@@ -103,4 +103,4 @@
 
 - name: create fstab directory tasks
   include_tasks: directory.yml
-  run_once: yes
+  #run_once: yes
