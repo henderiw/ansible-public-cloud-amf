@@ -1,0 +1,16 @@
+- name: create gluster volume
+  gluster_volume:
+    state: present
+    name: gv0
+    bricks: /data/brick1/gv0
+    rebalance: yes
+    cluster:
+      - worker0
+      - worker1
+      - worker2
+  run_once: true
+
+- name: start gluster volume
+  gluster_volume:
+    state: started
+    name: gv0
