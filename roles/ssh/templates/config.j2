@@ -1,0 +1,8 @@
+Host bootstrap*
+  IdentityFile ~/.ssh/{{ cloud_ssh_key_name }}
+
+Host master*
+  IdentityFile ~/.ssh/{{ cloud_ssh_key_name }}
+
+Host worker*
+  IdentityFile ~/.ssh/{{ cloud_ssh_key_name }}

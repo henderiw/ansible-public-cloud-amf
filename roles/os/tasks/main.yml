@@ -7,3 +7,28 @@
     - "Ansible Distribution Version {{ ansible_distribution_version }}"
     - "Kernel Version {{ ansible_kernel }}"
 
+- name: Enable SELinux
+  selinux:
+    policy: targeted
+    state: permissive
+
+- name: upgrade all packages on {{ inventory_hostname }}
+  yum:
+    name: '*'
+    state: latest
+
+- name: Build hosts file
+  lineinfile:
+    dest: /etc/hosts
+    regexp: '.*{{ item }}$'
+    line: '{{ hostvars[item].ansible_host }} {{item}}'
+    state: present
+  with_items: 
+    - '{{ groups["jumphost"] }}'
+    - '{{ groups["master"] }}'
+    - '{{ groups["node"] }}'
+
+- name: Restart network service on {{ inventory_hostname }} 
+  service:
+    name: network
+    state: restarted

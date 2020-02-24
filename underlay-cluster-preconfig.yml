@@ -7,8 +7,9 @@
   become_method: sudo
   roles:
     - { role: os, tags: os }
-    # - { role: ntp, tags: ntp }
+    - { role: packages, tags: packages }
+    - { role: ntp, tags: ntp }
     # - { role: docker, tags: docker }
     # - { role: kubernetes/underlay, tags: underlay }
-    # - { role: ssh, tags: ssh }
+    - { role: ssh, tags: ssh }
     
