@@ -12,7 +12,7 @@
     # # - { role: docker, tags: docker }
     # # - { role: kubernetes/underlay, tags: underlay }
     # - { role: ssh, tags: ssh }
-    #- { role: glusterfs/general, tags: glusterfs-general }
+    - { role: glusterfs/general, tags: glusterfs-general }
 
 - name: Setup glusterfs server 
   hosts: glusterfs

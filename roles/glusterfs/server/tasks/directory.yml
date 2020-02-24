@@ -1,7 +1,7 @@
 ---
 - name: Unmount a mounted volume
   mount:
-    path: /data/brick1/
+    path: /data/
     state: unmounted
 
 - name: update fstab to mount directory

@@ -11,12 +11,12 @@
   register: response
 - debug: msg={{ response }}
   
-- name: Create a {{ fstype }} filesystem on {{ disk }}
-  become: true
-  filesystem:
-    fstype: "{{ fstype }}"
-    force: yes
-    dev: "{{ disk }}"
+# - name: Create a {{ fstype }} filesystem on {{ disk }}
+#   become: true
+#   filesystem:
+#     fstype: "{{ fstype }}"
+#     force: yes
+#     dev: "{{ disk }}"
       
 - name: List block device for {{ disk }}
   shell: lsblk -f "{{ disk }}"
@@ -101,6 +101,7 @@
   register: response
 - debug: msg={{ response }}
 
-- name: create fstab directory tasks
-  include_tasks: directory.yml
-  #run_once: yes
+# - name: create fstab directory tasks
+#   include_tasks: directory.yml
+#   #run_once: yes
+

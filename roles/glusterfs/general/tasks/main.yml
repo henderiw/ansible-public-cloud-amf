@@ -14,14 +14,14 @@
 - name: Start the glusterd service if running
   systemd:
     name: glusterd
-    state: stopped
+    state: started
   register: status
 - debug: msg="{{ status }}"
 
 - name: Start the glusterd service if running
   systemd:
     name: glusterfsd
-    state: stopped
+    state: started
   register: status
 - debug: msg="{{ status }}"
 
