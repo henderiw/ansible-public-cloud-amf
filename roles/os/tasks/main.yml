@@ -5,5 +5,5 @@
     - "Ansible Distribution {{ ansible_distribution_release }}"
     - "Ansible Distribution Release {{ ansible_distribution_release }}"
     - "Ansible Distribution Version {{ ansible_distribution_version }}"
-    - "Kernel Version {{ my_kernel }}"
+    - "Kernel Version {{ ansible_kernel }}"
 
