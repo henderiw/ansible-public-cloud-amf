@@ -1,0 +1,14 @@
+---
+- name: setup network-attachment-definition.yaml
+  template:
+    src: "{{ item }}.j2"
+    dest: "/tmp"
+    mode: 0755
+  with_items:
+    - network-attachment-definition.yaml
+
+- name: create network attachement in kubernetes
+  shell: kubectl create -f /tmp/network-attachment-definition.yaml
+  register: result
+  changed_when: "'created' in result.stdout"
+  failed_when: "result.rc != 0 and 'already exists' not in result.stderr"

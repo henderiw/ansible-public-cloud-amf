@@ -1,0 +1,16 @@
+---
+- name: setup /etc/cni/net.d/10-multus_calico.conf
+  template:
+    src: "{{ item }}.j2"
+    dest: "/etc/cni/net.d/10-multus_calico.conf"
+    mode: 0755
+  with_items:
+    - 10-multus_calico.conf
+
+# - name: Restart kubelet service
+#   become: true
+#   service:
+#     name: kubelet
+#     state: restarted
+#   register: service
+# - debug: msg={{ service }}

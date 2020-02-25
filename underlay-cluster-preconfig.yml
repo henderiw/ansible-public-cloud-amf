@@ -40,7 +40,7 @@
   become_method: sudo
   roles:
     # - { role: kubernetes/node, tags: node }
-    # - { role: cni/multus, tags: cni/multus }
+    # - { role: cni/multus/install, tags: cni/multus/install }
 
 - hosts: kube_cluster
   gather_facts: no
@@ -55,6 +55,13 @@
   become: yes
   roles:
     # - { role: kubernetes/status, tags: kubernetes/status }
+    - { role: cni/multus/master, tags: cni/multus/install }
+    
+- hosts: node
+  gather_facts: no
+  become: yes
+  roles:
+    - { role: cni/multus/node, tags: cni/multus/node }
 
 - hosts: master
   gather_facts: no
