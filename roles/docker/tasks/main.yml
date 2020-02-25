@@ -87,7 +87,7 @@
  
 - name: Add user to docker group
   user:
-    name: "{{ user }}"
+    name: "{{ cloud_user }}"
     groups: docker
     append: yes
 
