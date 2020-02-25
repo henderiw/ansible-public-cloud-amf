@@ -36,8 +36,8 @@ network_interface: eth0
 # kubernetes multus
 sriov_src_file: "binaries/sriov"
 sriov_dest_file: "/opt/cni/bin/sriov"
-multus_src_file="binaries/multus"
-multus_dest_file="/opt/cni/bin/multus"
+multus_src_file: "binaries/multus"
+multus_dest_file: "/opt/cni/bin/multus"
 
 #helm
 helm_version: v2.14.3
