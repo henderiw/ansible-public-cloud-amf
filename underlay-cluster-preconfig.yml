@@ -6,14 +6,14 @@
   become_user: root
   become_method: sudo
   roles:
-    - { role: os, tags: os }
-    - { role: swap, tags: swapp }
-    - { role: packages, tags: packages }
-    - { role: ntp, tags: ntp }
-    - { role: docker, tags: docker }
-    - { role: kubernetes/underlay, tags: underlay }
-    - { role: ssh, tags: ssh }
-    - { role: glusterfs/general, tags: glusterfs-general }
+    # - { role: os, tags: os }
+    # - { role: swap, tags: swapp }
+    # - { role: packages, tags: packages }
+    # - { role: ntp, tags: ntp }
+    # - { role: docker, tags: docker }
+    # - { role: kubernetes/underlay, tags: underlay }
+    # - { role: ssh, tags: ssh }
+    # - { role: glusterfs/general, tags: glusterfs-general }
 
 - name: Setup glusterfs server 
   hosts: glusterfs
@@ -22,31 +22,37 @@
   become_user: root
   become_method: sudo
   roles:
-    - { role: glusterfs/server, tags: glusterfs-server }
+    #- { role: glusterfs/server, tags: glusterfs-server }
 
-# - hosts: master
-#   gather_facts: no
-#   become: yes
-#   roles:
-#     - { role: kubernetes/master, tags: master }
-#     - { role: cni, tags: cni }
+- hosts: master
+  gather_facts: no
+  become: yes
+  roles:
+    - { role: kubernetes/master, tags: master }
+    - { role: cni/calico, tags: cni/calico }
+    - { role: cni/multus, tags: cni/multus }
     
-# - hosts: node
-#   gather_facts: no
-#   become: yes
-#   become_user: root
-#   become_method: sudo
-#   roles:
-# #    - { role: cni, tags: cni }
-#     - { role: kubernetes/node, tags: node }
+- hosts: node
+  gather_facts: no
+  become: yes
+  become_user: root
+  become_method: sudo
+  roles:
+    - { role: kubernetes/node, tags: node }
 
-# - hosts: kube_cluster
-#   gather_facts: yno
-#   become: yes
-#   become_user: root
-#   become_method: sudo
-#   roles:
-#     - { role: calicoctl, tags: calicoctl }
+- hosts: kube_cluster
+  gather_facts: no
+  become: yes
+  become_user: root
+  become_method: sudo
+  roles:
+    - { role: calicoctl, tags: calicoctl }
+
+- hosts: master
+  gather_facts: no
+  become: yes
+  roles:
+    - { role: kubernetes/status, tags: kubernetes/status }
 
 # - hosts: master
 #   gather_facts: no

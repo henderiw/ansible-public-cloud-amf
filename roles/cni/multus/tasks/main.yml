@@ -1,0 +1,25 @@
+---
+- name: Make directory /opt/cni/bin
+  become: true
+  file:
+    path: /opt/cni/bin
+    state: directory
+    mode: 0755
+  
+- name: Upload sriov
+  become: true
+  copy:
+    src: "/home/{{ cloud_user }}/{{ sriov_src_file }}"
+    dest: "{{ sriov_dest_file }}"
+    owner: root
+    group: root
+    mode: 0755
+  
+- name: Upload multus
+  become: true
+  copy:
+    src: "/home/{{ cloud_user }}/{{ multus_src_file }}"
+    dest: "{{ multus_dest_file }}"
+    owner: root
+    group: root
+    mode: 0755
