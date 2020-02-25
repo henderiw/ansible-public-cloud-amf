@@ -54,8 +54,26 @@
   register: response
 - debug: msg={{ response }}
   
-- name: Show xfrm kernel modules
+# - name: Show xfrm kernel modules
+#   become: true
+#   shell: lsmod | grep -i xfrm
+#   register: response
+# - debug: msg={{ response }}
+
+- name: Set net.core.rmem_max to 4194304
   become: true
-  shell: lsmod | grep -i xfrm
+  shell: echo "net.core.rmem_max = 4194304" | tee -a /etc/sysctl.conf
+  register: response
+- debug: msg={{ response }}
+  
+- name: Set net.core.wmem_max to 4194304
+  become: true
+  shell: echo "net.core.wmem_max = 4194304" | tee -a /etc/sysctl.conf
+  register: response
+- debug: msg={{ response }}
+  
+- name: Read systcl
+  become: true
+  shell: sysctl -p
   register: response
 - debug: msg={{ response }}
