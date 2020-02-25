@@ -2,6 +2,7 @@
 - name: setup /etc/cni/net.d/10-multus_calico.conf
   template:
     src: "{{ item }}.j2"
+    remote_src: yes
     dest: "/etc/cni/net.d/10-multus_calico.conf"
     mode: 0755
   with_items:
