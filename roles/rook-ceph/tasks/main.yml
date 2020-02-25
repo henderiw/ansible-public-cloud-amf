@@ -18,7 +18,7 @@
 - name: Upload/untar rook.tar
   unarchive: 
     src: "{{ rook_src_tar }}"
-    dest: "{{ rook_dest_tar }}"
+    dest: "/home/{{ cloud_user }}"
     copy: no
   register: response
 - debug: msg={{ response }}
