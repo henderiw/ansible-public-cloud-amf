@@ -1,9 +1,47 @@
+# cloud user parameters
 cloud_user: henderiw
 cloud_ssh_key_name: paco_rsa
 
+# environment parameters used for NTP
 bootstrap_server_list:
   - 10.0.1.10
 
+# cloud disk parameters
 disk: /dev/sdc
 fstype: ext4
 kernel_modules: "dm_snapshot dm_mirror dm_thin_pool"
+
+# kubernetes parameters
+kube_version: v1.17.0
+
+# kubernetes kubeadm
+token: b0f7b8.8d1767876297d85c
+init_opts: ""
+kubeadm_opts: ""
+# kubernetes support directories
+systemd_dir: /lib/systemd/system
+system_env_dir: /etc/sysconfig
+network_dir: /etc/kubernetes/network
+kubeadmin_config: /etc/kubernetes/admin.conf
+kube_addon_dir: /etc/kubernetes/addon
+kubevirt_dir: /etc/kubernetes/kubevirt
+tmp_dir: /tmp/kubeadm-ansible-files
+
+# kubernetes cni
+service_cidr: "10.244.0.0/16"
+pod_network_cidr: "10.10.0.0/16"
+# Network implementation('flannel', 'calico', 'azure')
+network: calico
+network_interface: eth0
+
+#helm
+helm_version: v2.14.3
+helm_url: https://get.helm.sh/helm-{{ helm_version }}-linux-amd64.tar.gz
+helm_bin_dir: /usr/local/bin/
+helm_tiller: tiller-deploy
+helm_refresh_cache: ""
+
+#istio
+istio_version : 1.2.10
+istio_url: https://github.com/istio/istio/releases/download/{{ istio_version }}/istio-{{ istio_version }}-linux.tar.gz
+istio_bin_dir: /usr/local/bin/
