@@ -22,7 +22,7 @@
 - debug: msg={{ response }}
 
 - name: Label worker region
-  shell: kubectl label node  "{{ item }}" region="{{ worker_region }}" --overwrite
+  shell: kubectl label node "{{ item }}" region="{{ worker_region }}" --overwrite
   register: response
   become_user: "{{ cloud_user }}"
   with_items:
