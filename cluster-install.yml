@@ -75,3 +75,4 @@
   gather_facts: no
   roles:
     - { role: rook-ceph, tags: rook-ceph }
+    - { role: metric-server, tags: metric-server }

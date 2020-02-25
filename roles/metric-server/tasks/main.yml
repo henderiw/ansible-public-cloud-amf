@@ -1,0 +1,46 @@
+---
+- name: Delete {{ ansible_env.HOME }}/metrics-server
+  file:
+    path: "{{ ansible_env.HOME }}/metrics-server"
+    state: absent
+  
+- name: Git clone https://github.com/kubernetes-incubator/metrics-server.git
+  shell: git clone https://github.com/kubernetes-incubator/metrics-server.git
+  register: response
+- debug: msg={{ response}}
+
+- name: Upload metrics-server-deployment.yaml and metrics-server-service.yaml
+  template:
+      src: "{{ item }}.j2"
+      dest: "/home/{{ cloud_user }}//metrics-server/deploy/1.8+/{{ item }}"
+      mode: 0644
+  with_items:
+    - metrics-server-deployment.yaml
+    - metrics-server-service.yaml
+
+# - name: Upload metrics-server-deployment.yaml
+#   copy:
+#     src: /usr/local/devops/ansible/files/metrics-server-deployment.yaml
+#     dest: "{{ ansible_env.HOME }}/metrics-server/deploy/1.8+/metrics-server-deployment.yaml"
+#     mode: 0644
+  
+# - name: Upload metrics-server-service.yaml
+#   copy:
+#     src: /usr/local/devops/ansible/files/metrics-server-service.yaml
+#     dest: "{{ ansible_env.HOME }}/metrics-server/deploy/1.8+/metrics-server-service.yaml"
+#     mode: 0644   
+      
+- name: Install Metrics Server
+  shell: kubectl create -f metrics-server/deploy/1.8+/
+  register: response
+  failed_when: "response.rc != 0 and 'already exists' not in response.stderr"
+- debug: msg={{ response }}
+  
+- name: Pause for 20 seconds
+  pause:
+    seconds: 20
+
+- name: Check for metrics server
+  shell: kubectl get pods -n kube-system -o wide | grep metrics-server
+  register: response
+- debug: msg={{ response }}
