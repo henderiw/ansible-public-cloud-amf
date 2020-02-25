@@ -12,7 +12,7 @@
 - name: Upload metrics-server-deployment.yaml and metrics-server-service.yaml
   template:
       src: "{{ item }}.j2"
-      dest: "/home/{{ cloud_user }}//metrics-server/deploy/1.8+/{{ item }}"
+      dest: "/home/{{ cloud_user }}//metrics-server/deploy/kubernetes/{{ item }}"
       mode: 0644
   with_items:
     - metrics-server-deployment.yaml
@@ -31,7 +31,7 @@
 #     mode: 0644   
       
 - name: Install Metrics Server
-  shell: kubectl create -f metrics-server/deploy/1.8+/
+  shell: kubectl create -f metrics-server/deploy/kubernetes/
   register: response
   failed_when: "response.rc != 0 and 'already exists' not in response.stderr"
 - debug: msg={{ response }}
