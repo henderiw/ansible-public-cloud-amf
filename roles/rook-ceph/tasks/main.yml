@@ -41,7 +41,7 @@
 - name: Create operator.yaml
   shell: kubectl create -f operator.yaml
   args:
-    chdir: "{{ ansible_env.HOME }}/rook/cluster/examples/kubernetes/ceph"
+    chdir: "/home/{{ cloud_user }}/rook/cluster/examples/kubernetes/ceph"
     warn: false
   register: response
 - debug: msg={{ response }}
@@ -49,7 +49,7 @@
 - name: Create cluster-cmm.yaml
   shell: kubectl create -f cluster-cmm.yaml
   args:
-    chdir: "{{ ansible_env.HOME }}/rook/cluster/examples/kubernetes/ceph"
+    chdir: "/home/{{ cloud_user }}/rook/cluster/examples/kubernetes/ceph"
     warn: false
   register: response
 - debug: msg={{ response }}
@@ -78,7 +78,7 @@
   shell: kubectl create -f filesystem.yaml
   register: response
   args:
-    chdir: "{{ ansible_env.HOME }}/rook/cluster/examples/kubernetes/ceph"
+    chdir: "/home/{{ cloud_user }}/rook/cluster/examples/kubernetes/ceph"
     warn: false
 - debug: msg={{ response }}
   
@@ -86,7 +86,7 @@
   shell: kubectl create -f storageclass.yaml
   register: response
   args:
-    chdir: "{{ ansible_env.HOME }}/rook/cluster/examples/kubernetes/ceph/csi/cephfs"
+    chdir: "/home/{{ cloud_user }}/rook/cluster/examples/kubernetes/ceph/csi/cephfs"
     warn: false
 - debug: msg={{ response }}
   
@@ -104,6 +104,6 @@
   shell: kubectl create -f toolbox.yaml
   register: response
   args:
-    chdir: "{{ ansible_env.HOME }}/rook/cluster/examples/kubernetes/ceph"
+    chdir: "/home/{{ cloud_user }}/rook/cluster/examples/kubernetes/ceph"
     warn: false
 - debug: msg={{ response }}
