@@ -3,8 +3,7 @@ cloud_user: henderiw
 cloud_ssh_key_name: paco_rsa
 
 # environment parameters used for NTP, Docker registry
-bootstrap_server_list:
-  - 10.0.1.10
+bootstrap_server_ip: 10.0.1.10
 
 # cloud disk parameters
 disk: /dev/sdc

@@ -12,7 +12,7 @@
     policy: targeted
     state: permissive
 
-- name: upgrade all packages on {{ inventory_hostname }}
+- name: upgrade all packages
   yum:
     name: '*'
     state: latest
@@ -28,7 +28,7 @@
     - '{{ groups["master"] }}'
     - '{{ groups["node"] }}'
 
-- name: Restart network service on {{ inventory_hostname }} 
+- name: Restart network service
   service:
     name: network
     state: restarted

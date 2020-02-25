@@ -9,7 +9,7 @@
   lineinfile:
     dest: /etc/ntp.conf
     line: "server {{ item }} iburst"
-  with_items: "{{ bootstrap_server_list }}"
+  with_items: "{{ bootstrap_server_ip }}"
 
 - name: Stop the ntpd service if running on {{ inventory_hostname }}
   service:
@@ -17,7 +17,7 @@
     state: stopped
 
 - name: Manually sync time with ntp server on {{ inventory_hostname }}
-  command: ntpdate -u "{{bootstrap_server_list[0]}}"
+  command: ntpdate -u "{{bootstrap_server_ip}}"
 
 - name: Start ntpd on {{ inventory_hostname }} 
   service:
