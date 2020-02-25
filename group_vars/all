@@ -41,6 +41,7 @@ sriov_src_file: "binaries/sriov"
 sriov_dest_file: "/opt/cni/bin/sriov"
 multus_src_file: "binaries/multus"
 multus_dest_file: "/opt/cni/bin/multus"
+cluster_role_binding: "compute1 compute2 compute3 compute4 compute5"
 
 #helm
 helm_version: v2.16.1
