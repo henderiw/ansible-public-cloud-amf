@@ -1,0 +1,17 @@
+---
+- name: Ping all nodes
+  shell: ping -c 3 "{{ hostvars[item].ansible_host }}"
+  register: ping_checks
+  with_items:
+    - '{{ groups["master"] }}'
+    - '{{ groups["node"] }}'
+  async: 60
+  poll: 0
+    
+- name: Wait for ping all nodes
+  async_status: jid={{ item.ansible_job_id }}
+  register: ping_jobs
+  until: ping_jobs.finished
+  delay: 5
+  retries: 20
+  with_items: "{{ ping_checks.results }}"
