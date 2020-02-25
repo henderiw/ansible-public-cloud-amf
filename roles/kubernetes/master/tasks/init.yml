@@ -32,7 +32,7 @@
     remote_src: true
 
 - name: Deploy kubernetes dashboard into cluster
-  when: init_cluster is succeeded and enable_dashboard
+  when: init_cluster is succeeded
   command: |
     kubectl --kubeconfig={{ kubeadmin_config }} \
         apply -f https://raw.githubusercontent.com/kubernetes/dashboard/master/aio/deploy/recommended.yaml
