@@ -2,7 +2,6 @@
 - name: setup network-attachment-definition.yaml
   template:
     src: "{{ item }}.j2"
-    remote_src: yes
     dest: "/tmp"
     mode: 0755
   with_items:
