@@ -2,7 +2,7 @@
 - name: setup network-attachment-definition.yaml
   template:
     src: "{{ item }}.j2"
-    dest: "/tmp"
+    dest: "/tmp/{{ item }}"
     mode: 0755
   with_items:
     - network-attachment-definition.yaml
