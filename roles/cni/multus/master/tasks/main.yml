@@ -57,4 +57,5 @@
 - name: Network policy
   shell: kubectl label namespace/kube-system permission=talk-to-all
   register: response
+  failed_when: "response.rc != 0 and 'already' not in response.stderr"
 - debug: msg="{{ response }}"
