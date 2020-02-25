@@ -9,10 +9,10 @@
     # - { role: os, tags: os }
     # - { role: swap, tags: swapp }
     # - { role: packages, tags: packages }
-    - { role: ping, tags: ping }
+    # - { role: ping, tags: ping }
     # - { role: ntp, tags: ntp }
     # - { role: docker, tags: docker }
-    - { role: kubernetes/underlay, tags: underlay }
+    # - { role: kubernetes/underlay, tags: underlay }
     # - { role: ssh, tags: ssh }
     # - { role: glusterfs/general, tags: glusterfs-general }
 
@@ -60,4 +60,5 @@
   gather_facts: no
   roles:
     - { role: helm, tags: helm }
+    - { role: consul, tags: consul }
 #     - { role: istio, tags: istio }

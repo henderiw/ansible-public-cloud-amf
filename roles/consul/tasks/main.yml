@@ -1,0 +1,12 @@
+---
+- name: download consul
+  unarchive: 
+    src: "{{ consul_url }}"
+    dest: /tmp
+    copy: no
+  tags: download
+
+# - name: create the installation directory
+#   file:
+#     path: "{{ istio_bin_dir }}"
+#     state: directory
