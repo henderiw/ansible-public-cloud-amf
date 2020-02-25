@@ -12,6 +12,8 @@
     - { pkgname: "golang" }
     - { pkgname: "git"}
     - { pkgname: "ansible"}
+    - { pkgname: "sshpass"}
+    - { pkgname: "whois"}
     
 - name: install pip
   easy_install:

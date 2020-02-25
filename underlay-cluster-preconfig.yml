@@ -6,13 +6,14 @@
   become_user: root
   become_method: sudo
   roles:
-    # - { role: os, tags: os }
-    # - { role: packages, tags: packages }
-    # - { role: ntp, tags: ntp }
+    - { role: os, tags: os }
+    - { role: swap, tags: swapp }
+    - { role: packages, tags: packages }
+    - { role: ntp, tags: ntp }
     # # - { role: docker, tags: docker }
     # # - { role: kubernetes/underlay, tags: underlay }
-    # - { role: ssh, tags: ssh }
-    # - { role: glusterfs/general, tags: glusterfs-general }
+    - { role: ssh, tags: ssh }
+    - { role: glusterfs/general, tags: glusterfs-general }
 
 - name: Setup glusterfs server 
   hosts: glusterfs

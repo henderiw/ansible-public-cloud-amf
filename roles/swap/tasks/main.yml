@@ -1,0 +1,15 @@
+---
+- name: Remove swapfile from /etc/fstab
+  mount:
+    name: swap
+    fstype: swap
+    state: absent
+  become: yes
+  become_user: root
+  become_method: sudo
+
+- name: Disable swap
+  command: swapoff -a
+  become: yes
+  become_user: root
+  become_method: sudo
