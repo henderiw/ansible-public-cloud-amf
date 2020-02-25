@@ -36,6 +36,7 @@
     chdir: "/home/{{ cloud_user }}/rook/cluster/examples/kubernetes/ceph"
     warn: false
   register: response
+  failed_when: "response.rc != 0 and 'already exists' not in response.stderr"
 - debug: msg={{ response }}
   
 - name: Create operator.yaml
@@ -44,6 +45,7 @@
     chdir: "/home/{{ cloud_user }}/rook/cluster/examples/kubernetes/ceph"
     warn: false
   register: response
+  failed_when: "response.rc != 0 and 'already exists' not in response.stderr"
 - debug: msg={{ response }}
   
 - name: Create cluster-cmm.yaml
@@ -52,6 +54,7 @@
     chdir: "/home/{{ cloud_user }}/rook/cluster/examples/kubernetes/ceph"
     warn: false
   register: response
+  failed_when: "response.rc != 0 and 'already exists' not in response.stderr"
 - debug: msg={{ response }}
   
 - name: Pause for 30 seconds
@@ -80,6 +83,7 @@
   args:
     chdir: "/home/{{ cloud_user }}/rook/cluster/examples/kubernetes/ceph"
     warn: false
+  failed_when: "response.rc != 0 and 'already exists' not in response.stderr"
 - debug: msg={{ response }}
   
 - name: Create a new storage class 
@@ -88,6 +92,7 @@
   args:
     chdir: "/home/{{ cloud_user }}/rook/cluster/examples/kubernetes/ceph/csi/cephfs"
     warn: false
+  failed_when: "response.rc != 0 and 'already exists' not in response.stderr"
 - debug: msg={{ response }}
   
 - name:
@@ -106,4 +111,5 @@
   args:
     chdir: "/home/{{ cloud_user }}/rook/cluster/examples/kubernetes/ceph"
     warn: false
+  failed_when: "response.rc != 0 and 'already exists' not in response.stderr"
 - debug: msg={{ response }}
