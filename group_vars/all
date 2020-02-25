@@ -69,3 +69,10 @@ istio_bin_dir: /usr/local/bin/
 rook_src_tar: "/home/henderiw/rook.tar"
 rook_dest_tar: "/home/{{ cloud_user }}/rook.tar"
 rook_ceph_disk: "sdc"
+
+#metric-server
+
+#prometheus
+charts_src_tar: "/home/henderiw/charts.tar"
+charts_dest_tar: "/home/{{ cloud_user }}/charts.tar"
+prometheus_service: "/home/{{ cloud_user }}/prometheus/values.yaml

@@ -1,0 +1,63 @@
+---
+- name: Delete /home/{{ cloud_user }}/charts
+  file:
+    path: "/home/{{ cloud_user }}/charts"
+    state: absent
+
+- name: Remove file "{{ charts_dest_tar }}"
+  file:
+    path: "{{ charts_dest_tar }}"
+    state: absent
+      
+- name: Upload charts.tar
+  copy:
+    src: "{{ charts_src_tar }}"
+    dest: "{{ charts_dest_tar }}"
+    mode: 0644
+
+- name: Upload/untar charts.tar
+  unarchive: 
+    src: "{{ charts_src_tar }}"
+    dest: "/home/{{ cloud_user }}"
+    copy: no
+  register: response
+- debug: msg={{ response }}
+
+- name: Upload values.yaml 
+  template:
+      src: "{{ item }}.j2"
+      dest: "{{ prometheus_service }}"
+      mode: 0644
+  with_items:
+    - values.yaml
+
+- name: Update "{{ prometheus_service }}"
+  replace:
+    regexp: '^    externalIPs: \[\S+\]'
+    replace: '    externalIPs: [{{ ansible_host }}]'
+    backup: yes
+    path: "{{ prometheus_service }}"
+  
+  
+- name: Install prometheus 
+  shell: sudo /usr/bin/helm install stable/prometheus --name cmm-prometheus  --namespace kube-system -f "{{ prometheus_service }}"
+  args:
+    chdir: "/home/{{ cloud_user }}"
+    warn: false
+  register: helm
+- debug: msg={{ helm }}
+  
+- name: Pause for 90 seconds
+  pause:
+    seconds: 90
+  
+- name: Verify prometheus pods
+  shell: kubectl get pods -n kube-system | grep cmm-prometheus
+  register: response
+- debug: msg={{ response }}
+  
+- name: Verify prometheus service
+  shell: kubectl get svc -n kube-system | grep cmm-prometheus
+  register: response
+- debug: msg={{ response }}
+  
