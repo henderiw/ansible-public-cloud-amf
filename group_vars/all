@@ -50,11 +50,11 @@ helm_tiller: tiller-deploy
 helm_refresh_cache: ""
 
 #consul
-consul_src_tar="binaries/consul/consul.tar"
-consul_dest_tar="/tmp/consul.tar"
-consul_rbac="{{ ansible_env.HOME }}/cmmDockerKubernetes/Ansible/consul/consul_rbac.yaml"
-consul_server="{{ ansible_env.HOME }}/cmmDockerKubernetes/Ansible/consul/consul_server.yaml"
-consul_service="{{ ansible_env.HOME }}/cmmDockerKubernetes/Ansible/consul/consul-svc.yaml"
+consul_src_tar: "binaries/consul/consul.tar"
+consul_dest_tar: "/tmp/consul.tar"
+consul_rbac: "{{ ansible_env.HOME }}/cmmDockerKubernetes/Ansible/consul/consul_rbac.yaml"
+consul_server: "{{ ansible_env.HOME }}/cmmDockerKubernetes/Ansible/consul/consul_server.yaml"
+consul_service: "{{ ansible_env.HOME }}/cmmDockerKubernetes/Ansible/consul/consul-svc.yaml"
 
 #istio
 istio_version : 1.2.10
