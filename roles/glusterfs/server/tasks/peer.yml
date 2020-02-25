@@ -2,5 +2,5 @@
 #sudo gluster peer probe worker2
 #sudo gluster peer status
 
----
-- name: test
+# ---
+# - name: test
