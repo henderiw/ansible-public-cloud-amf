@@ -23,6 +23,11 @@
   register: response
 - debug: msg={{ response }}
 
+- name: Create directory "{{ ansible_env.HOME }}/prometheus"
+  file:
+    path: "/home/{{ cloud_user }}/prometheus"
+    state: directory
+
 - name: Upload values.yaml 
   template:
       src: "{{ item }}.j2"
@@ -30,6 +35,12 @@
       mode: 0644
   with_items:
     - values.yaml
+
+# - name: Upload values.yaml
+#   copy:
+#     src: "{{ prometheus_src_tar }}"
+#     dest: "{{ charts_dest_tar }}"
+#     mode: 0644
 
 - name: Update "{{ prometheus_service }}"
   replace:
