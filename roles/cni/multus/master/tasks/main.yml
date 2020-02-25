@@ -23,7 +23,7 @@
     - multus-cluster-role.yaml
 
 - name: Multus cluster role
-  shell: kubectl create -f "{{ multus_cluster_role }}"
+  shell: kubectl create -f /tmp/multus-cluster-role.yaml
   register: response
   changed_when: "'created' in response.stdout"
   failed_when: "response.rc != 0 and 'already exists' not in response.stderr"
