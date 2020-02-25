@@ -67,4 +67,4 @@ istio_bin_dir: /usr/local/bin/
 
 #rook-ceph:
 rook_src_tar: "/home/henderiw/rook.tar"
-rook_dest_tar: "{{ ansible_env.HOME }}/rook.tar"
+rook_dest_tar: "/home/{{ cloud_user }}/rook.tar"
