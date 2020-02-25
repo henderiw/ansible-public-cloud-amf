@@ -55,18 +55,23 @@
   become: yes
   roles:
     # - { role: kubernetes/status, tags: kubernetes/status }
-    - { role: cni/multus/master, tags: cni/multus/install }
+    #- { role: cni/multus/master, tags: cni/multus/install }
     
 - hosts: node
   gather_facts: no
   become: yes
   roles:
-    - { role: cni/multus/node, tags: cni/multus/node }
-    - { role: ipsec, tags: ipsec }
+    #- { role: cni/multus/node, tags: cni/multus/node }
+    #- { role: ipsec, tags: ipsec }
 
 - hosts: master
   gather_facts: no
   roles:
-    - { role: helm, tags: helm }
-    - { role: consul, tags: consul }
-#     - { role: istio, tags: istio }
+    #- { role: helm, tags: helm }
+    #- { role: consul, tags: consul }
+##     - { role: istio, tags: istio }
+
+- hosts: master
+  gather_facts: no
+  roles:
+    - { role: rook-ceph, tags: rook-ceph }

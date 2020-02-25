@@ -1,0 +1,109 @@
+---
+- name: Remove directory "{{ ansible_env.HOME }}/rook"
+  file:
+    path: "{{ ansible_env.HOME }}/rook"
+    state: absent
+      
+- name: Remove file "{{ rook_dest_tar }}"
+  file:
+    path: "{{ rook_dest_tar }}"
+    state: absent
+      
+- name: Upload rook.tar
+  copy:
+    src: "{{ rook_src_tar }}"
+    dest: "{{ rook_dest_tar }}"
+    mode: 0644
+  
+- name: Unpack rook.tar
+  shell: tar -xvf rook.tar
+  args:
+    chdir: "{{ ansible_env.HOME }}"
+    warn: false
+  register: response
+- debug: msg={{ response }}
+  
+- name: Update "{{ ansible_env.HOME }}/rook/cluster/examples/kubernetes/ceph/cluster-cmm.yaml"
+  replace:
+    regexp: '^    deviceFilter: rook_ceph_disk'
+    replace: '    deviceFilter: {{ rook_ceph_disk }}'
+    backup: yes
+    path: "{{ ansible_env.HOME }}/rook/cluster/examples/kubernetes/ceph/cluster-cmm.yaml"
+  
+- name: Create common.yaml
+  shell: kubectl create -f common.yaml
+  args:
+    chdir: "{{ ansible_env.HOME }}/rook/cluster/examples/kubernetes/ceph"
+    warn: false
+  register: response
+- debug: msg={{ response }}
+  
+- name: Create operator.yaml
+  shell: kubectl create -f operator.yaml
+  args:
+    chdir: "{{ ansible_env.HOME }}/rook/cluster/examples/kubernetes/ceph"
+    warn: false
+  register: response
+- debug: msg={{ response }}
+  
+- name: Create cluster-cmm.yaml
+  shell: kubectl create -f cluster-cmm.yaml
+  args:
+    chdir: "{{ ansible_env.HOME }}/rook/cluster/examples/kubernetes/ceph"
+    warn: false
+  register: response
+- debug: msg={{ response }}
+  
+- name: Pause for 30 seconds
+  pause:
+    seconds: 30
+  
+- name: Check that at least 3 rook-ceph-mons are in a Running state
+  shell: kubectl get pods -n rook-ceph | grep rook-ceph-mon-[a-z] | grep Running | wc -l
+  register: moncount
+  until: moncount.stdout|int >= 3
+  retries: 25
+  delay: 15
+- debug: msg={{ moncount }}
+  
+- name: Check that at least 3 rook-ceph-osds are in a Running state
+  shell: kubectl get pods -n rook-ceph | grep rook-ceph-osd-[0-9] | grep Running | wc -l
+  register: osdcount
+  until: osdcount.stdout|int >= 3
+  retries: 25
+  delay: 15
+- debug: msg={{ osdcount }}
+  
+- name: Create a new ceph file system
+  shell: kubectl create -f filesystem.yaml
+  register: response
+  args:
+    chdir: "{{ ansible_env.HOME }}/rook/cluster/examples/kubernetes/ceph"
+    warn: false
+- debug: msg={{ response }}
+  
+- name: Create a new storage class 
+  shell: kubectl create -f storageclass.yaml
+  register: response
+  args:
+    chdir: "{{ ansible_env.HOME }}/rook/cluster/examples/kubernetes/ceph/csi/cephfs"
+    warn: false
+- debug: msg={{ response }}
+  
+- name:
+  shell: kubectl patch storageclass csi-cephfs -p '{"metadata" {{ ":" }} {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+  register: response
+- debug: msg={{ response }}
+  
+- name: Show storage classes
+  shell: kubectl get storageclasses -n rook-ceph
+  register: response
+- debug: msg={{ response }}
+  
+- name: Install ceph tools
+  shell: kubectl create -f toolbox.yaml
+  register: response
+  args:
+    chdir: "{{ ansible_env.HOME }}/rook/cluster/examples/kubernetes/ceph"
+    warn: false
+- debug: msg={{ response }}
