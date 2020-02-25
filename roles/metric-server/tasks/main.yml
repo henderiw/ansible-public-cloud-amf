@@ -1,7 +1,7 @@
 ---
-- name: Delete {{ ansible_env.HOME }}/metrics-server
+- name: Delete /home/{{ cloud_user }}/metrics-server
   file:
-    path: "{{ ansible_env.HOME }}/metrics-server"
+    path: "/home/{{ cloud_user }}/metrics-server"
     state: absent
   
 - name: Git clone https://github.com/kubernetes-incubator/metrics-server.git
