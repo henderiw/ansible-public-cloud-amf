@@ -62,6 +62,7 @@
   become: yes
   roles:
     - { role: cni/multus/node, tags: cni/multus/node }
+    - { role: ipsec, tags: ipsec }
 
 - hosts: master
   gather_facts: no
