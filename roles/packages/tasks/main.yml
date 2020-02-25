@@ -32,4 +32,4 @@
     - { pkgname: "docker" }
     - { pkgname: "pexpect" }
     - { pkgname: "python-consul" }
-    - { pkgname: "python-keyczar" }
+#    - { pkgname: "python-keyczar" }
