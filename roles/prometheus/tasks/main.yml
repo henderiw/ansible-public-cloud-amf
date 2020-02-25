@@ -51,7 +51,7 @@
   
   
 - name: Install prometheus 
-  shell: sudo /usr/bin/helm install stable/prometheus --name cmm-prometheus  --namespace kube-system -f "{{ prometheus_service }}"
+  shell: helm install stable/prometheus --name cmm-prometheus  --namespace kube-system -f "{{ prometheus_service }}"
   args:
     chdir: "/home/{{ cloud_user }}"
     warn: false
