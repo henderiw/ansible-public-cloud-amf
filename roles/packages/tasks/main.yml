@@ -15,6 +15,9 @@
     - { pkgname: "sshpass"}
     - { pkgname: "whois"}
     - { pkgname: "java-11-openjdk"}
+    - { pkgname: "bind"}
+    - { pkgname: "bind-utils"}
+
     
 - name: install pip
   easy_install:
@@ -26,5 +29,7 @@
     name: "{{ item.pkgname }}"
     state: latest
   loop:
-    - { pkgname: "docker"  }
-    - { pkgname: "pexpect"  }
+    - { pkgname: "docker" }
+    - { pkgname: "pexpect" }
+    - { pkgname: "python-consul" }
+    - { pkgname: "python-keyczar" }
