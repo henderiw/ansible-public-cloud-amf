@@ -75,4 +75,4 @@ rook_ceph_disk: "sdc"
 #prometheus
 charts_src_tar: "/home/henderiw/charts.tar"
 charts_dest_tar: "/home/{{ cloud_user }}/charts.tar"
-prometheus_service: "/home/{{ cloud_user }}/prometheus/values.yaml
+prometheus_service: "/home/{{ cloud_user }}/prometheus/values.yaml"
