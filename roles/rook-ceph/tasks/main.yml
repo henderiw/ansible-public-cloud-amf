@@ -9,19 +9,27 @@
     path: "{{ rook_dest_tar }}"
     state: absent
       
-- name: Upload rook.tar
-  copy:
+# - name: Upload rook.tar
+#   copy:
+#     src: "{{ rook_src_tar }}"
+#     dest: "{{ rook_dest_tar }}"
+#     mode: 0644
+
+- name: Upload/untar rook.tar
+  unarchive: 
     src: "{{ rook_src_tar }}"
     dest: "{{ rook_dest_tar }}"
-    mode: 0644
-  
-- name: Unpack rook.tar
-  shell: tar -xvf rook.tar
-  args:
-    chdir: "{{ ansible_env.HOME }}"
-    warn: false
+    copy: no
   register: response
 - debug: msg={{ response }}
+
+# - name: Unpack rook.tar
+#   shell: tar -xvf rook.tar
+#   args:
+#     chdir: "{{ ansible_env.HOME }}"
+#     warn: false
+#   register: response
+# - debug: msg={{ response }}
   
 - name: Update "{{ ansible_env.HOME }}/rook/cluster/examples/kubernetes/ceph/cluster-cmm.yaml"
   replace:
