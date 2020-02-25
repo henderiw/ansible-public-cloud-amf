@@ -12,6 +12,7 @@ kernel_modules: "dm_snapshot dm_mirror dm_thin_pool"
 
 # kubernetes parameters
 kube_version: v1.17.0
+master_ip: 10.1.0.10
 
 # kubernetes kubeadm
 token: b0f7b8.8d1767876297d85c
