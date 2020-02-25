@@ -6,7 +6,9 @@
     copy: no
   tags: download
 
-# - name: create the installation directory
-#   file:
-#     path: "{{ istio_bin_dir }}"
-#     state: directory
+- name: helm install consul
+  shell: helm install --name hashicorp /tmp/consul-helm-{{ consul_version }}/
+  register: response
+  become_user: "{{ cloud_user }}"
+- debug: msg={{ response }}
+

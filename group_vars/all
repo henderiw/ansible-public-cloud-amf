@@ -50,8 +50,8 @@ helm_tiller: tiller-deploy
 helm_refresh_cache: ""
 
 #consul
-consul_version : v0.16.0
-consul_url : https://github.com/hashicorp/consul-helm/archive/{{ consul_version }}.tar.gz
+consul_version : 0.16.0
+consul_url : https://github.com/hashicorp/consul-helm/archive/v{{ consul_version }}.tar.gz
 
 consul_src_tar: "binaries/consul/consul.tar"
 consul_dest_tar: "/tmp/consul.tar"
