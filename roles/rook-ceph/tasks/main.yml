@@ -22,26 +22,18 @@
     copy: no
   register: response
 - debug: msg={{ response }}
-
-# - name: Unpack rook.tar
-#   shell: tar -xvf rook.tar
-#   args:
-#     chdir: "{{ ansible_env.HOME }}"
-#     warn: false
-#   register: response
-# - debug: msg={{ response }}
   
-- name: Update "{{ ansible_env.HOME }}/rook/cluster/examples/kubernetes/ceph/cluster-cmm.yaml"
+- name: Update "/home/{{ cloud_user }}rook/cluster/examples/kubernetes/ceph/cluster-cmm.yaml"
   replace:
     regexp: '^    deviceFilter: rook_ceph_disk'
     replace: '    deviceFilter: {{ rook_ceph_disk }}'
     backup: yes
-    path: "{{ ansible_env.HOME }}/rook/cluster/examples/kubernetes/ceph/cluster-cmm.yaml"
+    path: "/home/{{ cloud_user }}/rook/cluster/examples/kubernetes/ceph/cluster-cmm.yaml"
   
 - name: Create common.yaml
   shell: kubectl create -f common.yaml
   args:
-    chdir: "{{ ansible_env.HOME }}/rook/cluster/examples/kubernetes/ceph"
+    chdir: "/home/{{ cloud_user }}/rook/cluster/examples/kubernetes/ceph"
     warn: false
   register: response
 - debug: msg={{ response }}
