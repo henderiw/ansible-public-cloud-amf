@@ -92,7 +92,9 @@
   yum: 
     name: "{{ item.pkgname }}"
     state: "present"
+    update_cache: yes
+    allow_downgrade: yes
   with_items:
-    - { pkgname: "kubelet", state: "present"  }
-    - { pkgname: "kubeadm", state: "present"  }
-    - { pkgname: "kubectl", state: "present"  }
+    - { pkgname: "kubelet-{{kube_version}}", state: "present"  }
+    - { pkgname: "kubeadm-{{kube_version}}", state: "present"  }
+    - { pkgname: "kubectl-{{kube_version}}", state: "present"  }

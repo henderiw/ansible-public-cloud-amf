@@ -11,9 +11,10 @@ fstype: ext4
 kernel_modules: "dm_snapshot dm_mirror dm_thin_pool"
 
 # kubernetes parameters
-#kube_version: v1.16.3
-kube_version: v1.17.0
+kube_version: 1.16.3
+#kube_version: v1.17.0
 master_ip: 10.1.0.10
+worker_region: region1
 
 # kubernetes kubeadm
 token: b0f7b8.8d1767876297d85c
@@ -42,11 +43,18 @@ multus_src_file: "binaries/multus"
 multus_dest_file: "/opt/cni/bin/multus"
 
 #helm
-helm_version: v2.14.3
+helm_version: v2.16.1
 helm_url: https://get.helm.sh/helm-{{ helm_version }}-linux-amd64.tar.gz
 helm_bin_dir: /usr/local/bin/
 helm_tiller: tiller-deploy
 helm_refresh_cache: ""
+
+#consul
+consul_src_tar="binaries/consul/consul.tar"
+consul_dest_tar="/tmp/consul.tar"
+consul_rbac="{{ ansible_env.HOME }}/cmmDockerKubernetes/Ansible/consul/consul_rbac.yaml"
+consul_server="{{ ansible_env.HOME }}/cmmDockerKubernetes/Ansible/consul/consul_server.yaml"
+consul_service="{{ ansible_env.HOME }}/cmmDockerKubernetes/Ansible/consul/consul-svc.yaml"
 
 #istio
 istio_version : 1.2.10

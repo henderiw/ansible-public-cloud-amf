@@ -12,7 +12,7 @@
     - { role: ping, tags: ping }
     # - { role: ntp, tags: ntp }
     # - { role: docker, tags: docker }
-    # - { role: kubernetes/underlay, tags: underlay }
+    - { role: kubernetes/underlay, tags: underlay }
     # - { role: ssh, tags: ssh }
     # - { role: glusterfs/general, tags: glusterfs-general }
 
@@ -40,6 +40,7 @@
   become_method: sudo
   roles:
     - { role: kubernetes/node, tags: node }
+    - { role: cni/multus, tags: cni/multus }
 
 - hosts: kube_cluster
   gather_facts: no
@@ -55,8 +56,8 @@
   roles:
     - { role: kubernetes/status, tags: kubernetes/status }
 
-# - hosts: master
-#   gather_facts: no
-#   roles:
-#     - { role: helm, tags: helm }
+- hosts: master
+  gather_facts: no
+  roles:
+    - { role: helm, tags: helm }
 #     - { role: istio, tags: istio }
