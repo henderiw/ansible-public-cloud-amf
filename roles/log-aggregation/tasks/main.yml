@@ -84,7 +84,7 @@
   retries: 10
   delay: 10
   register: response
-  until: (response.rc == 0)
+  #until: (response.rc == 0)
 - debug: msg={{ response.msg }}
 - debug: msg={{ response.url }}
   
