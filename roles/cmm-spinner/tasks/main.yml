@@ -1,0 +1,29 @@
+---
+- name: Remove "{{ cmm_helm_directory }}/spinner.tar"
+  file:
+    path: "{{ cmm_helm_directory }}/spinner.tar"
+    state: absent
+  
+- name: Remove "{{ cmm_helm_directory }}/spinner"
+  file:
+    path: "{{ cmm_helm_directory }}/spinner"
+    state: absent
+    
+# - name: Get CMM Helm chart bundle from "{{ spinner_src_tar }}"
+#   get_url:
+#     url: "{{ spinner_src_tar }}"
+#     dest: "{{ cmm_helm_directory }}/spinner.tar"
+
+- name: Upload spinner.tar
+  copy:
+    src: "{{ rook_src_tar }}"
+    dest: "{{ cmm_helm_directory }}/spinner.tar"
+    mode: 0644
+
+- name: Unpack spinner.tar 
+  shell: tar -xvf spinner.tar
+  args:
+    chdir: "{{ cmm_helm_directory }}"
+    warn: false
+  register: response
+- debug: msg={{ response }}

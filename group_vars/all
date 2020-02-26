@@ -94,3 +94,8 @@ kiali_password: "YWRtaW4="
 #sriov
 sriov_interfaces: eth1
 sriov_vf_count: 10
+
+#cmm-spinner
+cmm_helm_directory: "/home/{{ cloud_user }}/cmm-ansible"
+#spinner_src_tar: "http://135.111.245.121/helm-charts/cmm62/spinner.tar"
+spinner_src_tar: "/home/{{ cloud_user }}/spinner.tar

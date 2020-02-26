@@ -82,6 +82,7 @@
     #- { role: log-aggregation, tags: log-aggregation}
     #- { role: istio, tags: istio}
     - { role: kubernetes/status, tags: kubernetes/status }
+    - { role: cmm-spinner, tags: cmm-spinner }
 
 - hosts: node
   gather_facts: no
