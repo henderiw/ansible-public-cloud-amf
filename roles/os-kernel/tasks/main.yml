@@ -1,38 +1,39 @@
 ---
 - name: Check kernel version
   shell: uname -r
-  register: kernel
-- debug: msg={{ kernel }}
+  register: response
+- debug: msg={{ response }}
 
 - name: install kernel rpm
   become: true
   shell: rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
-  register: result
-- debug: msg={{ result }}
+  register: response
+  failed_when: "response.rc != 0 and 'already exists' not in response.stderr"
+- debug: msg={{ response }}
 
 - name: install kernel rpm
   become: true
   shell: rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-3.el7.elrepo.noarch.rpm
-  register: result
-- debug: msg={{ result }}
+  register: response
+- debug: msg={{ response }}
 
 - name: install kernel-ml
   become: true
   shell: yum --enablerepo=elrepo-kernel install kernel-ml -y 
-  register: result
-- debug: msg={{ result }}
+  register: response
+- debug: msg={{ response }}
 
 - name: Set the default boot to 1>2
   become: true
   shell: grub2-set-default 0
-  register: result
-- debug: msg={{ result }}
+  register: response
+- debug: msg={{ response }}
 
 - name: update grub
   become: true
   shell: grub2-mkconfig -o /boot/grub2/grub.cfg
-  register: result
-- debug: msg={{ result }}
+  register: response
+- debug: msg={{ response }}
 
 - name: Reboot
   become: true
@@ -49,5 +50,5 @@
 
 - name: Check kernel version
   shell: uname -r
-  register: kernel
-- debug: msg={{ kernel }}
+  register: response
+- debug: msg={{ response }}
