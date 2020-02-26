@@ -17,7 +17,7 @@
 
 - name: Upload/untar charts.tar
   unarchive: 
-    src: "{{ charts_src_tar }}"
+    src: "{{ charts_dest_tar }}"
     dest: "/home/{{ cloud_user }}"
     copy: no
   register: response
