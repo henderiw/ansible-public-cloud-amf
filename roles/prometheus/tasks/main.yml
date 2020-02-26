@@ -45,7 +45,7 @@
 - name: Install prometheus 
   shell: helm install stable/prometheus --name cmm-prometheus  --namespace kube-system -f "{{ prometheus_service }}"
   args:
-    chdir: "/home/{{ cloud_user }}"
+    chdir: "/home/{{ cloud_user }}/charts"
     warn: false
   register: response
   failed_when: "response.rc != 0 and 'already exists' not in response.stderr"
