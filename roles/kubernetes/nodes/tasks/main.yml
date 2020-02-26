@@ -1,4 +1,10 @@
 ---
+- name: Remove taint
+  shell: kubectl taint nodes --all node-role.kubernetes.io/master:NoSchedule-
+  register: response
+  ignore_errors: yes
+- debug: msg={{ response }}
+
 - name: Get nodes
   shell: kubectl get nodes -o wide
   register: nodes

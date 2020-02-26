@@ -68,31 +68,39 @@
     name: ondemand
     state: stopped
 
-- name: Install cpupower
-  become: true
-  shell: sudo apt-get --yes install linux-tools-common linux-tools-$(uname -r)
-  args:
-    warn: False
-  register: response
-- debug: msg={{ response }}
+# - name: Install cpupower
+#   become: true
+#   shell: sudo apt-get --yes install linux-tools-common linux-tools-$(uname -r)
+#   args:
+#     warn: False
+#   register: response
+# - debug: msg={{ response }}
 
-- name: Create /lib/systemd/system/cpupower.service
-  become: true
-  template:
-    src: cpupower
-    dest: /lib/systemd/system/cpupower.service
-    mode: "0644"
+# - name: install  packages
+#   yum: 
+#     name: "{{ item.pkgname }}"
+#     state: "present"
+#   with_items:
+#     - { pkgname: "linux-tools-common"  }
+#     - { pkgname: "linux-tools-$(uname -r)"  }
 
-- name: Show /lib/systemd/system/cpupower.service
-  shell: cat /lib/systemd/system/cpupower.service
-  register: response
-- debug: msg={{ response }}
+# - name: Create /lib/systemd/system/cpupower.service
+#   become: true
+#   template:
+#     src: cpupower
+#     dest: /lib/systemd/system/cpupower.service
+#     mode: "0644"
 
-- name: Start cpupower
-  become: true
-  service:
-    name: cpupower
-    state: restarted
-    enabled: yes
-  register: service
-- debug: msg={{ service }}
+# - name: Show /lib/systemd/system/cpupower.service
+#   shell: cat /lib/systemd/system/cpupower.service
+#   register: response
+# - debug: msg={{ response }}
+
+# - name: Start cpupower
+#   become: true
+#   service:
+#     name: cpupower
+#     state: restarted
+#     enabled: yes
+#   register: service
+# - debug: msg={{ service }}

@@ -1,0 +1,45 @@
+#!/bin/sh
+#
+# Location: /etc/init.d/vfs
+#
+# Start the VFs on the ethers indicated.
+# This script is not used used under systemd.
+#
+# This script should be linked to /etc/rc5.d/S99vfs.
+# Note: You may need to change the rcX.d value based on the run level of the machine/host.
+#       You can determine the run level by executing the "runlevel" command.
+
+ethers="{{ sriov_interfaces }}"
+
+case "$1" in
+        start)
+                echo -n "Removing /etc/cni/net.d/10-calico.conflist"
+                rm -f /etc/cni/net.d/10-calico.conflist
+                
+                echo -n "Removing sriov entries in /var/lib/cni/networks"
+                rm -rf /var/lib/cni/networks/sriov-external*
+                
+                echo -n "Starting vfs services: "
+                for i in $ethers
+                do
+                        echo {{ sriov_vf_count }} >  /sys/class/net/${i}/device/sriov_numvfs
+                done
+        ;;
+        stop)
+                echo -n "Removing /etc/cni/net.d/10-calico.conflist"
+                rm -f /etc/cni/net.d/10-calico.conflist
+        
+                echo -n "Removing sriov entries in /var/lib/cni/networks"
+                rm -rf /var/lib/cni/networks/sriov-external*
+                
+                echo -n "Shutting down vfs services: "
+                for i in $ethers
+                do
+                        echo 0 >  /sys/class/net/${i}/device/sriov_numvfs
+                done
+        ;;
+        *)
+                echo "Usage: vfs {start|stop}"
+                exit 1
+        ;;
+esac

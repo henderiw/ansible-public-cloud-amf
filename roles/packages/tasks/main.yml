@@ -17,6 +17,7 @@
     - { pkgname: "java-11-openjdk"}
     - { pkgname: "bind"}
     - { pkgname: "bind-utils"}
+    - { pkgname: "perf"}
 
     
 - name: install pip

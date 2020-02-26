@@ -94,6 +94,9 @@ kiali_password: "YWRtaW4="
 #sriov
 sriov_interfaces: eth1
 sriov_vf_count: 10
+hugepage_size: "4096"
+hugepage_files: "/sys/devices/system/node/node0/hugepages/hugepages-2048kB/nr_hugepages"
+
 
 #cmm-spinner
 cmm_helm_directory: "/home/{{ cloud_user }}/cmm-ansible"

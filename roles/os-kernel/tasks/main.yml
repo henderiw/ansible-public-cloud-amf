@@ -1,0 +1,53 @@
+---
+- name: Check kernel version
+  shell: uname -r
+  register: kernel
+- debug: msg={{ kernel }}
+
+- name: install kernel rpm
+  become: true
+  shell: rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
+  register: result
+- debug: msg={{ result }}
+
+- name: install kernel rpm
+  become: true
+  shell: rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-3.el7.elrepo.noarch.rpm
+  register: result
+- debug: msg={{ result }}
+
+- name: install kernel-ml
+  become: true
+  shell: yum --enablerepo=elrepo-kernel install kernel-ml -y 
+  register: result
+- debug: msg={{ result }}
+
+- name: Set the default boot to 1>2
+  become: true
+  shell: grub2-set-default 0
+  register: result
+- debug: msg={{ result }}
+
+- name: update grub
+  become: true
+  shell: grub2-mkconfig -o /boot/grub2/grub.cfg
+  register: result
+- debug: msg={{ result }}
+
+- name: Reboot
+  become: true
+  shell: "sleep 5 && reboot"
+  async: 1
+  poll: 0
+
+- name: Wait for reboot to complete if there was a change
+  wait_for_connection:
+    connect_timeout: 20
+    sleep: 5
+    delay: 5
+    timeout: 300
+
+- name: Check kernel version
+  shell: uname -r
+  register: kernel
+- debug: msg={{ kernel }}

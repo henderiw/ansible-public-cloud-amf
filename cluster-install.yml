@@ -55,7 +55,7 @@
   become: yes
   roles:
     # - { role: kubernetes/nodes, tags: kubernetes/nodes }
-    #- { role: cni/multus/master, tags: cni/multus/install }
+    # - { role: cni/multus/master, tags: cni/multus/install }
     
 - hosts: node
   gather_facts: no
@@ -69,11 +69,6 @@
   roles:
     #- { role: helm, tags: helm }
     #- { role: consul, tags: consul }
-##     - { role: istio, tags: istio }
-
-- hosts: master
-  gather_facts: no
-  roles:
     #- { role: rook-ceph, tags: rook-ceph }
     #- { role: metric-server, tags: metric-server }
     #- { role: prometheus, tags: prometheus}

@@ -1,0 +1,9 @@
+---
+- name: install kernel ML on centos7
+  hosts: kube_cluster
+  gather_facts: yes
+  become: yes
+  become_user: root
+  become_method: sudo
+  roles:
+    - { role: os-kernel, tags: os-kernel }
