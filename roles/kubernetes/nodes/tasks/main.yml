@@ -1,0 +1,36 @@
+---
+- name: Get nodes
+  shell: kubectl get nodes -o wide
+  register: nodes
+  become_user: "{{ cloud_user }}"
+- debug: msg={{ nodes }}
+
+- name: Label master nodetype master
+  shell: kubectl label node  "{{ item }}" nodetype=master --overwrite
+  register: response
+  become_user: "{{ cloud_user }}"
+  with_items:
+    - '{{ groups["master"] }}'
+- debug: msg={{ response }}
+    
+- name: Label worker nodetype worker
+  shell: kubectl label node  "{{ item }}" nodetype=worker --overwrite
+  register: response
+  become_user: "{{ cloud_user }}"
+  with_items:
+    - '{{ groups["node"] }}'
+- debug: msg={{ response }}
+
+- name: Label worker region
+  shell: kubectl label node "{{ item }}" region="{{ worker_region }}" --overwrite
+  register: response
+  become_user: "{{ cloud_user }}"
+  with_items:
+    - '{{ groups["node"] }}'
+- debug: msg={{ response }}
+
+- name: Get nodes
+  shell: kubectl get nodes -o wide
+  register: nodes
+  become_user: "{{ cloud_user }}"
+- debug: msg={{ nodes }}

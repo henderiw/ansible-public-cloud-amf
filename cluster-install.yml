@@ -54,7 +54,7 @@
   gather_facts: no
   become: yes
   roles:
-    # - { role: kubernetes/status, tags: kubernetes/status }
+    # - { role: kubernetes/nodes, tags: kubernetes/nodes }
     #- { role: cni/multus/master, tags: cni/multus/install }
     
 - hosts: node
@@ -79,8 +79,9 @@
     #- { role: prometheus, tags: prometheus}
     #- { role: grafana, tags: grafana}
     #- { role: sysdig-falco, tags: sysdig-falco}
-    - { role: log-aggregation, tags: log-aggregation}
-    - { role: istio, tags: istio}
+    #- { role: log-aggregation, tags: log-aggregation}
+    #- { role: istio, tags: istio}
+    - { role: kubernetes/status, tags: kubernetes/status }
 
 - hosts: node
   gather_facts: no

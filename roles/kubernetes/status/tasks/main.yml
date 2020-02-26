@@ -1,36 +1,25 @@
 ---
-- name: Get nodes
-  shell: kubectl get nodes -o wide
-  register: nodes
-  become_user: "{{ cloud_user }}"
-- debug: msg={{ nodes }}
-
-- name: Label master nodetype master
-  shell: kubectl label node  "{{ item }}" nodetype=master --overwrite
+- name: Cluster
+  shell: kubectl cluster-info
   register: response
-  become_user: "{{ cloud_user }}"
-  with_items:
-    - '{{ groups["master"] }}'
-- debug: msg={{ response }}
-    
-- name: Label worker nodetype worker
-  shell: kubectl label node  "{{ item }}" nodetype=worker --overwrite
+- debug: msg={{ response.stdout_lines }}
+  
+- name: Nodes
+  shell: kubectl get nodes --all-namespaces -o wide
   register: response
-  become_user: "{{ cloud_user }}"
-  with_items:
-    - '{{ groups["node"] }}'
-- debug: msg={{ response }}
-
-- name: Label worker region
-  shell: kubectl label node "{{ item }}" region="{{ worker_region }}" --overwrite
+- debug: msg={{ response.stdout_lines }}
+      
+- name: Pods
+  shell: kubectl get pods --all-namespaces -o wide
   register: response
-  become_user: "{{ cloud_user }}"
-  with_items:
-    - '{{ groups["node"] }}'
-- debug: msg={{ response }}
-
-- name: Get nodes
-  shell: kubectl get nodes -o wide
-  register: nodes
-  become_user: "{{ cloud_user }}"
-- debug: msg={{ nodes }}
+- debug: msg={{ response.stdout_lines }}
+  
+- name: Services
+  shell: kubectl get services --all-namespaces -o wide
+  register: response
+- debug: msg={{ response.stdout_lines }}
+  
+- name: Describe nodes
+  shell: kubectl describe nodes
+  register: response
+- debug: msg={{ response.stdout_lines }}
