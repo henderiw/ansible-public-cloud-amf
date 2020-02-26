@@ -8,7 +8,7 @@
   become: true
   shell: rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
   register: response
-  failed_when: "response.rc != 0 and 'already exists' not in response.stderr"
+  failed_when: "response.rc != 0 and 'already installed' not in response.stderr"
 - debug: msg={{ response }}
 
 - name: install kernel rpm
