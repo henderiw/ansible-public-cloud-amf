@@ -23,20 +23,12 @@
   register: response
 - debug: msg={{ response }}
 
-- name: Helm install Elasticsearch for K8s 1.16 or 1.17
+- name: Helm install Elasticsearch
   shell: helm install {{ elastic_search_values | dirname }} --name elasticsearch --namespace kube-system
   args:
-    chdir: "{{ ansible_env.HOME }}/charts"
-  when:
-    - k8s_version == "1.16" or k8s_version == "1.17"
+    chdir: "/home/{{ cloud_user }}/charts"
   register: response
-- debug: msg={{ response }}
-  
-- name: Helm install Elasticsearch for non K8s 1.16 or 1.17
-  shell: helm install {{ elastic_search_values | dirname }} --name elasticsearch --namespace kube-system
-  when:
-    - k8s_version != "1.16" and k8s_version != "1.17"
-  register: response
+  failed_when: "response.rc != 0 and 'already exists' not in response.stderr"
 - debug: msg={{ response }}
   
 - name: Pause for 60 seconds
@@ -96,41 +88,18 @@
 - debug: msg={{ response.msg }}
 - debug: msg={{ response.url }}
   
-- name: Helm install cleanup old indices in Elasticsearch no primary_environment and K8s 1.16 or 1.17
+- name: Helm install cleanup old indices in Elasticsearch
   shell: helm install stable/elasticsearch-curator --name elasticsearch-curator --namespace kube-system
   args:
     chdir: "{{ ansible_env.HOME }}/charts"
-  when:
-    - primary_environment is undefined
-    - k8s_version == "1.16" or k8s_version == "1.17"
   register: response
 - debug: msg={{ response }}
   
-- name: Helm install cleanup old indices in Elasticsearch no primary_environment and K8s not 1.16 or 1.17
+- name: Helm install cleanup old indices in Elasticsearch
   shell: helm install cmmDockerKubernetes/Ansible/logAggregation/elasticsearch-curator --name elasticsearch-curator --namespace kube-system
-  when:
-    - primary_environment is undefined
-    - k8s_version != "1.16" and k8s_version != "1.17"
   register: response
 - debug: msg={{ response }}
   
-- name: Helm install cleanup old indices in Elasticsearch with primary_environment and K8s 1.16 or 1.17
-  shell: helm install cmmDockerKubernetes/{{ primary_environment }}/Ansible/logAggregation/elasticsearch-curator --name elasticsearch-curator --namespace kube-system
-  args:
-    chdir: "{{ ansible_env.HOME }}/charts"
-  when:
-    - primary_environment is defined
-    - K8s_version == "1.16" or k8s_version == "1.17"
-  register: response
-- debug: msg={{ response }}
-  
-- name: Helm install cleanup old indices in Elasticsearch with primary_environment and not K8s 1.16 or 1.17
-  shell: helm install cmmDockerKubernetes/{{ primary_environment }}/Ansible/logAggregation/elasticsearch-curator --name elasticsearch-curator --namespace kube-system
-  when:
-    - primary_environment is defined
-    - K8s_version != "1.16" and k8s_version != "1.17"
-  register: response
-- debug: msg={{ response }}
   
 - name: Verify chart was installed
   shell: kubectl get CronJob -n kube-system | grep elasticsearch-curator

@@ -83,6 +83,11 @@ grafana_service: "/home/{{ cloud_user }}/grafana/values.yaml"
 #falco
 falco_custom_rules: "/home/{{ cloud_user }}/falco//custom-rules.yaml"
 
+#log_aggregation
+elastic_search_values:  "/home/{{ cloud_user }}/charts/stable/elasticsearch/values.yaml"
+fluentd_elastic_search_values: "/home/{{ cloud_user }}/charts/stable/fluentd-elasticsearch/values.yaml"
+kabana_service: "/home/{{ cloud_user }}/charts/stable/kibana/values.yaml"
+
 #sriov
 sriov_interfaces: eth1
 sriov_vf_count: 10
