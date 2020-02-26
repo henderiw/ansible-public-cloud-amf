@@ -78,7 +78,7 @@
   uri:
     url: http://{{ elasticsearch_ip_addr }}:{{ elasticsearch_port }}/_template/zeroreplicas?pretty
     return_content: yes
-    status: 200
+    #status: 200
     use_proxy: no
     method: GET
   retries: 10
