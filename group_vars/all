@@ -6,7 +6,7 @@ cloud_ssh_key_name: paco_rsa
 bootstrap_server_ip: 10.0.1.10
 
 # cloud disk parameters
-disk: /dev/sdc
+disk: /dev/sdb
 fstype: ext4
 kernel_modules: "dm_snapshot dm_mirror dm_thin_pool"
 
@@ -37,9 +37,9 @@ network: calico
 network_interface: eth0
 
 # kubernetes multus
-sriov_src_file: "binaries/sriov"
+sriov_src_file: "cmm/binaries/sriov"
 sriov_dest_file: "/opt/cni/bin/sriov"
-multus_src_file: "binaries/multus"
+multus_src_file: "cmm/binaries/multus"
 multus_dest_file: "/opt/cni/bin/multus"
 cluster_role_binding: "compute1 compute2 compute3 compute4 compute5"
 
@@ -54,26 +54,26 @@ helm_refresh_cache: ""
 consul_version : 0.16.0
 consul_url : https://github.com/hashicorp/consul-helm/archive/v{{ consul_version }}.tar.gz
 
-consul_src_tar: "binaries/consul/consul.tar"
+consul_src_tar: "cmm/binaries/consul/consul.tar"
 consul_dest_tar: "/tmp/consul.tar"
 consul_rbac: "{{ ansible_env.HOME }}/cmmDockerKubernetes/Ansible/consul/consul_rbac.yaml"
 consul_server: "{{ ansible_env.HOME }}/cmmDockerKubernetes/Ansible/consul/consul_server.yaml"
 consul_service: "{{ ansible_env.HOME }}/cmmDockerKubernetes/Ansible/consul/consul-svc.yaml"
 
 #rook-ceph:
-rook_src_tar: "/home/henderiw/rook.tar"
+rook_src_tar: "/home/henderiw/cmm/rook.tar"
 rook_dest_tar: "/home/{{ cloud_user }}/rook.tar"
-rook_ceph_disk: "sdc"
+rook_ceph_disk: "sdb"
 
 #metric-server
 
 #prometheus
-charts_src_tar: "/home/henderiw/charts.tar"
+charts_src_tar: "/home/henderiw/cmm/charts.tar"
 charts_dest_tar: "/home/{{ cloud_user }}/charts.tar"
 prometheus_service: "/home/{{ cloud_user }}/prometheus/values.yaml"
 
 #grafana
-grafana_service: "/home/{{ cloud_user }}/grafana/values.yaml"
+grafana_service: "/home/{{ cloud_user }}/cmm/grafana/values.yaml"
 
 #falco
 falco_custom_rules: "/home/{{ cloud_user }}/falco//custom-rules.yaml"
@@ -101,4 +101,4 @@ hugepage_files: "/sys/devices/system/node/node0/hugepages/hugepages-2048kB/nr_hu
 #cmm-spinner
 cmm_helm_directory: "/home/{{ cloud_user }}/cmm-ansible"
 #spinner_src_tar: "http://135.111.245.121/helm-charts/cmm62/spinner.tar"
-spinner_src_tar: "/home/{{ cloud_user }}/spinner.tar"
+spinner_src_tar: "/home/{{ cloud_user }}/cmm/spinner.tar"
