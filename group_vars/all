@@ -61,14 +61,14 @@ consul_server: "{{ ansible_env.HOME }}/cmmDockerKubernetes/Ansible/consul/consul
 consul_service: "{{ ansible_env.HOME }}/cmmDockerKubernetes/Ansible/consul/consul-svc.yaml"
 
 #rook-ceph:
-rook_src_tar: "/home/henderiw/cmm/rook.tar"
+rook_src_tar: "/home/{{ cloud_user }}/cmm/rook.tar"
 rook_dest_tar: "/home/{{ cloud_user }}/rook.tar"
 rook_ceph_disk: "sdb"
 
 #metric-server
 
 #prometheus
-charts_src_tar: "/home/henderiw/cmm/charts.tar"
+charts_src_tar: "/home/{{ cloud_user }}/cmm/charts.tar"
 charts_dest_tar: "/home/{{ cloud_user }}/charts.tar"
 prometheus_service: "/home/{{ cloud_user }}/prometheus/values.yaml"
 
