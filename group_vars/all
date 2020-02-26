@@ -79,3 +79,6 @@ prometheus_service: "/home/{{ cloud_user }}/prometheus/values.yaml"
 
 #grafana
 grafana_service: "/home/{{ cloud_user }}/grafana/values.yaml"
+
+#falco
+falco_custom_rules: "/home/{{ cloud_user }}/falco//custom-rules.yaml"

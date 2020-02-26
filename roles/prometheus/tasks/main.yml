@@ -28,14 +28,6 @@
     path: "/home/{{ cloud_user }}/prometheus"
     state: directory
 
-# - name: Upload values.yaml 
-#   template:
-#       src: "{{ item }}.j2"
-#       dest: "{{ prometheus_service }}"
-#       mode: 0644
-#   with_items:
-#     - values.yaml
-
 - name: Upload values.yaml
   copy:
     src: "{{ prometheus_service }}"

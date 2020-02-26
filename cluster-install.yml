@@ -76,5 +76,6 @@
   roles:
     #- { role: rook-ceph, tags: rook-ceph }
     #- { role: metric-server, tags: metric-server }
-    - { role: prometheus, tags: prometheus}
-    - { role: grafana, tags: grafana}
+    #- { role: prometheus, tags: prometheus}
+    #- { role: grafana, tags: grafana}
+    - { role: sysdig-falco, tags: sysdig-falco}

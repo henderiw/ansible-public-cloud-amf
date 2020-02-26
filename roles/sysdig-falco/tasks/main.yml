@@ -1,0 +1,17 @@
+---
+- name: Create directory "{{ ansible_env.HOME }}/falco"
+  file:
+    path: "/home/{{ cloud_user }}/falco"
+    state: directory
+
+- name: Upload falco_custom_rules
+  copy:
+    src: "{{ falco_custom_rules }}"
+    dest: "{{ falco_custom_rules }}"
+    mode: 0644
+
+- name: Install Falco without proxy
+  shell: /usr/bin/helm install --name falco -f {{ falco_custom_rules }}  stable/falco --namespace kube-system
+  register: response
+  failed_when: "response.rc != 0 and 'already exists' not in response.stderr"
+- debug: msg={{ response }}
