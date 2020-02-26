@@ -8,7 +8,7 @@
 
 - name: Get worker node count
   set_fact:
-    worker_count: "{{ '{{ groups["node"] }}' | length }}"
+    worker_count: "{{ {{ groups[node] }} | length }}"
 - debug: msg={{ worker_count }}
   
 - name: Update "{{ elastic_search_values }}"
