@@ -78,6 +78,7 @@ grafana_src: "/home/{{ cloud_user }}/cmm/grafana/values.yaml"
 grafana_service: "/home/{{ cloud_user }}/grafana/values.yaml"
 
 #falco
+falco_src: "/home/{{ cloud_user }}/cmm/falco//custom-rules.yaml"
 falco_custom_rules: "/home/{{ cloud_user }}/falco//custom-rules.yaml"
 
 #log_aggregation

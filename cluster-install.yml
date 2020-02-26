@@ -70,8 +70,8 @@
     #- { role: helm, tags: helm }
     #- { role: consul, tags: consul }
     #- { role: rook-ceph, tags: rook-ceph }
-    - { role: metric-server, tags: metric-server }
-    - { role: prometheus, tags: prometheus}
+    #- { role: metric-server, tags: metric-server }
+    #- { role: prometheus, tags: prometheus}
     - { role: grafana, tags: grafana}
     - { role: sysdig-falco, tags: sysdig-falco}
     - { role: log-aggregation, tags: log-aggregation}
