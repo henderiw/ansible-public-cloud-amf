@@ -1,0 +1,34 @@
+---
+- name: Create directory "{{ ansible_env.HOME }}/grafana"
+  file:
+    path: "/home/{{ cloud_user }}/grafana"
+    state: directory
+
+- name: Upload values.yaml
+  copy:
+    src: "{{ grafana_service }}"
+    dest: "{{ grafana_service }}"
+    mode: 0644
+
+- name: Install grafana 
+  shell: helm install stable/grafana --name cmm-grafana --namespace kube-system -f "{{ grafana_service }}"
+  register: helm
+  args:
+    chdir: "/home/{{ cloud_user }}/charts"
+- debug: msg={{ helm }}
+  
+- name: Verify grafana service
+  shell: kubectl get svc -n kube-system | grep cmm-grafana
+  register: result
+  until: result.rc == 0
+  retries: 6
+  delay: 10
+- debug: msg={{ result }}
+  
+- name: Get admin password
+  shell: kubectl get secret --namespace kube-system cmm-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+  register: response
+- debug: msg={{ response }}
+  
+  
+  
