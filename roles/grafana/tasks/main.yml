@@ -12,10 +12,11 @@
 
 - name: Install grafana 
   shell: helm install stable/grafana --name cmm-grafana --namespace kube-system -f "{{ grafana_service }}"
-  register: helm
   args:
     chdir: "/home/{{ cloud_user }}/charts"
-- debug: msg={{ helm }}
+  register: response
+  failed_when: "response.rc != 0 and 'already exists' not in response.stderr"
+- debug: msg={{ response }}
   
 - name: Verify grafana service
   shell: kubectl get svc -n kube-system | grep cmm-grafana

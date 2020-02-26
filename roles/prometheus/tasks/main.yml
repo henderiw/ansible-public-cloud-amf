@@ -55,8 +55,9 @@
   args:
     chdir: "/home/{{ cloud_user }}"
     warn: false
-  register: helm
-- debug: msg={{ helm }}
+  register: response
+  failed_when: "response.rc != 0 and 'already exists' not in response.stderr"
+- debug: msg={{ response }}
   
 - name: Pause for 90 seconds
   pause:
