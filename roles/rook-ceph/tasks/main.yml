@@ -70,7 +70,7 @@
 - debug: msg={{ moncount }}
   
 - name: Check that at least 3 rook-ceph-osds are in a Running state
-  shell: kubectl get pods -n rook-ceph | grep rook-ceph-osd-[0-9] | grep Running | wc -l
+  shell: kubectl get pods -n rook-ceph | grep rook-ceph-osd-[0-9] | grep Completed | wc -l
   register: osdcount
   until: osdcount.stdout|int >= 3
   retries: 25
