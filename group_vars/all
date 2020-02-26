@@ -70,6 +70,7 @@ rook_ceph_disk: "sdb"
 #prometheus
 charts_src_tar: "/home/{{ cloud_user }}/cmm/charts.tar"
 charts_dest_tar: "/home/{{ cloud_user }}/charts.tar"
+prometheus_src: "/home/{{ cloud_user }}/cmm/prometheus/values.yaml"
 prometheus_service: "/home/{{ cloud_user }}/prometheus/values.yaml"
 
 #grafana

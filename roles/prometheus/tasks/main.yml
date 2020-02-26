@@ -30,7 +30,7 @@
 
 - name: Upload values.yaml
   copy:
-    src: "{{ prometheus_service }}"
+    src: "{{ prometheus_src }}"
     dest: "{{ prometheus_service }}"
     mode: 0644
 
