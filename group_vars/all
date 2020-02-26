@@ -82,3 +82,7 @@ grafana_service: "/home/{{ cloud_user }}/grafana/values.yaml"
 
 #falco
 falco_custom_rules: "/home/{{ cloud_user }}/falco//custom-rules.yaml"
+
+#sriov
+sriov_interfaces: eth1
+sriov_vf_count: 10

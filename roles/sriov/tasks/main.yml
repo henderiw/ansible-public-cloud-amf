@@ -1,0 +1,22 @@
+---
+- name: Update /sys/class/net/XXX/device/sriov_numvfs
+  become: true
+  become_user: root
+  become_method: sudo
+  shell: echo "{{ sriov_vf_count }}" > /sys/class/net/{{ item }}/device/sriov_numvfs
+  with_items: "{{ sriov_interfaces.split() }}"
+  register: response
+- debug: msg={{ response }}
+  
+- name: Show /sys/class/net/XXX/device/sriov_numvfs
+  become: true
+  shell: cat /sys/class/net/{{ item }}/device/sriov_numvfs
+  with_items: "{{ sriov_interfaces.split() }}"
+  register: response
+- debug: msg={{ response }}
+  
+- name: Show VFs
+  become: true
+  shell: lspci | grep -i "virtual function"
+  register: response
+- debug: msg={{ response }}

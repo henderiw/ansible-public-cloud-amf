@@ -78,4 +78,10 @@
     #- { role: metric-server, tags: metric-server }
     #- { role: prometheus, tags: prometheus}
     #- { role: grafana, tags: grafana}
-    - { role: sysdig-falco, tags: sysdig-falco}
+    #- { role: sysdig-falco, tags: sysdig-falco}
+
+- hosts: node
+  gather_facts: no
+  become: yes
+  roles:
+    - { role: sriov, tags: sriov }
