@@ -1,0 +1,221 @@
+---
+- name: Label worker nodes efk
+  shell: kubectl label node "{{ item }}" logging=efk --overwrite
+  register: response
+  with_items:
+    - '{{ groups["node"] }}'
+- debug: msg={{ response }}
+
+- name: Get worker node count
+  set_fact:
+    worker_count: "{{ '{{ groups["node"] }}' | length }}"
+- debug: msg={{ worker_count }}
+  
+- name: Update "{{ elastic_search_values }}"
+  replace:
+    path: "{{ elastic_search_values }}"
+    regexp: '^client:\n  name: client\n  replicas:\s+\d+\n'
+    replace: 'client:\n  name: client\n  replicas: {{ worker_count }}\n'
+    backup: yes
+      
+- name: Show "{{ elastic_search_values }}"
+  shell: cat "{{ elastic_search_values }}"
+  register: response
+- debug: msg={{ response }}
+
+- name: Helm install Elasticsearch for K8s 1.16 or 1.17
+  shell: helm install {{ elastic_search_values | dirname }} --name elasticsearch --namespace kube-system
+  args:
+    chdir: "{{ ansible_env.HOME }}/charts"
+  when:
+    - k8s_version == "1.16" or k8s_version == "1.17"
+  register: response
+- debug: msg={{ response }}
+  
+- name: Helm install Elasticsearch for non K8s 1.16 or 1.17
+  shell: helm install {{ elastic_search_values | dirname }} --name elasticsearch --namespace kube-system
+  when:
+    - k8s_version != "1.16" and k8s_version != "1.17"
+  register: response
+- debug: msg={{ response }}
+  
+- name: Pause for 60 seconds
+  pause:
+    seconds: 60
+
+- name: Obtain elasticsearch-client address
+  shell: kubectl get svc -n kube-system | grep elasticsearch-client
+  register: elasticsearch_client_ip
+  retries: 20
+  delay: 20
+- debug: msg={{ elasticsearch_client_ip.stdout }}
+  
+- name: Parse elasticsearch-client IP address
+  set_fact:
+    elasticsearch_ip_addr: "{{ (elasticsearch_client_ip.stdout | regex_findall('\\S+'))[2] }}"
+    elasticsearch_port: "{{ (elasticsearch_client_ip.stdout | regex_findall('\\S+'))[4].split('/')[0] }}"
+- debug: msg={{ elasticsearch_ip_addr }}
+- debug: msg={{ elasticsearch_port }}
+  
+- name: Send replicas PUT request
+  uri:
+    url: http://{{ elasticsearch_ip_addr }}:{{ elasticsearch_port }}/_template/zeroreplicas
+    method: PUT
+    body: '{"template":"*", "order":1, "settings":{"number_of_replicas":0}}'
+    body_format: json
+    headers:
+      Content-Type: "application/json"
+  retries: 10
+  delay: 10
+  register: response
+  until: (response.status == 200)
+- debug: msg={{ response.msg }}
+- debug: msg={{ response.url }}
+  
+- name: Send replicas PUT request
+  command: curl -X PUT http://{{ elasticsearch_ip_addr }}:{{ elasticsearch_port }}/_template/zeroreplicas -d'{"template":"*", "order":1, "settings":{"number_of_replicas":0}}' --header "Content-Type{{":"}} application/json"
+  register: response
+  args:
+    warn: false
+  retries: 20
+  delay: 15
+  until: (response.rc == 0)
+- debug: msg={{ response }}
+  
+- name: Send replicas GET request
+  uri:
+    url: http://{{ elasticsearch_ip_addr }}:{{ elasticsearch_port }}/_template/zeroreplicas?pretty
+    return_content: yes
+    status: 200
+    use_proxy: no
+    method: GET
+  retries: 10
+  delay: 10
+  register: response
+  until: (response.status == 200)
+- debug: msg={{ response.msg }}
+- debug: msg={{ response.url }}
+  
+- name: Helm install cleanup old indices in Elasticsearch no primary_environment and K8s 1.16 or 1.17
+  shell: helm install stable/elasticsearch-curator --name elasticsearch-curator --namespace kube-system
+  args:
+    chdir: "{{ ansible_env.HOME }}/charts"
+  when:
+    - primary_environment is undefined
+    - k8s_version == "1.16" or k8s_version == "1.17"
+  register: response
+- debug: msg={{ response }}
+  
+- name: Helm install cleanup old indices in Elasticsearch no primary_environment and K8s not 1.16 or 1.17
+  shell: helm install cmmDockerKubernetes/Ansible/logAggregation/elasticsearch-curator --name elasticsearch-curator --namespace kube-system
+  when:
+    - primary_environment is undefined
+    - k8s_version != "1.16" and k8s_version != "1.17"
+  register: response
+- debug: msg={{ response }}
+  
+- name: Helm install cleanup old indices in Elasticsearch with primary_environment and K8s 1.16 or 1.17
+  shell: helm install cmmDockerKubernetes/{{ primary_environment }}/Ansible/logAggregation/elasticsearch-curator --name elasticsearch-curator --namespace kube-system
+  args:
+    chdir: "{{ ansible_env.HOME }}/charts"
+  when:
+    - primary_environment is defined
+    - K8s_version == "1.16" or k8s_version == "1.17"
+  register: response
+- debug: msg={{ response }}
+  
+- name: Helm install cleanup old indices in Elasticsearch with primary_environment and not K8s 1.16 or 1.17
+  shell: helm install cmmDockerKubernetes/{{ primary_environment }}/Ansible/logAggregation/elasticsearch-curator --name elasticsearch-curator --namespace kube-system
+  when:
+    - primary_environment is defined
+    - K8s_version != "1.16" and k8s_version != "1.17"
+  register: response
+- debug: msg={{ response }}
+  
+- name: Verify chart was installed
+  shell: kubectl get CronJob -n kube-system | grep elasticsearch-curator
+  register: response
+- debug: msg={{ response }}
+  
+- name: Send indices GET request
+  uri:
+    url: http://{{ elasticsearch_ip_addr }}:{{ elasticsearch_port }}/_cat/indices?v
+    return_content: yes
+    status: 200
+    use_proxy: no
+    method: GET
+  retries: 10
+  delay: 10
+  register: response
+  until: (response.status == 200)
+- debug: msg={{ response.msg }}
+- debug: msg={{ response.url }}
+  
+- name: Helm install Fluentd
+  shell: helm install {{ fluentd_elastic_search_values | dirname }} --name fluentd-elasticsearch --namespace kube-system
+  register: response
+- debug: msg={{ response }}
+  
+- name: Pause for 30 seconds
+  pause:
+    seconds: 30
+  
+- name: Send indices GET request
+  uri:
+    url: http://{{ elasticsearch_ip_addr }}:{{ elasticsearch_port }}/_cluster/health?pretty=true
+    return_content: yes
+    status: 200
+    use_proxy: no
+    method: GET
+  retries: 10
+  delay: 10
+  register: response
+  until: (response.status == 200)
+- debug: msg={{ response.msg }}
+- debug: msg={{ response.url }}
+  
+- name: Send indices GET request
+  uri:
+    url: http://{{ elasticsearch_ip_addr }}:{{ elasticsearch_port }}/_cat/indices?v
+    return_content: yes
+    status: 200
+    use_proxy: no
+    method: GET
+  retries: 10
+  delay: 10
+  register: response
+  until: (response.status == 200)
+- debug: msg={{ response.msg }}
+- debug: msg={{ response.url }}
+  
+- name: Update "{{ kabana_service }}"
+  replace:
+    regexp: '^\s+-\s+\S+'
+    replace: '   - {{ ansible_host }}\n'
+    after: '  externalIPs:\n'
+    backup: yes
+    path: "{{ kabana_service }}"
+      
+- name: Show "{{ kabana_service }}"
+  shell: cat "{{ kabana_service }}"
+  register: response
+- debug: msg={{ response }}
+  
+- name: Helm install Kabana
+  shell: helm install {{ kabana_service | dirname }} --name kibana --namespace kube-system
+  register: response
+- debug: msg={{ response }}
+  
+- name: Pause for 30 seconds
+  pause:
+    seconds: 30
+      
+- name: Get Kibana service
+  shell: kubectl get svc -n kube-system | grep kibana
+  register: response
+- debug: msg={{ response }}
+  
+- name: Get Kibana endpoint
+  shell: kubectl get ep -n kube-system | grep kibana
+  register: response
+- debug: msg={{ response }}

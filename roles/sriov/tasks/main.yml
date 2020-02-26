@@ -20,3 +20,79 @@
   shell: lspci | grep -i "virtual function"
   register: response
 - debug: msg={{ response }}
+
+- name: Create /etc/init.d/vfs
+  become: true
+  template:
+    src: /usr/local/devops/ansible/templates/vfs.j2
+    dest: "/etc/init.d/vfs"
+    mode: '0777'
+  
+- name: Create a symbolic line from /etc/rc5.d/S99vfs to /etc/init.d/vfs
+  become: true
+  file:
+    src: /etc/init.d/vfs
+    dest: /etc/rc5.d/S99vfs
+    state: link
+  
+- name: Show /etc/rc5.d/S99vfs
+  shell: cat /etc/rc5.d/S99vfs
+  register: response
+- debug: msg={{ response }}
+  
+#  - name: Create /lib/systemd/system/huge-pages.service
+# become: true
+#template:
+#  src: /usr/local/devops/ansible/templates/hugepages.j2
+#   dest: /lib/systemd/system/huge-pages.service
+#  mode: "0644"
+  
+#- name: Show /lib/systemd/system/huge-pages.service
+#shell: cat /lib/systemd/system/huge-pages.service
+# register: response
+#- debug: msg={{ response }}
+  
+#- name: Start huge-pages
+# become: true
+#service:
+#  name: huge-pages
+#  state: restarted
+#  enabled: yes
+# register: service
+#- debug: msg={{ service }}
+
+- name: Disable ondemand
+  become: true
+  service:
+    enabled: no
+    name: ondemand
+    state: stopped
+
+- name: Install cpupower
+  become: true
+  shell: sudo apt-get --yes install linux-tools-common linux-tools-$(uname -r)
+  args:
+    warn: False
+  register: response
+- debug: msg={{ response }}
+
+- name: Create /lib/systemd/system/cpupower.service
+  become: true
+  template:
+    src: cpupower
+    dest: /lib/systemd/system/cpupower.service
+    mode: "0644"
+
+- name: Show /lib/systemd/system/cpupower.service
+  shell: cat /lib/systemd/system/cpupower.service
+  register: response
+- debug: msg={{ response }}
+
+- name: Start cpupower
+  become: true
+  service:
+    name: cpupower
+    state: restarted
+    enabled: yes
+  register: service
+- debug: msg={{ service }}

@@ -79,9 +79,10 @@
     #- { role: prometheus, tags: prometheus}
     #- { role: grafana, tags: grafana}
     #- { role: sysdig-falco, tags: sysdig-falco}
+    - { role: log-aggregation, tags: log-aggregation}
 
 - hosts: node
   gather_facts: no
   become: yes
   roles:
-    - { role: sriov, tags: sriov }
+    #- { role: sriov, tags: sriov }
