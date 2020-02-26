@@ -6,7 +6,7 @@
 
 - name: Upload values.yaml
   copy:
-    src: "{{ grafana_service }}"
+    src: "{{ grafana_src }}"
     dest: "{{ grafana_service }}"
     mode: 0644
 
