@@ -84,24 +84,23 @@
   retries: 10
   delay: 10
   register: response
-  #until: (response.rc == 0)
-- debug: msg={{ response.msg }}
+  until: (response.status == 200)
+- debug: msg={{ response }}
 - debug: msg={{ response.url }}
   
 - name: Helm install cleanup old indices in Elasticsearch
   shell: helm install stable/elasticsearch-curator --name elasticsearch-curator --namespace kube-system
   args:
-    chdir: "{{ ansible_env.HOME }}/charts"
+    chdir: "/home/{{ cloud_user }}/charts"
   register: response
   failed_when: "response.rc != 0 and 'already exists' not in response.stderr"
 - debug: msg={{ response }}
   
-- name: Helm install cleanup old indices in Elasticsearch
-  shell: helm install cmmDockerKubernetes/Ansible/logAggregation/elasticsearch-curator --name elasticsearch-curator --namespace kube-system
-  register: response
-  failed_when: "response.rc != 0 and 'already exists' not in response.stderr"
-- debug: msg={{ response }}
-  
+# - name: Helm install cleanup old indices in Elasticsearch
+#   shell: helm install cmmDockerKubernetes/Ansible/logAggregation/elasticsearch-curator --name elasticsearch-curator --namespace kube-system
+#   register: response
+#   failed_when: "response.rc != 0 and 'already exists' not in response.stderr"
+# - debug: msg={{ response }}
   
 - name: Verify chart was installed
   shell: kubectl get CronJob -n kube-system | grep elasticsearch-curator
@@ -112,7 +111,7 @@
   uri:
     url: http://{{ elasticsearch_ip_addr }}:{{ elasticsearch_port }}/_cat/indices?v
     return_content: yes
-    status: 200
+    #status: 200
     use_proxy: no
     method: GET
   retries: 10
@@ -136,7 +135,7 @@
   uri:
     url: http://{{ elasticsearch_ip_addr }}:{{ elasticsearch_port }}/_cluster/health?pretty=true
     return_content: yes
-    status: 200
+    #status: 200
     use_proxy: no
     method: GET
   retries: 10
@@ -150,7 +149,7 @@
   uri:
     url: http://{{ elasticsearch_ip_addr }}:{{ elasticsearch_port }}/_cat/indices?v
     return_content: yes
-    status: 200
+    #status: 200
     use_proxy: no
     method: GET
   retries: 10
