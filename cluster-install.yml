@@ -80,6 +80,7 @@
     #- { role: grafana, tags: grafana}
     #- { role: sysdig-falco, tags: sysdig-falco}
     - { role: log-aggregation, tags: log-aggregation}
+    - { role: istio, tags: istio}
 
 - hosts: node
   gather_facts: no
