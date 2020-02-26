@@ -15,12 +15,14 @@
   become: true
   shell: rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-3.el7.elrepo.noarch.rpm
   register: response
+  failed_when: "response.rc != 0 and 'already installed' not in response.stderr"
 - debug: msg={{ response }}
 
 - name: install kernel-ml
   become: true
   shell: yum --enablerepo=elrepo-kernel install kernel-ml -y 
   register: response
+  failed_when: "response.rc != 0 and 'already installed' not in response.stderr"
 - debug: msg={{ response }}
 
 - name: Set the default boot to 1>2
