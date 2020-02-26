@@ -14,6 +14,11 @@
 #     url: "{{ spinner_src_tar }}"
 #     dest: "{{ cmm_helm_directory }}/spinner.tar"
 
+- name: Create "{{ cmm_helm_directory }}/spinner"
+  file:
+    path: "{{ cmm_helm_directory }}/spinner"
+    state: directory
+
 - name: Upload spinner.tar
   copy:
     src: "{{ rook_src_tar }}"
