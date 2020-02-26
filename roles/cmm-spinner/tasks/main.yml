@@ -21,7 +21,7 @@
 
 - name: Upload spinner.tar
   copy:
-    src: "{{ rook_src_tar }}"
+    src: "{{ spinner_src_tar }}"
     dest: "{{ cmm_helm_directory }}/spinner.tar"
     mode: 0644
 
