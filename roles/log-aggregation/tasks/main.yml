@@ -93,11 +93,13 @@
   args:
     chdir: "{{ ansible_env.HOME }}/charts"
   register: response
+  failed_when: "response.rc != 0 and 'already exists' not in response.stderr"
 - debug: msg={{ response }}
   
 - name: Helm install cleanup old indices in Elasticsearch
   shell: helm install cmmDockerKubernetes/Ansible/logAggregation/elasticsearch-curator --name elasticsearch-curator --namespace kube-system
   register: response
+  failed_when: "response.rc != 0 and 'already exists' not in response.stderr"
 - debug: msg={{ response }}
   
   
@@ -123,6 +125,7 @@
 - name: Helm install Fluentd
   shell: helm install {{ fluentd_elastic_search_values | dirname }} --name fluentd-elasticsearch --namespace kube-system
   register: response
+  failed_when: "response.rc != 0 and 'already exists' not in response.stderr"
 - debug: msg={{ response }}
   
 - name: Pause for 30 seconds
@@ -173,6 +176,7 @@
 - name: Helm install Kabana
   shell: helm install {{ kabana_service | dirname }} --name kibana --namespace kube-system
   register: response
+  failed_when: "response.rc != 0 and 'already exists' not in response.stderr"
 - debug: msg={{ response }}
   
 - name: Pause for 30 seconds
