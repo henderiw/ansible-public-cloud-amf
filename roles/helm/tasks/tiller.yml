@@ -35,3 +35,11 @@
   shell: kubectl patch deploy {{ helm_tiller }} -n kube-system -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
   register: result
   when: "'serviceAccount: tiller' not in result.stdout"
+
+- name: Check that tiller is in a Running state
+  shell: kubectl get pods -n kube-system | grep tiller | grep Running | wc -l
+  register: tillerCount
+  until: tillerCount.stdout|int >= 1
+  retries: 25
+  delay: 15
+- debug: msg={{ tillerCount }}
