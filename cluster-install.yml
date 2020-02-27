@@ -23,7 +23,7 @@
   become_user: root
   become_method: sudo
   roles:
-    - { role: glusterfs/server, tags: glusterfs-server }
+    #- { role: glusterfs/server, tags: glusterfs-server }
 
 - hosts: master
   gather_facts: no

@@ -16,6 +16,7 @@
   yum:
     name: '*'
     state: latest
+    exclude: kernel*
 
 - name: Build hosts file
   lineinfile:
