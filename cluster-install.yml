@@ -69,7 +69,7 @@
   roles:
     - { role: helm, tags: helm }
     - { role: consul, tags: consul }
-    # - { role: rook-ceph, tags: rook-ceph }
+    - { role: rook-ceph, tags: rook-ceph }
     - { role: metric-server, tags: metric-server }
     - { role: prometheus, tags: prometheus}
     - { role: grafana, tags: grafana}
