@@ -10,6 +10,10 @@ disk: /dev/sdb
 fstype: ext4
 kernel_modules: "dm_snapshot dm_mirror dm_thin_pool"
 
+# nfs
+nfs_server: master0
+nfs_path: /mnt/nfs
+
 # kubernetes parameters
 kube_version: 1.16.3
 #kube_version: v1.17.0

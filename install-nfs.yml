@@ -4,3 +4,8 @@
   gather_facts: yes
   roles:
     - { role: nfs/node, tags: nfs/node }
+
+- name: install nfs on kubernetes
+  hosts: master
+  roles:
+    - { role: nfs/kubernetes, tags: nfs/kubernetes }

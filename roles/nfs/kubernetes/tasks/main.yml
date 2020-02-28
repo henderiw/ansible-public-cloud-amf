@@ -1,0 +1,16 @@
+---
+- name: Create nfs addon directory
+  file:
+    path: "/home/{{ cloud_user }}/nfs"
+    state: directory
+
+- name: "Copy NFS YAML files"
+  template:
+    src: "{{ item }}"
+    dest: "/home/{{ cloud_user }}/nfs/{{ item | basename | regex_replace('\\.j2','') }}"
+  with_fileglob:
+    - ../templates/nfs*.j2
+
+- name: "Create NFS client provisioner"
+  command: kubectl apply -f /home/{{ cloud_user }}/nfs/nfs-deployment.yml
+  run_once: true
