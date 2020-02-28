@@ -49,44 +49,44 @@
 - debug: msg={{ elasticsearch_ip_addr }}
 - debug: msg={{ elasticsearch_port }}
   
-# - name: Send replicas PUT request
-#   uri:
-#     url: http://{{ elasticsearch_ip_addr }}:{{ elasticsearch_port }}/_template/zeroreplicas
-#     method: PUT
-#     body: '{"template":"*", "order":1, "settings":{"number_of_replicas":0}}'
-#     body_format: json
-#     headers:
-#       Content-Type: "application/json"
-#   retries: 10
-#   delay: 10
-#   register: response
-#   until: (response.status == 200)
-# - debug: msg={{ response.msg }}
-# - debug: msg={{ response.url }}
+- name: Send replicas PUT request
+  uri:
+    url: http://{{ elasticsearch_ip_addr }}:{{ elasticsearch_port }}/_template/zeroreplicas
+    method: PUT
+    body: '{"template":"*", "order":1, "settings":{"number_of_replicas":0}}'
+    body_format: json
+    headers:
+      Content-Type: "application/json"
+  retries: 10
+  delay: 10
+  register: response
+  until: (response.status == 200)
+- debug: msg={{ response.msg }}
+- debug: msg={{ response.url }}
   
-# - name: Send replicas PUT request
-#   command: curl -X PUT http://{{ elasticsearch_ip_addr }}:{{ elasticsearch_port }}/_template/zeroreplicas -d'{"template":"*", "order":1, "settings":{"number_of_replicas":0}}' --header "Content-Type{{":"}} application/json"
-#   register: response
-#   args:
-#     warn: false
-#   retries: 20
-#   delay: 15
-#   until: (response.rc == 0)
-# - debug: msg={{ response }}
+- name: Send replicas PUT request
+  command: curl -X PUT http://{{ elasticsearch_ip_addr }}:{{ elasticsearch_port }}/_template/zeroreplicas -d'{"template":"*", "order":1, "settings":{"number_of_replicas":0}}' --header "Content-Type{{":"}} application/json"
+  register: response
+  args:
+    warn: false
+  retries: 20
+  delay: 15
+  until: (response.rc == 0)
+- debug: msg={{ response }}
   
-# - name: Send replicas GET request
-#   uri:
-#     url: http://{{ elasticsearch_ip_addr }}:{{ elasticsearch_port }}/_template/zeroreplicas?pretty
-#     return_content: yes
-#     #status: 200
-#     use_proxy: no
-#     method: GET
-#   retries: 10
-#   delay: 10
-#   register: response
-#   until: (response.status == 200)
-# - debug: msg={{ response }}
-# - debug: msg={{ response.url }}
+- name: Send replicas GET request
+  uri:
+    url: http://{{ elasticsearch_ip_addr }}:{{ elasticsearch_port }}/_template/zeroreplicas?pretty
+    return_content: yes
+    #status: 200
+    use_proxy: no
+    method: GET
+  retries: 10
+  delay: 10
+  register: response
+  until: (response.status == 200)
+- debug: msg={{ response }}
+- debug: msg={{ response.url }}
   
 - name: Helm install cleanup old indices in Elasticsearch
   shell: helm install stable/elasticsearch-curator --name elasticsearch-curator --namespace kube-system
@@ -107,19 +107,19 @@
   register: response
 - debug: msg={{ response }}
   
-# - name: Send indices GET request
-#   uri:
-#     url: http://{{ elasticsearch_ip_addr }}:{{ elasticsearch_port }}/_cat/indices?v
-#     return_content: yes
-#     #status: 200
-#     use_proxy: no
-#     method: GET
-#   retries: 10
-#   delay: 10
-#   register: response
-#   until: (response.status == 200)
-# - debug: msg={{ response.msg }}
-# - debug: msg={{ response.url }}
+- name: Send indices GET request
+  uri:
+    url: http://{{ elasticsearch_ip_addr }}:{{ elasticsearch_port }}/_cat/indices?v
+    return_content: yes
+    #status: 200
+    use_proxy: no
+    method: GET
+  retries: 10
+  delay: 10
+  register: response
+  until: (response.status == 200)
+- debug: msg={{ response.msg }}
+- debug: msg={{ response.url }}
   
 - name: Helm install Fluentd
   shell: helm install {{ fluentd_elastic_search_values | dirname }} --name fluentd-elasticsearch --namespace kube-system
@@ -131,33 +131,33 @@
   pause:
     seconds: 30
   
-# - name: Send indices GET request
-#   uri:
-#     url: http://{{ elasticsearch_ip_addr }}:{{ elasticsearch_port }}/_cluster/health?pretty=true
-#     return_content: yes
-#     #status: 200
-#     use_proxy: no
-#     method: GET
-#   retries: 10
-#   delay: 10
-#   register: response
-#   until: (response.status == 200)
-# - debug: msg={{ response.msg }}
-# - debug: msg={{ response.url }}
+- name: Send indices GET request
+  uri:
+    url: http://{{ elasticsearch_ip_addr }}:{{ elasticsearch_port }}/_cluster/health?pretty=true
+    return_content: yes
+    #status: 200
+    use_proxy: no
+    method: GET
+  retries: 10
+  delay: 10
+  register: response
+  until: (response.status == 200)
+- debug: msg={{ response.msg }}
+- debug: msg={{ response.url }}
   
-# - name: Send indices GET request
-#   uri:
-#     url: http://{{ elasticsearch_ip_addr }}:{{ elasticsearch_port }}/_cat/indices?v
-#     return_content: yes
-#     #status: 200
-#     use_proxy: no
-#     method: GET
-#   retries: 10
-#   delay: 10
-#   register: response
-#   until: (response.status == 200)
-# - debug: msg={{ response.msg }}
-# - debug: msg={{ response.url }}
+- name: Send indices GET request
+  uri:
+    url: http://{{ elasticsearch_ip_addr }}:{{ elasticsearch_port }}/_cat/indices?v
+    return_content: yes
+    #status: 200
+    use_proxy: no
+    method: GET
+  retries: 10
+  delay: 10
+  register: response
+  until: (response.status == 200)
+- debug: msg={{ response.msg }}
+- debug: msg={{ response.url }}
   
 - name: Update "{{ kabana_service }}"
   replace:

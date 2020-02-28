@@ -3,13 +3,17 @@
   parted:
       device: "{{ disk }}"
   register: partitions
-- debug: msg={{ partitions }}
+- name: debug response
+  debug: 
+    msg: "{{ partitions }}"
   
 - name: Remove all partitions on {{ disk }}
   become: true
   shell: dd if=/dev/zero of="{{ disk }}" bs=512 count=10
   register: response
-- debug: msg={{ response }}
+- name: debug response
+  debug: 
+    msg: "{{ response }}"
 
 - name: Check if drives are already mounted
   shell: df | grep "{{ disk }}" | wc -l

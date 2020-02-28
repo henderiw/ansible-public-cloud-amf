@@ -1,0 +1,6 @@
+---
+- name: install nfs
+  hosts: node
+  gather_facts: yes
+  roles:
+    - { role: nfs/node, tags: nfs/node }

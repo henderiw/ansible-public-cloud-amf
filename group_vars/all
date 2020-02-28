@@ -63,7 +63,7 @@ consul_service: "{{ ansible_env.HOME }}/cmmDockerKubernetes/Ansible/consul/consu
 #rook-ceph:
 rook_src_tar: "/home/{{ cloud_user }}/cmm/rook.tar"
 rook_dest_tar: "/home/{{ cloud_user }}/rook.tar"
-rook_ceph_disk: "sdb"
+rook_ceph_disk: "sdc"
 
 #metric-server
 
