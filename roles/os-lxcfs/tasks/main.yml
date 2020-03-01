@@ -22,22 +22,30 @@
 
 - name: run bootstrap.sh
   become: true
-  shell: lxcfs/bootstrap.sh
+  shell: ./bootstrap.sh
+  args:
+    chdir: "/home/{{ cloud_user }}/lxcfs"
   register: response
 
 - name: run configure
   become: true
-  shell: lxcfs/configure
+  shell: ./configure
+  args:
+    chdir: "/home/{{ cloud_user }}/lxcfs"
   register: response
 
 - name: run make
   become: true
-  shell: lxcfs/make
+  shell: make
+  args:
+    chdir: "/home/{{ cloud_user }}/lxcfs"
   register: response
 
 - name: run make install
   become: true
-  shell: lxcfs/make install
+  shell: make install
+  args:
+    chdir: "/home/{{ cloud_user }}/lxcfs"
   register: response
 
 - name: create directory /var/lib/lxcfs
@@ -47,5 +55,7 @@
   
 - name: enable lxcfs /var/lib/lxcfs
   become: true
-  shell: lxcfs/lxcfs /var/lib/lxcfs
+  shell: ./lxcfs /var/lib/lxcfs
+  args:
+    chdir: "/home/{{ cloud_user }}/lxcfs"
   register: response
