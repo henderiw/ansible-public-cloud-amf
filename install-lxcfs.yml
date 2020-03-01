@@ -1,0 +1,9 @@
+---
+- name: install lxcfs
+  hosts: kube_cluster
+  gather_facts: yes
+  become: yes
+  become_user: root
+  become_method: sudo
+  roles:
+    - { role: os-lxcfs, tags: os-lxcfs }

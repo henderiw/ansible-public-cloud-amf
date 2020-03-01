@@ -1,0 +1,51 @@
+---
+- name: install  packages
+  become: true
+  yum: 
+    name: "{{ item.pkgname }}"
+    state: "present"
+  with_items:
+    - { pkgname: "fuse"  }
+    - { pkgname: "fuse-lib"  }
+    - { pkgname: "fuse-devel"  }
+    - { pkgname: "libtool"  }
+    - { pkgname: "automake"  }
+
+- name: Git clone git://github.com/lxc/lxcfs
+  become: true
+  shell: git clone git://github.com/lxc/lxcfs
+  register: response
+
+- name: debug output git clone
+  debug: 
+    msg: "{{ response}}"
+
+- name: run bootstrap.sh
+  become: true
+  shell: lxcfs/bootstrap.sh
+  register: response
+
+- name: run configure
+  become: true
+  shell: lxcfs/configure
+  register: response
+
+- name: run make
+  become: true
+  shell: lxcfs/make
+  register: response
+
+- name: run make install
+  become: true
+  shell: lxcfs/make install
+  register: response
+
+- name: create directory /var/lib/lxcfs
+  file:
+    path: /var/lib/lxcfs
+    state: directory
+  
+- name: enable lxcfs /var/lib/lxcfs
+  become: true
+  shell: lxcfs/lxcfs /var/lib/lxcfs
+  register: response
