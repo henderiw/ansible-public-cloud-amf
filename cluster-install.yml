@@ -80,14 +80,14 @@
 - hosts: master
   gather_facts: no
   roles:
-    - { role: nfs/kubernetes, tags: nfs/kubernetes }
-    - { role: helm, tags: helm }
-    #- { role: consul, tags: consul }
-    #- { role: rook-ceph, tags: rook-ceph }
-    - { role: metric-server, tags: metric-server }
-    - { role: prometheus, tags: prometheus}
-    - { role: grafana, tags: grafana}
-    #- { role: sysdig-falco, tags: sysdig-falco}
+    #- { role: nfs/kubernetes, tags: nfs/kubernetes }
+    #- { role: helm, tags: helm }
+    ##- { role: consul, tags: consul }
+    ##- { role: rook-ceph, tags: rook-ceph }
+    #- { role: metric-server, tags: metric-server }
+    #- { role: prometheus, tags: prometheus}
+    #- { role: grafana, tags: grafana}
+    ##- { role: sysdig-falco, tags: sysdig-falco}
     - { role: log-aggregation, tags: log-aggregation}
     #- { role: istio, tags: istio}
     - { role: kubernetes/status, tags: kubernetes/status }

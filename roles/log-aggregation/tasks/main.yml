@@ -49,30 +49,30 @@
 - debug: msg={{ elasticsearch_ip_addr }}
 - debug: msg={{ elasticsearch_port }}
   
-- name: Send replicas PUT request
-  uri:
-    url: http://{{ elasticsearch_ip_addr }}:{{ elasticsearch_port }}/_template/zeroreplicas
-    method: PUT
-    body: '{"template":"*", "order":1, "settings":{"number_of_replicas":0}}'
-    body_format: json
-    headers:
-      Content-Type: "application/json"
-  retries: 10
-  delay: 10
-  register: response
-  until: (response.status == 200)
-- debug: msg={{ response.msg }}
-- debug: msg={{ response.url }}
+# - name: Send replicas PUT request
+#   uri:
+#     url: http://{{ elasticsearch_ip_addr }}:{{ elasticsearch_port }}/_template/zeroreplicas
+#     method: PUT
+#     body: '{"template":"*", "order":1, "settings":{"number_of_replicas":0}}'
+#     body_format: json
+#     headers:
+#       Content-Type: "application/json"
+#   retries: 10
+#   delay: 10
+#   register: response
+#   until: (response.status == 200)
+# - debug: msg={{ response.msg }}
+# - debug: msg={{ response.url }}
   
-- name: Send replicas PUT request
-  command: curl -X PUT http://{{ elasticsearch_ip_addr }}:{{ elasticsearch_port }}/_template/zeroreplicas -d'{"template":"*", "order":1, "settings":{"number_of_replicas":0}}' --header "Content-Type{{":"}} application/json"
-  register: response
-  args:
-    warn: false
-  retries: 20
-  delay: 15
-  until: (response.rc == 0)
-- debug: msg={{ response }}
+# - name: Send replicas PUT request
+#   command: curl -X PUT http://{{ elasticsearch_ip_addr }}:{{ elasticsearch_port }}/_template/zeroreplicas -d'{"template":"*", "order":1, "settings":{"number_of_replicas":0}}' --header "Content-Type{{":"}} application/json"
+#   register: response
+#   args:
+#     warn: false
+#   retries: 20
+#   delay: 15
+#   until: (response.rc == 0)
+# - debug: msg={{ response }}
   
 - name: Send replicas GET request
   uri:
