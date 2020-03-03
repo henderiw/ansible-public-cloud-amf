@@ -55,7 +55,5 @@
   
 - name: enable lxcfs /var/lib/lxcfs
   become: true
-  shell: ./lxcfs /var/lib/lxcfs
-  args:
-    chdir: "/home/{{ cloud_user }}/lxcfs"
+  shell: /usr/local/bin/lxcf/lxcfs /var/lib/lxcfs
   register: response

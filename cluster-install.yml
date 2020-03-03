@@ -6,14 +6,14 @@
   become_user: root
   become_method: sudo
   roles:
-    #- { role: os, tags: os }
-    #- { role: swap, tags: swapp }
-    #- { role: packages, tags: packages }
+    - { role: os, tags: os }
+    - { role: swap, tags: swapp }
+    - { role: packages, tags: packages }
     #- { role: ping, tags: ping }
     #- { role: ntp, tags: ntp }
-    #- { role: docker, tags: docker }
-    #- { role: kubernetes/underlay, tags: underlay }
-    #- { role: ssh, tags: ssh }
+    - { role: docker, tags: docker }
+    - { role: kubernetes/underlay, tags: underlay }
+    - { role: ssh, tags: ssh }
     # - { role: glusterfs/general, tags: glusterfs-general }
 
 - name: Setup glusterfs server 
@@ -68,14 +68,14 @@
   gather_facts: no
   roles:
     - { role: helm, tags: helm }
-    - { role: consul, tags: consul }
-    - { role: rook-ceph, tags: rook-ceph }
+    #- { role: consul, tags: consul }
+    #- { role: rook-ceph, tags: rook-ceph }
     - { role: metric-server, tags: metric-server }
     - { role: prometheus, tags: prometheus}
     - { role: grafana, tags: grafana}
-    - { role: sysdig-falco, tags: sysdig-falco}
+    #- { role: sysdig-falco, tags: sysdig-falco}
     - { role: log-aggregation, tags: log-aggregation}
-    - { role: istio, tags: istio}
+    #- { role: istio, tags: istio}
     - { role: kubernetes/status, tags: kubernetes/status }
     - { role: cmm-spinner, tags: cmm-spinner }
 
