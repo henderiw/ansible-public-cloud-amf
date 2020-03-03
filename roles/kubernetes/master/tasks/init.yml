@@ -34,7 +34,7 @@
 - name: Create Kubernetes config directory
   become: true
   file:
-    path: ".kube/"
+    path: "/home/root/.kube/"
     state: directory
 
 - name: Copy admin.conf to Home/root directory
