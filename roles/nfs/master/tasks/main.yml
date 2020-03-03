@@ -1,0 +1,34 @@
+- name: install  packages
+  yum: 
+    name: "{{ item.pkgname }}"
+    state: "present"
+  with_items:
+    - { pkgname: "nfs-utils"  }
+  become: true
+
+- name: Ensure rpcbind is running as configured.
+  service:
+    name: rpcbind
+    state: started
+    enabled: true
+  become: true
+
+- name: Ensure directory exists for nfs
+  file: 
+    name: "{{ nfs_path }}" 
+    state: directory 
+    mode: 0755
+  become: true
+
+- name: Copy exports file.
+  template:
+    src: exports.j2
+    dest: /etc/exports
+    owner: root
+    group: root
+    mode: 0777
+  notify: reload nfs
+
+- name: Ensure nfs is running.
+  service: "name=nfs-server state=started enabled=yes"
+  when: nfs_exports|length
