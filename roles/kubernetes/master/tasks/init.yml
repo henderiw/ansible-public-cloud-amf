@@ -47,6 +47,13 @@
     mode: 0755
     remote_src: true
 
+- name: add auto-completion to cloud_user bash shell
+  shell: echo 'source <(kubectl completion bash)' >>~/.bashrc
+
+- name: add auto-completion to root bash shell
+  become: true
+  shell: kubectl completion bash >/etc/bash_completion.d/kubectl
+
 - name: Deploy kubernetes dashboard into cluster
   when: init_cluster is succeeded
   command: |
