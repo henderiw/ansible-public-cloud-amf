@@ -29,7 +29,7 @@
     update_cache: yes
     allow_downgrade: yes
   with_items:
-    - { pkgname: "kubelet-{{kube_version}}" }
-    - { pkgname: "kubeadm-{{kube_version}}" }
-    - { pkgname: "kubectl-{{kube_version}}" }
+    - { pkgname: "kubelet={{kube_version}}" }
+    - { pkgname: "kubeadm={{kube_version}}" }
+    - { pkgname: "kubectl={{kube_version}}" }
 
