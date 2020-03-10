@@ -35,6 +35,8 @@
     name: "{{ item.pkgname }}"
     state: "present"
     update_cache: yes
+    dpkg_options: force-downgrade
+    force: yes
   with_items:
     - { pkgname: "kubelet={{kube_ubuntu_version}}" }
     - { pkgname: "kubeadm={{kube_ubuntu_version}}" }
