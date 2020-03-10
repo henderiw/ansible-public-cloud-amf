@@ -48,8 +48,8 @@
     state: restarted
   when: linux_os == "centos"
 
-- name: Restart network service
-  service:
-    name: networking
-    state: restarted
-  when: linux_os == "ubuntu"
+#- name: Restart network service
+#  service:
+#    name: networking
+#    state: restarted
+#  when: linux_os == "ubuntu"
