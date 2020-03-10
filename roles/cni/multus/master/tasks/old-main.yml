@@ -58,13 +58,13 @@
   debug: 
     msg: "{{ response }}"
 
-- name: Show role bindings
-  shell: kubectl get clusterrolebinding | grep compute
-  register: response
+# - name: Show role bindings
+#   shell: kubectl get clusterrolebinding | grep compute
+#   register: response
 
-- name: debug output
-  debug: 
-    msg: "{{ response }}"
+# - name: debug output
+#   debug: 
+#     msg: "{{ response }}"
   
 - name: Show ClusterRole multus
   shell: kubectl get ClusterRole | grep multus
