@@ -11,7 +11,7 @@
     - { role: packages, tags: packages }
     - { role: os-lxcfs, tags: os-lxcfs }
     ##- { role: ping, tags: ping }
-    #- { role: ntp, tags: ntp }
+    - { role: ntp, tags: ntp }
     #- { role: docker, tags: docker }
     #- { role: kubernetes/underlay, tags: underlay }
     #- { role: ssh, tags: ssh }
