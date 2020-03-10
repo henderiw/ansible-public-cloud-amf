@@ -7,16 +7,13 @@
     - { pkgname: "ntp" }
     - { pkgname: "bridge-utils" }
     - { pkgname: "python3"}
-    - { pkgname: "python34-setuptools"}
     - { pkgname: "golang" }
     - { pkgname: "git"}
     - { pkgname: "ansible"}
     - { pkgname: "sshpass"}
     - { pkgname: "whois"}
-    - { pkgname: "java-11-openjdk"}
-    - { pkgname: "bind"}
-    - { pkgname: "bind-utils"}
-    - { pkgname: "perf"}
-
-
-    
+    - { pkgname: "openjdk-11-jdk"}
+    - { pkgname: "openjdk-11-jre"}
+    - { pkgname: "bind9"}
+    - { pkgname: "dnsutils"}
+    - { pkgname: "linux-tools-common"}
