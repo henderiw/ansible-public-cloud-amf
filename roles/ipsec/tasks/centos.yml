@@ -1,7 +1,7 @@
 ---
 - name: Install strongswan 
   become: true
-  apt:
+  yum:
     name: "{{ packages }}"
   vars:
     packages:
@@ -78,15 +78,6 @@
 - name: Read systcl
   become: true
   shell: sysctl -p
-  register: response
-
-- name: debug output
-  debug: 
-    msg: "{{ response }}"
-  
-- name: Show xfrm kernel modules
-  become: true
-  shell: lsmod | grep -i xfrm
   register: response
 
 - name: debug output

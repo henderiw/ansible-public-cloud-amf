@@ -1,9 +1,13 @@
 ---
 - name: clone multus in local directory
   shell: git clone https://github.com/intel/multus-cni.git
+  register: response
+  failed_when: "response.rc != 0 and 'already exists' not in response.stderr"
 
 - name: activate multus in the kubernetes cluster
   shell: cat /home/{{cloud_user}}/multus-cni/images/multus-daemonset.yml | kubectl apply -f -
+  register: response
+  failed_when: "response.rc != 0 and 'already exists' not in response.stderr"
 
 - name: Show role bindings
   shell: kubectl get clusterrolebinding | grep compute
