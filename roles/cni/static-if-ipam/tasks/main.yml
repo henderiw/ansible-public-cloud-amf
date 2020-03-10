@@ -1,0 +1,8 @@
+---
+- name: setup static-if-ipam ipam
+  copy:
+    src: "{{ item }}"
+    dest: "/opt/cni/bin/{{ item }}"
+    mode: "0755"
+  with_items:
+    - static-if-ipam

@@ -23,7 +23,7 @@
   copy:
     src: "{{ spinner_src_tar }}"
     dest: "{{ cmm_helm_directory }}/spinner.tar"
-    mode: 0644
+    mode: "0644"
 
 - name: Unpack spinner.tar 
   shell: tar -xvf spinner.tar
@@ -31,4 +31,7 @@
     chdir: "{{ cmm_helm_directory }}"
     warn: false
   register: response
-- debug: msg={{ response }}
+
+- name: debug response
+  debug: 
+    msg: "{{ response }}"
