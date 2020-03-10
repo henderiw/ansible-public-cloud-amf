@@ -50,6 +50,6 @@
 
 - name: Restart network service
   service:
-    name: network
+    name: networking
     state: restarted
   when: linux_os == "ubuntu"
