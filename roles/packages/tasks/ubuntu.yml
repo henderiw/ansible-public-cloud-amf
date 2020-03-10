@@ -5,6 +5,7 @@
     state: present
   with_items:
     - { pkgname: "ntp" }
+    - { pkgname: "ntpstat" }
     - { pkgname: "bridge-utils" }
     - { pkgname: "python"}
     - { pkgname: "python-setuptools"}
