@@ -11,18 +11,32 @@
     line: "server {{ item }} iburst"
   with_items: "{{ bootstrap_server_ip }}"
 
-- name: Stop the ntpd service if running on {{ inventory_hostname }}
+- name: Stop the ntpd service if running on {{ inventory_hostname }} centos
   service:
     name: ntpd
     state: stopped
+  when: linux_os == "centos"
+
+- name: Stop the ntpd service if running on {{ inventory_hostname }} ubuntu
+  service:
+    name: ntp
+    state: stopped
+  when: linux_os == "ubuntu"
 
 - name: Manually sync time with ntp server on {{ inventory_hostname }}
   command: ntpdate -u "{{bootstrap_server_ip}}"
 
-- name: Start ntpd on {{ inventory_hostname }} 
+- name: Start ntpd on {{ inventory_hostname }}  centos
   service:
     name: ntpd
     state: started
+  when: linux_os == "centos"
+
+- name: Start ntpd on {{ inventory_hostname }}  ubuntu
+  service:
+    name: ntpd
+    state: started
+  when: linux_os == "ubuntu"
 
 - name: check ntp sync state
   shell: ntpstat | awk 'NR==1{print $1}'

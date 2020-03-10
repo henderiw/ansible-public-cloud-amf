@@ -6,6 +6,8 @@
   with_items:
     - { pkgname: "ntp" }
     - { pkgname: "ntpstat" }
+    - { pkgname: "ntpdate" }
+    - { pkgname: "ntpsec-ntpdate" }
     - { pkgname: "bridge-utils" }
     - { pkgname: "python"}
     - { pkgname: "python-setuptools"}
