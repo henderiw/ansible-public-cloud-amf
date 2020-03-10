@@ -37,7 +37,7 @@
   become: yes
   roles:
     #- { role: nfs/node, tags: nfs/node }
-    - { role: ipsec, tags: ipsec }
+    #- { role: ipsec, tags: ipsec }
 
 - hosts: master
   gather_facts: no
