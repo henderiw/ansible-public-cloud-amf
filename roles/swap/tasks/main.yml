@@ -13,3 +13,31 @@
   become: yes
   become_user: root
   become_method: sudo
+
+- name: Show the content of /etc/fstab
+  become: true
+  shell: cat /etc/fstab
+  register: response
+
+- name: debug output
+  debug: 
+    msg: "{{ response }}"
+  
+- name: Mask out swap in systemctl
+  become: true
+  shell: systemctl mask `systemctl | grep .swap | awk '{print $1}'`
+  register: response
+  ignore_errors: yes
+
+- name: debug output
+  debug: 
+    msg: "{{ response }}"
+  
+- name: Execute free -h
+  become: true
+  shell: free -h
+  register: response
+
+- name: debug output
+  debug: 
+    msg: "{{ response }}"
