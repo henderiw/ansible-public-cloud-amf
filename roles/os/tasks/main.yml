@@ -11,12 +11,25 @@
   selinux:
     policy: targeted
     state: permissive
+  when: linux_os == centos
 
-- name: upgrade all packages
+- name: upgrade all packages on centos
   yum:
     name: '*'
     state: latest
     exclude: kernel*
+  when: linux_os == centos
+
+- name: Upgrade all packages on ubuntu
+  apt:
+    name: "*"
+    state: latest
+  when: linux_os == ubuntu
+
+- name: Update all packages on ubuntu
+  apt:
+    upgrade: dist
+  when: linux_os == ubuntu
 
 - name: Build hosts file
   lineinfile:
@@ -33,3 +46,10 @@
   service:
     name: network
     state: restarted
+  when: linux_os == centos
+
+- name: Restart network service
+  service:
+    name: network
+    state: restarted
+  when: linux_os == ubuntu

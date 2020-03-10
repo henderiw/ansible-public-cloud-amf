@@ -1,3 +1,6 @@
+#kubernetes OS
+linux_os: ubuntu
+
 # cloud user parameters
 cloud_user: henderiw
 cloud_ssh_key_name: paco_rsa
