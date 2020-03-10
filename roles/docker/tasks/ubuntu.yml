@@ -19,7 +19,8 @@
   shell: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
 
 - name: add the Docker repository to APT sources
-  shell: sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+  become: true
+  shell:  add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
 
 - name: install docker-ce
   apt:
@@ -27,3 +28,39 @@
     state: present
   with_items:
     - { pkgname: "docker-ce" }
+
+- name: create /etc/docker directory
+  file:
+    path: /etc/docker
+    state: directory
+
+- name: create file /etc/docker/daemon.json
+  file:
+    path: /etc/docker/daemon.json
+    state: touch
+
+- name: setup /etc/docker/daemon.json
+  template:
+    src: "{{ item }}.j2"
+    dest: "/etc/docker/{{ item }}"
+    mode: 0755
+  with_items:
+    - daemon.json
+
+- name: daemon_reload and docker restart
+  systemd:
+    state: restarted
+    daemon_reload: yes
+    name: docker
+ 
+- name: Add user to docker group
+  user:
+    name: "{{ cloud_user }}"
+    groups: [docker]
+    append: yes
+
+- name: enable service docker and ensure it is not masked
+  systemd:
+    name: docker
+    enabled: yes
+    masked: no
