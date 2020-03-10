@@ -20,6 +20,7 @@ nfs_exports: [ "/mnt/nfs *(rw,sync,no_root_squash)" ]
 
 # kubernetes parameters
 kube_version: 1.16.3
+kube_ubuntu_version: 1.16.3-00
 #kube_version: v1.17.0
 master_ip: 10.1.0.10
 worker_region: region1
