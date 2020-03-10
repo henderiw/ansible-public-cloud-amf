@@ -22,10 +22,19 @@
     state: present
     filename: kubernetes.list
 
+- name: Remove useless packages from the cache
+  apt:
+    autoclean: yes
+
+- name: Remove dependencies that are no longer required
+  apt:
+    autoremove: yes
+
 - name: install kubernetes packages
   apt: 
     name: "{{ item.pkgname }}"
     state: "present"
+    update_cache: yes
   with_items:
     - { pkgname: "kubelet={{kube_ubuntu_version}}" }
     - { pkgname: "kubeadm={{kube_ubuntu_version}}" }
