@@ -2,7 +2,6 @@
 - name: Update all packages on ubuntu
   apt:
     upgrade: dist
-  when: linux_os == "ubuntu"
 
 - name: install packages
   apt:

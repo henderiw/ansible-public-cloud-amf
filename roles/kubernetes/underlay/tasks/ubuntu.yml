@@ -1,0 +1,35 @@
+---
+- name: Update all packages on ubuntu
+  apt:
+    upgrade: dist
+
+- name: install packages
+  apt:
+    name: "{{ item.pkgname }}"
+    state: present
+  with_items:
+    - { pkgname: "apt-transport-https" }
+    - { pkgname: "curl" }
+
+- name: Add an apt signing key for Kubernetes
+  apt_key:
+    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    state: present
+
+- name: Adding apt repository for Kubernetes
+  apt_repository:
+    repo: deb https://apt.kubernetes.io/ kubernetes-xenial main
+    state: present
+    filename: kubernetes.list
+
+- name: install kubernetes packages
+  apt: 
+    name: "{{ item.pkgname }}"
+    state: "present"
+    update_cache: yes
+    allow_downgrade: yes
+  with_items:
+    - { pkgname: "kubelet-{{kube_version}}" }
+    - { pkgname: "kubeadm-{{kube_version}}" }
+    - { pkgname: "kubectl-{{kube_version}}" }
+
