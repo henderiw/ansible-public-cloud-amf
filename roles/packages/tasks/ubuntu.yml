@@ -25,3 +25,14 @@
     - { pkgname: "bind9"}
     - { pkgname: "dnsutils"}
     - { pkgname: "linux-tools-common"}
+
+- name: Upgrade all packages on ubuntu
+  apt:
+    name: "*"
+    state: latest
+  when: linux_os == "ubuntu"
+
+- name: Update all packages on ubuntu
+  apt:
+    upgrade: dist
+  when: linux_os == "ubuntu"
