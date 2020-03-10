@@ -8,7 +8,7 @@
   roles:
     - { role: os, tags: os }
     - { role: swap, tags: swap }
-    #- { role: packages, tags: packages }
+    - { role: packages, tags: packages }
     ##- { role: os-lxcfs, tags: os-lxcfs }
     ##- { role: ping, tags: ping }
     #- { role: ntp, tags: ntp }
