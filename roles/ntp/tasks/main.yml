@@ -35,7 +35,7 @@
 
 - name: Start ntpd on {{ inventory_hostname }}  ubuntu
   service:
-    name: ntpd
+    name: ntp
     state: started
   when: linux_os == "ubuntu"
 
