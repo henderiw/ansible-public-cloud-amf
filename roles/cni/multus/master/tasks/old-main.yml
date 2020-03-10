@@ -1,0 +1,84 @@
+---
+- name: setup network-attachment-definition.yaml
+  template:
+    src: "{{ item }}.j2"
+    dest: "/tmp/{{ item }}"
+    mode: 0755
+  with_items:
+    - network-attachment-definition.yaml
+
+- name: create network attachement in kubernetes
+  shell: kubectl create -f /tmp/network-attachment-definition.yaml
+  register: response
+  changed_when: "'created' in response.stdout"
+  failed_when: "response.rc != 0 and 'already exists' not in response.stderr"
+
+- name: debug output
+  debug: 
+    msg: "{{ response }}"
+
+- name: setup multus-cluster-role.yaml
+  template:
+    src: "{{ item }}.j2"
+    dest: "/tmp/{{ item }}"
+    mode: 0755
+  with_items:
+    - multus-cluster-role.yaml
+
+- name: Multus cluster role
+  shell: kubectl create -f /tmp/multus-cluster-role.yaml
+  register: response
+  changed_when: "'created' in response.stdout"
+  failed_when: "response.rc != 0 and 'already exists' not in response.stderr"
+
+- name: debug output
+  debug: 
+    msg: "{{ response }}"
+
+- name: Worker cluster role binding
+  shell: kubectl create clusterrolebinding multus-node-{{ item }} --clusterrole=multus-crd-overpowered --user=system:node:{{ item }}
+  with_items:
+    - '{{ groups["node"] }}'
+  register: response
+  changed_when: "'created' in response.stdout"
+  failed_when: "response.rc != 0 and 'already exists' not in response.stderr"
+
+- name: debug output
+  debug: 
+    msg: "{{ response }}"
+
+- name: Cluster role binding
+  shell: kubectl create clusterrolebinding multus-node-{{ item }} --clusterrole=multus-crd-overpowered --user=system:node:{{ item }}
+  register: response
+  with_items: "{{ cluster_role_binding.split() }}"
+  changed_when: "'created' in response.stdout"
+  failed_when: "response.rc != 0 and 'already exists' not in response.stderr"
+
+- name: debug output
+  debug: 
+    msg: "{{ response }}"
+
+- name: Show role bindings
+  shell: kubectl get clusterrolebinding | grep compute
+  register: response
+
+- name: debug output
+  debug: 
+    msg: "{{ response }}"
+  
+- name: Show ClusterRole multus
+  shell: kubectl get ClusterRole | grep multus
+  register: response
+
+- name: debug output
+  debug: 
+    msg: "{{ response }}"
+  
+- name: Network policy
+  shell: kubectl label namespace/kube-system permission=talk-to-all
+  register: response
+  failed_when: "response.rc != 0 and 'already' not in response.stderr"
+
+- name: debug output
+  debug: 
+    msg: "{{ response }}"
