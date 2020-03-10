@@ -7,6 +7,10 @@
     - { pkgname: "ntp" }
     - { pkgname: "bridge-utils" }
     - { pkgname: "python3"}
+    - { pkgname: "python3-setuptools"}
+    - { pkgname: "python3-pip"}
+    - { pkgname: "python3-dev"}
+    - { pkgname: "build-essential"}
     - { pkgname: "golang" }
     - { pkgname: "git"}
     - { pkgname: "ansible"}
