@@ -67,19 +67,19 @@
   become: yes
   roles:
     #- { role: kubernetes/nodes, tags: kubernetes/nodes }
-    - { role: cni/multus/master, tags: cni/multus/install }
-    #- { role: nfs/kubernetes, tags: nfs/kubernetes }
-    #- { role: helm, tags: helm }
+    #- { role: cni/multus/master, tags: cni/multus/install }
+    - { role: nfs/kubernetes, tags: nfs/kubernetes }
+    - { role: helm, tags: helm }
     ##- { role: consul, tags: consul }
     ##- { role: rook-ceph, tags: rook-ceph }
-    #- { role: metric-server, tags: metric-server }
-    #- { role: prometheus, tags: prometheus}
-    #- { role: grafana, tags: grafana}
+    - { role: metric-server, tags: metric-server }
+    - { role: prometheus, tags: prometheus}
+    - { role: grafana, tags: grafana}
     ##- { role: sysdig-falco, tags: sysdig-falco}
-    #- { role: log-aggregation, tags: log-aggregation}
+    - { role: log-aggregation, tags: log-aggregation}
     #- { role: istio, tags: istio}
-    #- { role: kubernetes/status, tags: kubernetes/status }
-    #- { role: cmm-spinner, tags: cmm-spinner }
+    - { role: kubernetes/status, tags: kubernetes/status }
+    - { role: cmm-spinner, tags: cmm-spinner }
 
 - hosts: node
   gather_facts: no
