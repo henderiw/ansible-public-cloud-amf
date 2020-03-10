@@ -12,7 +12,7 @@
     - { role: os-lxcfs, tags: os-lxcfs }
     ##- { role: ping, tags: ping }
     - { role: ntp, tags: ntp }
-    #- { role: docker, tags: docker }
+    - { role: docker, tags: docker }
     #- { role: kubernetes/underlay, tags: underlay }
     #- { role: ssh, tags: ssh }
     ## - { role: glusterfs/general, tags: glusterfs-general }

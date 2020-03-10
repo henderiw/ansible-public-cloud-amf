@@ -23,8 +23,9 @@
     state: stopped
   when: linux_os == "ubuntu"
 
-- name: Manually sync time with ntp server on {{ inventory_hostname }}
+- name: Manually sync time with ntp server on {{ inventory_hostname }} centos
   command: ntpdate -u "{{bootstrap_server_ip}}"
+  when: linux_os == "centos"
 
 - name: Start ntpd on {{ inventory_hostname }}  centos
   service:

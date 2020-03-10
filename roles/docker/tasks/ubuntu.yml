@@ -1,0 +1,21 @@
+---
+- name: Update all packages on ubuntu
+  apt:
+    upgrade: dist
+  when: linux_os == "ubuntu"
+
+- name: install  packages
+  apt:
+    name: "{{ item.pkgname }}"
+    state: present
+  with_items:
+    - { pkgname: "apt-transport-https" }
+    - { pkgname: "ca-certificates" }
+    - { pkgname: "curl" }
+    - { pkgname: "software-properties-common" }
+
+- name: add the GPG key for the official Docker repository
+  shell: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
+- name: add the Docker repository to APT sources
+  shell: sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
