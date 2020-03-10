@@ -1,0 +1,32 @@
+---
+- name: install  packages
+  apt:
+    name: "{{ item.pkgname }}"
+    state: present
+  with_items:
+    - { pkgname: "nfs-kernel-server" }
+
+- name: Ensure directory exists for nfs
+  file: 
+    name: "{{ nfs_path }}" 
+    state: directory
+    owner: nobody
+    group: nogroup
+    mode: 0777
+  become: true
+
+- name: Copy exports file.
+  template:
+    src: exports.j2
+    dest: /etc/exports
+    owner: root
+    group: root
+    mode: 0777
+  notify: reload nfs
+
+- name: Ensure nfs is running.
+  service: 
+    name: nfs-kernel-server
+    state: started 
+    enabled: yes
+  when: nfs_exports|length

@@ -30,13 +30,13 @@
   gather_facts: no
   become: yes
   roles:
-    #- { role: nfs/master, tags: nfs/master}
+    - { role: nfs/master, tags: nfs/master}
 
 - hosts: node
   gather_facts: no
   become: yes
   roles:
-    #- { role: nfs/node, tags: nfs/node }
+    - { role: nfs/node, tags: nfs/node }
 
 - hosts: master
   gather_facts: no

@@ -1,0 +1,27 @@
+---
+- name: install  packages
+  yum: 
+    name: "{{ item.pkgname }}"
+    state: "present"
+  with_items:
+    - { pkgname: "nfs-common"  }
+  become: true
+
+- name: Ensure directory exists for nfs
+  file: 
+    name: "{{ nfs_path }}" 
+    state: directory 
+    mode: 0755
+  become: true
+
+- name: Mount NFS share
+  become: true
+  mount:
+    fstype: nfs
+    name: /mnt/nfs
+    #opts: "vers={{ nfs_version }},{{ item.opts | default(nfs_mount_opts) }}"
+    src: "{{ nfs_server }}:{{ nfs_path }}"
+    #dump: "{{ item.dump | default(omit) }}"
+    #passno: "{{ item.passno | default(omit) }}"
+    state: mounted
+  #with_items: "{{ nfs_share_mounts }}"
