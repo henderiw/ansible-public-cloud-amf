@@ -1,7 +1,7 @@
 ---
 - name: setup static-if-ipam ipam
   copy:
-    src: "{{ item }}"
+    src: "/home/{{ cloud_user }}{{ item }}"
     dest: "/opt/cni/bin/{{ item }}"
     mode: "0755"
     remote_src: yes
