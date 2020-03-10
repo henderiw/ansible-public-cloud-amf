@@ -2,12 +2,10 @@
 - name: install packages on centos
   include_tasks: centos.yml
   when: linux_os == "centos"
-  run_once: yes
 
 - name: install packages on ubuntu
   include_tasks: ubuntu.yml
   when: linux_os == "ubuntu"
-  run_once: yes
 
 - name: install pip packages
   pip:

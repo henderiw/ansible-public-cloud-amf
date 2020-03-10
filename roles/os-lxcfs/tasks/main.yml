@@ -2,9 +2,7 @@
 - name: install lxcfs on centos
   include_tasks: centos.yml
   when: linux_os == "centos"
-  run_once: yes
 
 - name: install lxcfs on ubuntu
   include_tasks: ubuntu.yml
   when: linux_os == "ubuntu"
-  run_once: yes
