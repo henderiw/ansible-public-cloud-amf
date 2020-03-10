@@ -74,19 +74,19 @@
 #   until: (response.rc == 0)
 # - debug: msg={{ response }}
   
-- name: Send replicas GET request
-  uri:
-    url: http://{{ elasticsearch_ip_addr }}:{{ elasticsearch_port }}/_template/zeroreplicas?pretty
-    return_content: yes
-    #status: 200
-    use_proxy: no
-    method: GET
-  retries: 10
-  delay: 10
-  register: response
-  until: (response.status == 200)
-- debug: msg={{ response }}
-- debug: msg={{ response.url }}
+# - name: Send replicas GET request
+#   uri:
+#     url: http://{{ elasticsearch_ip_addr }}:{{ elasticsearch_port }}/_template/zeroreplicas?pretty
+#     return_content: yes
+#     #status: 200
+#     use_proxy: no
+#     method: GET
+#   retries: 10
+#   delay: 10
+#   register: response
+#   until: (response.status == 200)
+# - debug: msg={{ response }}
+# - debug: msg={{ response.url }}
   
 - name: Helm install cleanup old indices in Elasticsearch
   shell: helm install stable/elasticsearch-curator --name elasticsearch-curator --namespace kube-system
