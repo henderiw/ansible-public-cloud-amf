@@ -42,8 +42,8 @@
   gather_facts: no
   become: yes
   roles:
-    #- { role: kubernetes/master, tags: master }
-    #- { role: cni/calico, tags: cni/calico }
+    - { role: kubernetes/master, tags: master }
+    - { role: cni/calico, tags: cni/calico }
     #- { role: cni/multus, tags: cni/multus }
     
 - hosts: node
@@ -52,7 +52,7 @@
   become_user: root
   become_method: sudo
   roles:
-    #- { role: kubernetes/node, tags: node }
+    - { role: kubernetes/node, tags: node }
     #- { role: cni/multus/install, tags: cni/multus/install }
 
 - hosts: kube_cluster
@@ -61,13 +61,13 @@
   become_user: root
   become_method: sudo
   roles:
-    #- { role: calicoctl, tags: calicoctl }
+    - { role: calicoctl, tags: calicoctl }
 
 - hosts: master
   gather_facts: no
   become: yes
   roles:
-    #- { role: kubernetes/nodes, tags: kubernetes/nodes }
+    - { role: kubernetes/nodes, tags: kubernetes/nodes }
     #- { role: cni/multus/master, tags: cni/multus/install }
     
 - hosts: node
