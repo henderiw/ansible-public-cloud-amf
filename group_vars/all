@@ -1,9 +1,11 @@
 #kubernetes OS
-linux_os: ubuntu
+#linux_os: ubuntu
+linux_os: centos
 
 # cloud user parameters
 cloud_user: henderiw
-cloud_ssh_key_name: paco_rsa
+#cloud_ssh_key_name: paco_rsa
+cloud_ssh_key_name: my-gce
 
 # environment parameters used for NTP, Docker registry
 bootstrap_server_ip: 10.0.1.10
