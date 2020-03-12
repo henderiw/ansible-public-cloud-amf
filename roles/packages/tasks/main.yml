@@ -12,7 +12,7 @@
     name: "{{ item.pkgname }}"
     state: latest
   loop:
-    - { pkgname: "docker" }
+#    - { pkgname: "docker" }
     - { pkgname: "pexpect" }
     - { pkgname: "python-consul" }
 #    - { pkgname: "python-keyczar" }
