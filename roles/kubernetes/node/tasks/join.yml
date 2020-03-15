@@ -1,7 +1,6 @@
 ---
-
 - name: Reset Kubernetes component
-  shell: "kubeadm reset --force"
+  shell: "kubeadm reset --force --cri-socket /var/run/dockershim.sock"
   register: reset_cluster
 
 - name: Join to Kubernetes cluster
@@ -9,6 +8,7 @@
   shell: |
     kubeadm join --token {{ token }} \
                 --discovery-token-unsafe-skip-ca-verification \
+                --cri-socket /var/run/dockershim.sock \
                 {{ master_ip }}:6443
   register: join_cluster
   notify:
