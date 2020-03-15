@@ -1,6 +1,6 @@
 #kubernetes OS
-linux_os: ubuntu
-#linux_os: centos
+#linux_os: ubuntu
+linux_os: centos
 
 # cloud user parameters
 cloud_user: henderiw
