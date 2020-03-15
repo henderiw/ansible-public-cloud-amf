@@ -7,7 +7,10 @@
 - name: Git clone https://github.com/kubernetes-incubator/metrics-server.git
   shell: git clone https://github.com/kubernetes-incubator/metrics-server.git
   register: response
-- debug: msg={{ response}}
+
+- name: debug response
+  debug: 
+    msg: "{{ response }}"
 
 - name: Upload metrics-server-deployment.yaml and metrics-server-service.yaml
   template:
@@ -34,13 +37,19 @@
   shell: kubectl create -f metrics-server/deploy/kubernetes/
   register: response
   failed_when: "response.rc != 0 and 'already exists' not in response.stderr"
-- debug: msg={{ response }}
+
+- name: debug response
+  debug: 
+    msg: "{{ response }}"
   
 - name: Pause for 20 seconds
   pause:
-    seconds: 20
+    seconds: "20"
 
 - name: Check for metrics server
   shell: kubectl get pods -n kube-system -o wide | grep metrics-server
   register: response
-- debug: msg={{ response }}
+
+- name: debug response
+  debug: 
+    msg: "{{ response }}"
