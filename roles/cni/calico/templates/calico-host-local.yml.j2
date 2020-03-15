@@ -789,14 +789,3 @@ metadata:
 
 ---
 # Source: calico/templates/configure-canal.yaml
-
-
-
----
-apiVersion: projectcalico.org/v3
-kind: BGPPeer
-metadata:
-  name: bgppeer-global-3040
-spec:
-  peerIP: {{ bootstrap_server_ip }}
-  asNumber: 65000

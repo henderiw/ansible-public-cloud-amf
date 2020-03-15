@@ -10,7 +10,7 @@
       template:
         src: "{{ item }}"
         dest: "{{ network_dir }}/{{ item | basename | regex_replace('\\.j2','') }}"
-      with_fileglob:
+      with_items:
         - ../templates/calico-host-local.yml.j2
         - ../templates/calico-bgpconfiguration.yml.j2
         - ../templates/calico-bgppeer.yml.j2
