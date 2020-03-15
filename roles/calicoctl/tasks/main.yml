@@ -36,6 +36,7 @@
     line: "export KUBECONFIG=~/.kube/config"
 
 - name: Download calicoctl
+  become: true
   get_url:
     url: 'https://github.com/projectcalico/calicoctl/releases/download/v3.8.1/calicoctl'
     dest: '/usr/local/bin'
