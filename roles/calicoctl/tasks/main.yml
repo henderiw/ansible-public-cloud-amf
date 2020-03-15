@@ -52,11 +52,14 @@
       with_items:
         - calico-bgpconfiguration.yml.j2
         - calico-bgppeer.yml.j2
+      delegate_to: "{{ groups['master'][0] }}"
+      run_once: true
       when: network == "calico"
 
     - name: "Create {{ network }} calico-bgpconfiguration.yml"
       command: calicoctl create -f {{ network_dir }}/calico-bgpconfiguration.yml
       delegate_to: "{{ groups['master'][0] }}"
+      run_once: true
       register: response
       failed_when: "response.rc != 0 and 'already exists' not in response.stderr"
       when: network == "calico"
@@ -64,6 +67,7 @@
     - name: "Create {{ network }} calico-bgppeer.yml"
       command: calicoctl create -f {{ network_dir }}/calico-bgppeer.yml
       delegate_to: "{{ groups['master'][0] }}"
+      run_once: true
       register: response
       failed_when: "response.rc != 0 and 'already exists' not in response.stderr"
       when: network == "calico"
