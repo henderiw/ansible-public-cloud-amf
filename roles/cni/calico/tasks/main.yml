@@ -12,8 +12,6 @@
         dest: "{{ network_dir }}/{{ item | basename | regex_replace('\\.j2','') }}"
       with_items:
         - calico-host-local.yml.j2
-        - calico-bgpconfiguration.yml.j2
-        - calico-bgppeer.yml.j2
       when: network == "calico"
     
     - name: "Check calico daemonset is working"
@@ -34,27 +32,16 @@
     - name: Pause for 20 seconds
       pause:
         seconds: "20"
+      when: network == "calico"
 
     - name: Check calico is running
       shell: kubectl get pods -n kube-system -o wide | grep calico-kube-controllers
       register: response
+      when: network == "calico"
 
     - name: debug response
       debug: 
         msg: "{{ response }}"
-    
-    - name: "Create {{ network }} calico-bgpconfiguration.yml"
-      command: kubectl apply --kubeconfig={{ kubeadmin_config }} -f {{ network_dir }}/calico-bgpconfiguration.yml
-      delegate_to: "{{ groups['master'][0] }}"
-      register: response
-      failed_when: "response.rc != 0 and 'already exists' not in response.stderr"
-      when: network == "calico"
-    
-    - name: "Create {{ network }} calico-bgppeer.yml"
-      command: kubectl apply --kubeconfig={{ kubeadmin_config }} -f {{ network_dir }}/calico-bgppeer.yml
-      delegate_to: "{{ groups['master'][0] }}"
-      register: response
-      failed_when: "response.rc != 0 and 'already exists' not in response.stderr"
       when: network == "calico"
   
 

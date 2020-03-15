@@ -4,6 +4,37 @@
     path: ~/.bashrc 
     line: "export PATH=$PATH:/usr/local/bin"
 
+- name: adding calicoctl datastore in ~/.bashrc
+  lineinfile: 
+    path: ~/.bashrc 
+    line: "export DATASTORE_TYPE=kubernetes"
+
+- name: adding calicoctl env in ~/.bashrc
+  lineinfile: 
+    path: ~/.bashrc 
+    line: "export KUBECONFIG=~/.kube/config"
+
+- name: adding path in ~/.bashrc
+  become: true
+  become_user: root
+  lineinfile: 
+    path: ~/.bashrc 
+    line: "export PATH=$PATH:/usr/local/bin"
+
+- name: adding calicoctl datastore in ~/.bashrc
+  become: true
+  become_user: root
+  lineinfile: 
+    path: ~/.bashrc 
+    line: "export DATASTORE_TYPE=kubernetes"
+
+- name: adding calicoctl env in ~/.bashrc
+  become: true
+  become_user: root
+  lineinfile: 
+    path: ~/.bashrc 
+    line: "export KUBECONFIG=~/.kube/config"
+
 - name: Download calicoctl
   get_url:
     url: 'https://github.com/projectcalico/calicoctl/releases/download/v3.8.1/calicoctl'
@@ -11,3 +42,27 @@
     mode: 0755
     use_proxy: yes
 
+- name: install calico cni
+  block:
+    - name: "Copy calico YAML files"
+      template:
+        src: "{{ item }}"
+        dest: "{{ network_dir }}/{{ item | basename | regex_replace('\\.j2','') }}"
+      with_items:
+        - calico-bgpconfiguration.yml.j2
+        - calico-bgppeer.yml.j2
+      when: network == "calico"
+
+    - name: "Create {{ network }} calico-bgpconfiguration.yml"
+      command: calicoctl create -f {{ network_dir }}/calico-bgpconfiguration.yml
+      delegate_to: "{{ groups['master'][0] }}"
+      register: response
+      failed_when: "response.rc != 0 and 'already exists' not in response.stderr"
+      when: network == "calico"
+    
+    - name: "Create {{ network }} calico-bgppeer.yml"
+      command: calicoctl create -f {{ network_dir }}/calico-bgppeer.yml
+      delegate_to: "{{ groups['master'][0] }}"
+      register: response
+      failed_when: "response.rc != 0 and 'already exists' not in response.stderr"
+      when: network == "calico"
