@@ -38,6 +38,31 @@
 - name: debug response
   debug: 
     msg: "{{ partitions }}"
+
+- name: symbolic link check
+  stat:
+    path: /path/to/something
+  register: sym
+
+- name: debug output
+  debug:
+    msg: "islnk isn't defined (path doesn't exist)"
+  when: sym.stat.islnk is not defined
+
+- name: debug output
+  debug:
+    msg: "islnk is defined (path must exist)"
+  when: sym.stat.islnk is defined
+
+- name: debug output
+  debug:
+    msg: "Path exists and is a symlink"
+  when: sym.stat.islnk is defined and sym.stat.islnk
+
+- name: debug output
+  debug:
+    msg: "Path exists and isn't a symlink"
+  when: sym.stat.islnk is defined and sym.stat.islnk == False
   
 - name: Remove all partitions on {{ disk }}
   become: true
