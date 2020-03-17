@@ -11,16 +11,6 @@
   debug: 
     msg: "{{ service }}"
 
-- name: Status glusterd
-  become: true
-  shell: systemctl status glusterd
-  register: response
-  ignore_errors: yes
-
-- name: debug response
-  debug: 
-    msg: "{{ response }}"
-
 - name: symbolic link check
   stat:
     path: "{{ disk }}"
