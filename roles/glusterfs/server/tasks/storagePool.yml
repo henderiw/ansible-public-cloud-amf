@@ -35,10 +35,11 @@
   debug: 
     msg: "{{ response }}"
 
-# - name: create the installation directory
-#   file:
-#     path: "{{ glusterfs_distributed }}"
-#     state: directory
+- name: Create a directory glusterfs distributed if it does not exist
+  file:
+    path: "{{ glusterfs_distributed }}"
+    state: directory
+    mode: '0777'
 
 - name: create the distributed glusterfs volume named 'vol01'
   become: true
