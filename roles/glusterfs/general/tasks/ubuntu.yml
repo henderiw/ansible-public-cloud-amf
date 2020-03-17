@@ -25,3 +25,19 @@
     name: ['glusterfs-server', 'glusterfs-client']
     state: present
     default_release: "{{ glusterfs_default_release }}"
+
+- name: Stop and disable gulsterfs
+  become: true
+  service:
+    name: glusterfs-server
+    state: started
+    enabled: no
+  register: service
+
+- name: Stop and disable gulsterfs
+  become: true
+  service:
+    name: glusterd
+    state: started
+    enabled: no
+  register: service
