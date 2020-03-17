@@ -33,16 +33,21 @@
 - name: debug output
   debug:
     msg: "Path exists and is a symlink"
-  when: sym.stat.islnk is defined and sym.stat.islnk
+  when: sym.stat.islnk is defined and sym.stat.islnk  
+  
+- name: set facts
   set_fact: 
     real_disk: sym.stat.lnk_source
+  when: sym.stat.islnk is defined and sym.stat.islnk  
+  
 
 - name: debug output
   debug:
     msg: "Path exists and isn't a symlink"
-  when: sym.stat.islnk is defined and sym.stat.islnk == False
   set_fact: 
     real_disk: "{{ disk }}"
+  when: sym.stat.islnk is defined and sym.stat.islnk == False
+  
 
 - name: debug output real disk
   debug:
