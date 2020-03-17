@@ -26,7 +26,7 @@
     state: present
     default_release: "{{ glusterfs_default_release }}"
 
-- name: Stop and disable gulsterfs
+- name: Start and disable gulsterfs
   become: true
   service:
     name: glusterd
