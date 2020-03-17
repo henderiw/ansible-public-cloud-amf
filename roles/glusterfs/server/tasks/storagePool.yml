@@ -35,37 +35,37 @@
   debug: 
     msg: "{{ response }}"
 
-- name: Create a directory glusterfs distributed if it does not exist
-  file:
-    path: "{{ glusterfs_distributed }}"
-    state: directory
-    mode: '0777'
+# - name: Create a directory glusterfs distributed if it does not exist
+#   file:
+#     path: "{{ glusterfs_distributed }}"
+#     state: directory
+#     mode: '0777'
 
-- name: create the distributed glusterfs volume named 'vol01'
-  become: true
-  command: gluster volume create vol01 replica 3 transport tcp {{ groups['glusterfs'][0] }}:/glusterfs/distributed {{ groups['glusterfs'][1] }}:/glusterfs/distributed {{ groups['glusterfs'][2] }}:/glusterfs/distributed force
-  delegate_to: "{{ groups['glusterfs'][0] }}"
-  register: response
-  failed_when: "response.rc != 0 and 'already exist' not in response.stderr"
+# - name: create the distributed glusterfs volume named 'vol01'
+#   become: true
+#   command: gluster volume create vol01 replica 3 transport tcp {{ groups['glusterfs'][0] }}:/glusterfs/distributed {{ groups['glusterfs'][1] }}:/glusterfs/distributed {{ groups['glusterfs'][2] }}:/glusterfs/distributed force
+#   delegate_to: "{{ groups['glusterfs'][0] }}"
+#   register: response
+#   failed_when: "response.rc != 0 and 'already exist' not in response.stderr"
 
-- name: gluster volume start vol01
-  become: true
-  command: gluster volume start vol01
-  delegate_to: "{{ groups['glusterfs'][0] }}"
-  register: response
-  failed_when: "response.rc != 0 and 'already started' not in response.stderr"
+# - name: gluster volume start vol01
+#   become: true
+#   command: gluster volume start vol01
+#   delegate_to: "{{ groups['glusterfs'][0] }}"
+#   register: response
+#   failed_when: "response.rc != 0 and 'already started' not in response.stderr"
 
-- name: debug response
-  debug: 
-    msg: "{{ response }}"
+# - name: debug response
+#   debug: 
+#     msg: "{{ response }}"
 
-- name: gluster volume info vol01
-  become: true
-  command: gluster volume info vol01
-  register: response
+# - name: gluster volume info vol01
+#   become: true
+#   command: gluster volume info vol01
+#   register: response
 
-- name: debug response
-  debug: 
-    msg: "{{ response }}"
+# - name: debug response
+#   debug: 
+#     msg: "{{ response }}"
 
 

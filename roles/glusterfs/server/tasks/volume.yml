@@ -1,16 +1,19 @@
 - name: create gluster volume
   gluster_volume:
     state: present
-    name: gv0
-    bricks: /data/brick1/gv0
+    name: vol01
+    bricks: "{{ glusterfs_distributed }}"
     rebalance: yes
     cluster:
-      - worker0
-      - worker1
-      - worker2
+      - "{{ groups['glusterfs'][0] }}"
+      - "{{ groups['glusterfs'][1] }}"
+      - "{{ groups['glusterfs'][2] }}"
   run_once: true
+  delegate_to: "{{ groups['glusterfs'][0] }}"
 
 - name: start gluster volume
   gluster_volume:
     state: started
-    name: gv0
+    name: vol01
+  register: response
+

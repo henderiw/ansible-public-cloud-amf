@@ -196,6 +196,6 @@
 - name: create a trusted storage pool
   include_tasks: storagePool.yml
 
-# - name: create volume tasks
-#   include_tasks: volume.yml
-#   run_once: yes
+- name: create volume tasks
+  include_tasks: volume.yml
+  run_once: yes
