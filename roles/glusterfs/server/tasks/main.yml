@@ -37,7 +37,7 @@
   
 - name: set facts
   set_fact: 
-    real_disk: sym.stat.lnk_source
+    real_disk: "{{ sym.stat.lnk_source }}"
   when: sym.stat.islnk is defined and sym.stat.islnk  
   
 - name: debug output
