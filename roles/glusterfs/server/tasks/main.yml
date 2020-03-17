@@ -46,7 +46,7 @@
 
 - name: debug output
   debug:
-    msg: sym
+    msg: "{{ sym }}"
 
 - name: debug output
   debug:
