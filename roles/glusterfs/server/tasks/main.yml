@@ -41,7 +41,7 @@
 
 - name: symbolic link check
   stat:
-    path: /path/to/something
+    path: "{{ disk }}"
   register: sym
 
 - name: debug output
