@@ -46,6 +46,10 @@
 
 - name: debug output
   debug:
+    msg: sym
+
+- name: debug output
+  debug:
     msg: "islnk isn't defined (path doesn't exist)"
   when: sym.stat.islnk is not defined
 
