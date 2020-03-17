@@ -18,7 +18,7 @@
       mount:
         path: /data/
         src: "{{ disk }}"
-        fstype: "{{ fstype }}"
+        fstype: ext4
         opts: "rw"
         state: present
 
@@ -26,7 +26,7 @@
       mount:
         path: /data/
         src: "{{ disk }}"
-        fstype: "{{ fstype }}"
+        fstype: ext4
         state: mounted
 
     - name: Create a directory /data/brick1/gv0 if it does not exist
