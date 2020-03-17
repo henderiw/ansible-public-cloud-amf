@@ -1,4 +1,47 @@
 ---
+- name: Stop and disable gulsterfs
+  become: true
+  service:
+    name: glusterfs-server
+    state: stopped
+    enabled: no
+  register: service
+
+- name: debug response
+  debug: 
+    msg: "{{ service }}"
+
+- name: Stop and disable gulsterd
+  become: true
+  service:
+    name: glusterd
+    state: stopped
+    enabled: no
+  register: service
+
+- name: debug response
+  debug: 
+    msg: "{{ service }}"
+
+- name: Status glusterfs
+  become: true
+  shell: systemctl status glusterd
+  register: response
+  ignore_errors: yes
+
+- name: debug response
+  debug: 
+    msg: "{{ response }}"
+
+- name: fdisk list
+  become: true
+  shell: fdisk -l
+  register: response
+  
+- name: debug response
+  debug: 
+    msg: "{{ response }}"
+
 - name: Get current partitions on {{ disk }}
   parted:
       device: "{{ disk }}"
@@ -28,7 +71,7 @@
 - name: Create a {{ fstype }} filesystem on {{ disk }}
   become: true
   filesystem:
-    fstype: "{{ fstype }}"
+    fstype: ext4
     force: yes
     dev: "{{ disk }}"
   when: "disk_checked.stdout == 0"
@@ -41,29 +84,35 @@
   debug: 
     msg: "{{ response }}"
   
-# - name: Load kernel modules
-#   become: true
-#   modprobe:
-#     name: "{{ item }}"
-#     state: present
-#   with_items: "{{ kernel_modules.split() }}"
+- name: Load kernel modules
+  become: true
+  modprobe:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ kernel_modules.split() }}"
     
-# - name: Make kernel modules persistent
-#   become: true
-#   lineinfile:
-#     path: /etc/modules
-#     line: "{{ item }}"
-#   with_items: "{{ kernel_modules.split() }}"
+- name: Make kernel modules persistent
+  become: true
+  lineinfile:
+    path: /etc/modules
+    line: "{{ item }}"
+  with_items: "{{ kernel_modules.split() }}"
     
-# - name: Show content of /etc/modules
-#   shell: cat /etc/modules
-#   register: response
-# - debug: msg={{ response }}
+- name: Show content of /etc/modules
+  shell: cat /etc/modules
+  register: response
+
+- name: debug response
+  debug: 
+    msg: "{{ response }}"
   
-# - name: Show dm_ loaded kernel modules
-#   shell: lsmod | grep dm_
-#   register: response
-# - debug: msg={{ response }}
+- name: Show dm_ loaded kernel modules
+  shell: lsmod | grep dm_
+  register: response
+
+- name: debug response
+  debug: 
+    msg: "{{ response }}"
   
 - name: Remove /etc/systemd/system/custom-iptables.service
   become: true
@@ -118,14 +167,13 @@
   shell: iptables -S HEKETI
   register: response
 
-
 - name: create fstab directory tasks
   include_tasks: directory.yml
 
-- name: create gluster peer setup
-  include_tasks: peer.yml
-  run_once: yes
+# - name: create gluster peer setup
+#   include_tasks: peer.yml
+#   run_once: yes
 
-- name: create volume tasks
-  include_tasks: volume.yml
-  run_once: yes
+# - name: create volume tasks
+#   include_tasks: volume.yml
+#   run_once: yes

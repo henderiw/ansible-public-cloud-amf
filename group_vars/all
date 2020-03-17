@@ -11,15 +11,14 @@ cloud_ssh_key_name: paco_rsa
 bootstrap_server_ip: 10.0.1.10
 #bootstrap_server_ip: 10.132.0.16
 
-# cloud disk parameters
-disk: /dev/disk/azure/scsi1/lun0
-fstype: ext4
-kernel_modules: "dm_snapshot dm_mirror dm_thin_pool"
-
 # nfs
 nfs_server: master0
 nfs_path: /mnt/nfs
 nfs_exports: [ "/mnt/nfs *(rw,sync,no_root_squash)" ]
+
+# cloud disk parameters
+disk: /dev/disk/azure/scsi1/lun0
+kernel_modules: "dm_snapshot dm_mirror dm_thin_pool"
 
 # glusterfs
 glusterfs_daemon: glusterd
