@@ -1,19 +1,19 @@
 ---
 - name: gluster peer probe 1
   become: true
-  command: gluster peer probe groups['glusterfs'][1]
+  command: gluster peer probe {{groups['glusterfs'][1]}}
   delegate_to: "{{ groups['glusterfs'][0] }}"
   run_once: true
 
 - name: gluster peer probe 2
   become: true
-  command: gluster peer probe groups['glusterfs'][2]
+  command: gluster peer probe {{groups['glusterfs'][2]}}
   delegate_to: "{{ groups['glusterfs'][0] }}"
   run_once: true
 
 - name: gluster peer probe 3
   become: true
-  command: gluster peer probe groups['glusterfs'][2]
+  command: gluster peer probe {{groups['glusterfs'][2]}}
   delegate_to: "{{ groups['glusterfs'][1] }}"
   run_once: true
 
