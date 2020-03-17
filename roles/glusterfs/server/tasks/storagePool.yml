@@ -47,10 +47,10 @@
   register: response
   failed_when: "response.rc != 0 and 'already exist' not in response.stderr"
 
-
 - name: gluster volume start vol01
   become: true
   command: gluster volume start vol01
+  delegate_to: "{{ groups['glusterfs'][0] }}"
   register: response
   failed_when: "response.rc != 0 and 'already started' not in response.stderr"
 
