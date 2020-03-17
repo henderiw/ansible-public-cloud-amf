@@ -21,6 +21,33 @@
   debug: 
     msg: "{{ response }}"
 
+- name: symbolic link check
+  stat:
+    path: "{{ disk }}"
+  register: sym
+
+- name: debug output
+  debug:
+    msg: "{{ sym }}"
+
+- name: debug output
+  debug:
+    msg: "Path exists and is a symlink"
+  when: sym.stat.islnk is defined and sym.stat.islnk
+  set_fact: 
+    real_disk: sym.stat.lnk_source
+
+- name: debug output
+  debug:
+    msg: "Path exists and isn't a symlink"
+  when: sym.stat.islnk is defined and sym.stat.islnk == False
+  set_fact: 
+    real_disk: "{{ disk }}"
+
+- name: debug output real disk
+  debug:
+    msg: "{{ real_disk }}"
+
 - name: fdisk list
   become: true
   shell: fdisk -l
@@ -38,35 +65,6 @@
 - name: debug response
   debug: 
     msg: "{{ partitions }}"
-
-- name: symbolic link check
-  stat:
-    path: "{{ disk }}"
-  register: sym
-
-- name: debug output
-  debug:
-    msg: "{{ sym }}"
-
-- name: debug output
-  debug:
-    msg: "islnk isn't defined (path doesn't exist)"
-  when: sym.stat.islnk is not defined
-
-- name: debug output
-  debug:
-    msg: "islnk is defined (path must exist)"
-  when: sym.stat.islnk is defined
-
-- name: debug output
-  debug:
-    msg: "Path exists and is a symlink"
-  when: sym.stat.islnk is defined and sym.stat.islnk
-
-- name: debug output
-  debug:
-    msg: "Path exists and isn't a symlink"
-  when: sym.stat.islnk is defined and sym.stat.islnk == False
   
 - name: Remove all partitions on {{ disk }}
   become: true
