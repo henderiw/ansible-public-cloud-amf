@@ -34,3 +34,33 @@
 - name: debug response
   debug: 
     msg: "{{ response }}"
+
+- name: create the installation directory
+  file:
+    path: "{{ glusterfs_distributed }}"
+    state: directory
+
+- name: create the distributed glusterfs volume named 'vol01'
+  become: true
+  command: gluster volume create vol01 replica 3 transport tcp {{ groups['glusterfs'][0] }}:/glusterfs/distributed {{ groups['glusterfs'][1] }}:/glusterfs/distributed {{ groups['glusterfs'][2] }}:/glusterfs/distributed force
+  delegate_to: "{{ groups['glusterfs'][0] }}"
+
+- name: gluster volume start vol01
+  become: true
+  command: gluster volume start vol01
+  register: response
+
+- name: debug response
+  debug: 
+    msg: "{{ response }}"
+
+- name: gluster volume info vol01
+  become: true
+  command: gluster volume info vol01
+  register: response
+
+- name: debug response
+  debug: 
+    msg: "{{ response }}"
+
+
