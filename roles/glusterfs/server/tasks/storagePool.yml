@@ -45,7 +45,7 @@
   command: gluster volume create vol01 replica 3 transport tcp {{ groups['glusterfs'][0] }}:/glusterfs/distributed {{ groups['glusterfs'][1] }}:/glusterfs/distributed {{ groups['glusterfs'][2] }}:/glusterfs/distributed force
   delegate_to: "{{ groups['glusterfs'][0] }}"
   register: response
-  ailed_when: "response.rc != 0 and 'already exists' not in response.stderr"
+  failed_when: "response.rc != 0 and 'already exists' not in response.stderr"
 
 - name: gluster volume start vol01
   become: true
