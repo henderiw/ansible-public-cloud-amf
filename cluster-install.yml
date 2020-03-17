@@ -19,12 +19,21 @@
 
 - name: Setup glusterfs server 
   hosts: glusterfs
-  gather_facts: yes
+  gather_facts: no
   become: yes
   become_user: root
   become_method: sudo
   roles:
-    - { role: glusterfs/server, tags: glusterfs-server }
+    - { role: glusterfs/server, tags: glusterfs/server }
+
+- name: Setup glusterfs client 
+  hosts: kube_cluster
+  gather_facts: no
+  become: yes
+  become_user: root
+  become_method: sudo
+  roles:
+    - { role: glusterfs/client, tags: glusterfs/client }
 
 - hosts: master
   gather_facts: no

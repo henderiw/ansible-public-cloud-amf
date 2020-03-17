@@ -1,0 +1,40 @@
+---
+- name: Create a directory /mnt/glusterfs
+  file:
+    path: /mnt/glusterfs
+    state: directory
+    mode: '0777'
+
+- name: Check if drives are already mounted
+  shell: df | grep "/mnt/glusterfs/" | wc -l
+  register: disk_checked
+
+- name: debug output
+  debug: 
+    msg: "{{ disk_checked }}"
+
+- name: create fstab, mount and directory
+  block:
+    - name: update fstab to mount directory
+      mount:
+        path: "/mnt/glusterfs/"
+        src: "{{ groups['glusterfs'][0] }}:/vol01"
+        fstype: glusterfs
+        opts: "defaults,_netdev 0 0"
+        state: present
+
+    - name: Mount and bind a volume
+      mount:
+        path: "/mnt/glusterfs/"
+        src: "{{ groups['glusterfs'][0] }}:/vol01"
+        fstype: glusterfs
+        state: mounted
+  when: 'disk_checked.stdout == "0"'
+
+- name: df -h /mnt/glusterfs
+  command: df -h /mnt/glusterfs
+  register: response
+
+- name: debug response
+  debug:
+    msg: "{{ response }}"
