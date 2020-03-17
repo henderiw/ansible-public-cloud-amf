@@ -24,7 +24,7 @@
   become_user: root
   become_method: sudo
   roles:
-    #- { role: glusterfs/server, tags: glusterfs/server }
+    - { role: glusterfs/server, tags: glusterfs/server }
 
 - name: Setup glusterfs client 
   hosts: kube_cluster
@@ -33,7 +33,7 @@
   become_user: root
   become_method: sudo
   roles:
-    - { role: glusterfs/client, tags: glusterfs/client }
+    #- { role: glusterfs/client, tags: glusterfs/client }
 
 - hosts: master
   gather_facts: no
