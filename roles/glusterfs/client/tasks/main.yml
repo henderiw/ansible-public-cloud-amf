@@ -32,3 +32,9 @@
 - name: debug response
   debug:
     msg: "{{ response }}"
+
+- name: Create a /mnt/glusterfs
+  file:
+    path: /mnt/glusterfs
+    state: directory
+    mode: '0777'
