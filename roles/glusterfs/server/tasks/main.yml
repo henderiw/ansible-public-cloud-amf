@@ -63,16 +63,16 @@
   debug: 
     msg: "{{ response }}"
 
-- name: Get current partitions on {{ disk }}
+- name: Get current partitions on real disk
   parted:
-      device: "{{ disk }}"
+      device: "{{ real_disk }}"
   register: partitions
 
 - name: debug response
   debug: 
     msg: "{{ partitions }}"
   
-- name: Remove all partitions on {{ disk }}
+- name: Remove all partitions on disk
   become: true
   shell: dd if=/dev/zero of="{{ disk }}" bs=512 count=10
   register: response
@@ -82,14 +82,14 @@
     msg: "{{ response }}"
 
 - name: Check if drives are already mounted
-  shell: df | grep "{{ disk }}" | wc -l
+  shell: df | grep "{{ real_disk }}" | wc -l
   register: disk_checked
 
 - name: debug output
   debug: 
     msg: "{{ disk_checked }}"
 
-- name: Create a {{ fstype }} filesystem on {{ disk }}
+- name: Create a filesystem on the disk
   become: true
   filesystem:
     fstype: ext4
@@ -97,7 +97,7 @@
     dev: "{{ disk }}"
   when: 'disk_checked.stdout == "0"'
       
-- name: List block device for {{ disk }}
+- name: List block device for
   shell: lsblk -f "{{ disk }}"
   register: response
 
