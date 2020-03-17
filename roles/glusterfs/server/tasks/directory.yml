@@ -5,7 +5,7 @@
 #     state: unmounted
 
 - name: Check if drives are already mounted
-  shell: df | grep "{{ disk }}" | wc -l
+  shell: df | grep "{{ real_disk }}" | wc -l
   register: disk_checked
 
 - name: debug output
