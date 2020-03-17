@@ -29,14 +29,6 @@
 - name: Stop and disable gulsterfs
   become: true
   service:
-    name: glusterfs-server
-    state: started
-    enabled: no
-  register: service
-
-- name: Stop and disable gulsterfs
-  become: true
-  service:
     name: glusterd
     state: started
     enabled: no

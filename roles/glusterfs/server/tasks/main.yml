@@ -1,16 +1,4 @@
 ---
-- name: Stop and disable gulsterfs
-  become: true
-  service:
-    name: glusterfs-server
-    state: stopped
-    enabled: no
-  register: service
-
-- name: debug response
-  debug: 
-    msg: "{{ service }}"
-
 - name: Stop and disable gulsterd
   become: true
   service:
@@ -23,7 +11,7 @@
   debug: 
     msg: "{{ service }}"
 
-- name: Status glusterfs
+- name: Status glusterd
   become: true
   shell: systemctl status glusterd
   register: response
