@@ -62,7 +62,7 @@
     fstype: ext4
     force: yes
     dev: "{{ disk }}"
-  when: "disk_checked.stdout == 0"
+  when: 'disk_checked.stdout == "0"'
       
 - name: List block device for {{ disk }}
   shell: lsblk -f "{{ disk }}"

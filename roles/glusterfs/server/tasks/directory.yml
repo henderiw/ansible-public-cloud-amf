@@ -34,4 +34,4 @@
         path: /data/brick1/gv0
         state: directory
         mode: '0755'
-  when: "disk_checked.stdout == 0"
+  when: 'disk_checked.stdout == "0"'
