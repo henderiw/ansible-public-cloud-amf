@@ -16,7 +16,7 @@
   block:
     - name: update fstab to mount directory
       mount:
-        path: /data/
+        path: /glusterfs/
         src: "{{ disk }}"
         fstype: ext4
         opts: "rw"
@@ -24,14 +24,14 @@
 
     - name: Mount and bind a volume
       mount:
-        path: /data/
+        path: /glusterfs/
         src: "{{ disk }}"
         fstype: ext4
         state: mounted
 
     - name: Create a directory /data/brick1/gv0 if it does not exist
       file:
-        path: /data/brick1/gv0
+        path: {{ glusterfs_distributed }}
         state: directory
-        mode: '0755'
+        mode: '0777'
   when: 'disk_checked.stdout == "0"'

@@ -190,6 +190,9 @@
   debug: 
     msg: "{{ service }}"
 
+- name: create directory mount to disk
+  include_tasks: directory.yml
+
 - name: create a trusted storage pool
   include_tasks: storagePool.yml
 
