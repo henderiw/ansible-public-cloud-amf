@@ -35,12 +35,6 @@
   debug: 
     msg: "{{ response }}"
 
-# - name: Create a directory glusterfs distributed if it does not exist
-#   file:
-#     path: "{{ glusterfs_distributed }}"
-#     state: directory
-#     mode: '0777'
-
 # - name: create the distributed glusterfs volume named 'vol01'
 #   become: true
 #   command: gluster volume create vol01 replica 3 transport tcp {{ groups['glusterfs'][0] }}:/glusterfs/distributed {{ groups['glusterfs'][1] }}:/glusterfs/distributed {{ groups['glusterfs'][2] }}:/glusterfs/distributed force

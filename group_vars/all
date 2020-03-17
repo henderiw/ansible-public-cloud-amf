@@ -30,7 +30,7 @@ glusterfs_ppa_version: "7"
 glusterfs_gpg_key_version: "7"
 glusterfs_deb_version: "LATEST"
 # directories
-glusterfs_distributed: /glusterfs/distributed
+glusterfs_distributed: /glusterfs/distributed/
 
 # kubernetes parameters
 kube_version: 1.16.3
