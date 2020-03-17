@@ -3,6 +3,7 @@
   parted:
       device: "{{ disk }}"
   register: partitions
+
 - name: debug response
   debug: 
     msg: "{{ partitions }}"
@@ -11,6 +12,7 @@
   become: true
   shell: dd if=/dev/zero of="{{ disk }}" bs=512 count=10
   register: response
+
 - name: debug response
   debug: 
     msg: "{{ response }}"
@@ -18,7 +20,10 @@
 - name: Check if drives are already mounted
   shell: df | grep "{{ disk }}" | wc -l
   register: disk_checked
-- debug: msg="{{disk_checked}}"
+
+- name: debug output
+  debug: 
+    msg: "{{ disk_checked }}"
 
 - name: Create a {{ fstype }} filesystem on {{ disk }}
   become: true
@@ -31,7 +36,10 @@
 - name: List block device for {{ disk }}
   shell: lsblk -f "{{ disk }}"
   register: response
-- debug: msg={{ response }}
+
+- name: debug response
+  debug: 
+    msg: "{{ response }}"
   
 # - name: Load kernel modules
 #   become: true
@@ -109,7 +117,7 @@
   become: true
   shell: iptables -S HEKETI
   register: response
-- debug: msg={{ response }}
+
 
 - name: create fstab directory tasks
   include_tasks: directory.yml

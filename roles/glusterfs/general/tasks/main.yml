@@ -1,31 +1,8 @@
 ---
-- name: install glusterfs
-  yum: 
-    name: "{{ item.pkgname }}"
-    state: "present"
-  with_items:
-    - { pkgname: "centos-release-gluster"  }
-    - { pkgname: "glusterfs-server"  }
-    - { pkgname: "glusterfs-cli"  }
-    - { pkgname: "glusterfs-geo-replication"  }
-    - { pkgname: "glusterfs-fuse"  }
-    - { pkgname: "glusterfs"  }
+- name: general glusterfs on centos
+  include_tasks: centos.yml
+  when: linux_os == "centos"
 
-- name: Start the glusterd service if running
-  systemd:
-    name: glusterd
-    state: started
-  register: status
-- debug: msg="{{ status }}"
-
-- name: Start the glusterd service if running
-  systemd:
-    name: glusterfsd
-    state: started
-  register: status
-- debug: msg="{{ status }}"
-
-# - name: Read device information (always use unit when probing)
-#   parted: device={{ disk }} unit=MiB
-#   register: disk_info
-# - debug: msg="{{ disk_info }}"
+- name: general glusterfs on ubuntu
+  include_tasks: ubuntu.yml
+  when: linux_os == "ubuntu"

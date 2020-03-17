@@ -1,6 +1,6 @@
 #kubernetes OS
-#linux_os: ubuntu
-linux_os: centos
+linux_os: ubuntu
+#linux_os: centos
 
 # cloud user parameters
 cloud_user: henderiw
@@ -8,8 +8,8 @@ cloud_ssh_key_name: paco_rsa
 #cloud_ssh_key_name: my-gce
 
 # environment parameters used for NTP, Docker registry
-#bootstrap_server_ip: 10.0.1.10
-bootstrap_server_ip: 10.132.0.16
+bootstrap_server_ip: 10.0.1.10
+#bootstrap_server_ip: 10.132.0.16
 
 # cloud disk parameters
 disk: /dev/disk/azure/scsi1/lun0
@@ -21,12 +21,22 @@ nfs_server: master0
 nfs_path: /mnt/nfs
 nfs_exports: [ "/mnt/nfs *(rw,sync,no_root_squash)" ]
 
+# glusterfs
+glusterfs_daemon: glusterd
+# For Ubuntu.
+glusterfs_default_release: ""
+glusterfs_ppa_use: true
+glusterfs_ppa_version: "7"
+# For Debian.
+glusterfs_gpg_key_version: "7"
+glusterfs_deb_version: "LATEST
+
 # kubernetes parameters
 kube_version: 1.16.3
 kube_ubuntu_version: 1.16.3-00
 #kube_version: v1.17.0
-#master_ip: 10.1.0.10
-master_ip: 10.132.0.17
+master_ip: 10.1.0.10
+#master_ip: 10.132.0.17
 worker_region: region1
 
 # kubernetes kubeadm

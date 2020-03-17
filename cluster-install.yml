@@ -13,9 +13,9 @@
     ##- { role: ping, tags: ping }
     #- { role: ntp, tags: ntp }
     #- { role: docker, tags: docker }
-    - { role: kubernetes/underlay, tags: underlay }
+    #- { role: kubernetes/underlay, tags: underlay }
     #- { role: ssh, tags: ssh }
-    ## - { role: glusterfs/general, tags: glusterfs-general }
+     - { role: glusterfs/general, tags: glusterfs-general }
 
 - name: Setup glusterfs server 
   hosts: glusterfs
@@ -43,19 +43,19 @@
   gather_facts: no
   become: yes
   roles:
-    - { role: kubernetes/master, tags: master }
-    - { role: cni/calico, tags: cni/calico }
+    #- { role: kubernetes/master, tags: master }
+    #- { role: cni/calico, tags: cni/calico }
     
 - hosts: node
   gather_facts: no
   become: yes
   roles:
-    - { role: kubernetes/node, tags: node }
+    #- { role: kubernetes/node, tags: node }
 
 - hosts: kube_cluster
   gather_facts: no
   roles:
-    - { role: calicoctl, tags: calicoctl }
+    #- { role: calicoctl, tags: calicoctl }
 
 - hosts: master
   gather_facts: no
