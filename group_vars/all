@@ -40,7 +40,7 @@ master_ip: 10.1.0.10
 worker_region: region1
 
 # kubernetes kubeadm
-token: b0f7b8.8d1767876297d85c
+token: "b0f7b8.8d1767876297d85c"
 init_opts: ""
 kubeadm_opts: ""
 # kubernetes support directories
