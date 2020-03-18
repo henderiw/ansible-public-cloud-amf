@@ -17,7 +17,10 @@
   args:
     warn: false
   register: response
-- debug: msg={{ response }}
+
+- name: debug response
+  debug: 
+    msg: "{{ response }}"
   
 - name: Copy istioctl to /usr/local/bin
   become: true
@@ -25,12 +28,15 @@
     src: "/home/{{ cloud_user }}/istio/bin/istioctl"
     dest: "/usr/local/bin/istioctl"
     remote_src: yes
-    mode: 0755
+    mode: "0755"
   
 - name: Show /usr/local/bin/istioctl
   shell: ls -al /usr/local/bin/istioctl
   register: response
-- debug: msg={{ response }}
+
+- name: debug response
+  debug: 
+    msg: "{{ response }}"
   
 - name: Create the namespace {{ istio_namespace }}
   shell: kubectl create namespace {{ istio_namespace }}
@@ -38,7 +44,10 @@
   failed_when:
     - response.rc > 1
     - response.rc == 1 and "(AlreadyExists)" not in result.stderr
-- debug: msg={{ response }}
+
+- name: debug response
+  debug: 
+    msg: "{{ response }}"
 
 - name: Create secret YAML file
   copy:
@@ -59,13 +68,19 @@
 - name: Show /home/{{ cloud_user }}/istio_secret.yaml
   shell: cat /home/{{ cloud_user }}/istio_secret.yaml
   register: response
-- debug: msg={{ response }}
+
+- name: debug response
+  debug: 
+    msg: "{{ response }}"
   
 - name: Create secret
   shell: kubectl create -f /home/{{ cloud_user }}/istio_secret.yaml
   register: response
   failed_when: "response.rc != 0 and 'already exists' not in response.stderr"
-- debug: msg={{ response }}
+
+- name: debug response
+  debug: 
+    msg: "{{ response }}"
     
 - name: Install Custom Reference Definitions
   shell: helm template install/kubernetes/helm/istio-init --name istio-init --namespace istio-system | kubectl apply -f -
@@ -74,13 +89,19 @@
     warn: false
   register: response
   failed_when: "response.rc != 0 and 'already exists' not in response.stderr"
-- debug: msg={{ response }}
+
+- name: debug response
+  debug: 
+    msg: "{{ response }}"
   
 - name: Wait for CRDs to be created
   shell: kubectl -n istio-system wait --for=condition=complete job --all --timeout=120s
   register: response
   failed_when: "response.rc != 0 and 'already exists' not in response.stderr"
-- debug: msg={{ response }}
+
+- name: debug response
+  debug: 
+    msg: "{{ response }}"
 
 - name: Istio init
   shell: helm install install/kubernetes/helm/istio --name istio --namespace istio-system
@@ -89,4 +110,7 @@
     warn: false
   register: response
   failed_when: "response.rc != 0 and 'already exists' not in response.stderr"
-- debug: msg={{ response }}
+
+- name: debug response
+  debug: 
+    msg: "{{ response }}"

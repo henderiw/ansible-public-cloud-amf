@@ -33,7 +33,7 @@
   become_user: root
   become_method: sudo
   roles:
-    - { role: glusterfs/client, tags: glusterfs/client }
+    #- { role: glusterfs/client, tags: glusterfs/client }
 
 - hosts: master
   gather_facts: no
@@ -81,7 +81,7 @@
     #- { role: grafana, tags: grafana}
     ##- { role: sysdig-falco, tags: sysdig-falco}
     #- { role: log-aggregation, tags: log-aggregation}
-    #- { role: istio, tags: istio}
+    - { role: istio, tags: istio}
     #- { role: kubernetes/status, tags: kubernetes/status }
     #- { role: cmm-spinner, tags: cmm-spinner }
 
