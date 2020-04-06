@@ -6,7 +6,7 @@
   become_user: root
   become_method: sudo
   roles:
-    #- { role: os, tags: os }
+    - { role: os, tags: os }
     #- { role: swap, tags: swap }
     #- { role: packages, tags: packages }
     ##- { role: os-lxcfs, tags: os-lxcfs }
@@ -81,7 +81,7 @@
     #- { role: grafana, tags: grafana}
     ##- { role: sysdig-falco, tags: sysdig-falco}
     #- { role: log-aggregation, tags: log-aggregation}
-    - { role: istio, tags: istio}
+    #- { role: istio, tags: istio}
     #- { role: kubernetes/status, tags: kubernetes/status }
     #- { role: cmm-spinner, tags: cmm-spinner }
 

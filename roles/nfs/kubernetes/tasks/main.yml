@@ -12,5 +12,7 @@
     - ../templates/nfs*.j2
 
 - name: "Create NFS client provisioner"
-  command: kubectl apply -f /home/{{ cloud_user }}/nfs/nfs-deployment.yml
+  command: kubectl apply -f /home/{{ cloud_user }}/nfs/nfs-deployment.yml -n kube-system
   run_once: true
+
+#helm install --set nfs.server={{ nfs_server }} --set nfs.path=/mnt/nfs stable/nfs-client-provisioner -n nfs --namespace kube-system
