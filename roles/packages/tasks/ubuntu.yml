@@ -61,7 +61,7 @@
 - name: Create /lib/systemd/system/cpupower.service
   become: true
   template:
-    src: {{ item }}
+    src: "{{ item }}"
     dest: /lib/systemd/system/cpupower.service
     mode: "0644"
   with_items:
