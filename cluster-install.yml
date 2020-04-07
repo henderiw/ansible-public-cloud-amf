@@ -70,7 +70,7 @@
   gather_facts: no
   become: yes
   roles:
-    #- { role: kubernetes/nodes, tags: kubernetes/nodes }
+    - { role: kubernetes/nodes, tags: kubernetes/nodes }
     #- { role: cni/multus/master, tags: cni/multus/install }
     #- { role: nfs/kubernetes, tags: nfs/kubernetes }
     #- { role: helm, tags: helm }
