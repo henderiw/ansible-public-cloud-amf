@@ -11,11 +11,11 @@
     #- { role: packages, tags: packages }
     ##- { role: os-lxcfs, tags: os-lxcfs }
     ##- { role: ping, tags: ping }
-    - { role: ntp, tags: ntp }
-    - { role: docker, tags: docker }
-    - { role: kubernetes/underlay, tags: underlay }
-    - { role: ssh, tags: ssh }
-    - { role: glusterfs/general, tags: glusterfs-general }
+    #- { role: ntp, tags: ntp }
+    #- { role: docker, tags: docker }
+    #- { role: kubernetes/underlay, tags: underlay }
+    #- { role: ssh, tags: ssh }
+    #- { role: glusterfs/general, tags: glusterfs-general }
 
 - name: Setup glusterfs server 
   hosts: glusterfs
@@ -33,7 +33,7 @@
   become_user: root
   become_method: sudo
   roles:
-    #- { role: glusterfs/client, tags: glusterfs/client }
+    - { role: glusterfs/client, tags: glusterfs/client }
 
 - hosts: master
   gather_facts: no
@@ -45,7 +45,7 @@
   gather_facts: no
   become: yes
   roles:
-    #- { role: nfs/node, tags: nfs/node }
+    - { role: nfs/node, tags: nfs/node }
     #- { role: ipsec, tags: ipsec }
 
 - hosts: master
@@ -59,7 +59,7 @@
   gather_facts: no
   become: yes
   roles:
-    #- { role: kubernetes/node, tags: node }
+    - { role: kubernetes/node, tags: node }
 
 - hosts: kube_cluster
   gather_facts: no
@@ -90,4 +90,4 @@
   become: yes
   roles:
     #- { role: sriov, tags: sriov }
-    #- { role: cni/static-if-ipam, tags: cni/static-if-ipam }
+    - { role: cni/static-if-ipam, tags: cni/static-if-ipam }
