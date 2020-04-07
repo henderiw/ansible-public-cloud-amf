@@ -68,6 +68,7 @@
     - cpupower.j2
 
 - name: Show /lib/systemd/system/cpupower.service
+  become: true
   shell: cat /lib/systemd/system/cpupower.service
   register: response
 
