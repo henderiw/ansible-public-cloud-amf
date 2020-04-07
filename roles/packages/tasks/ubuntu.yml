@@ -40,50 +40,50 @@
     upgrade: dist
   when: linux_os == "ubuntu"
 
-- name: Disable ondemand
-  become: true
-  service:
-    enabled: no
-    name: ondemand
-    state: stopped
+# - name: Disable ondemand
+#   become: true
+#   service:
+#     enabled: no
+#     name: ondemand
+#     state: stopped
 
-- name: Install cpupower
-  become: true
-  shell: sudo apt-get --yes install linux-tools-common linux-tools-$(uname -r)
-  args:
-    warn: False
-  register: response
+# - name: Install cpupower
+#   become: true
+#   shell: sudo apt-get --yes install linux-tools-common linux-tools-$(uname -r)
+#   args:
+#     warn: False
+#   register: response
 
-- name: debug output
-  debug: 
-    msg: "{{ response }}"
+# - name: debug output
+#   debug: 
+#     msg: "{{ response }}"
 
-- name: Create /lib/systemd/system/cpupower.service
-  become: true
-  template:
-    src: "{{ item }}"
-    dest: /lib/systemd/system/cpupower.service
-    mode: "0644"
-  with_items:
-    - cpupower.j2
+# - name: Create /lib/systemd/system/cpupower.service
+#   become: true
+#   template:
+#     src: "{{ item }}"
+#     dest: /lib/systemd/system/cpupower.service
+#     mode: "0644"
+#   with_items:
+#     - cpupower.j2
 
-- name: Show /lib/systemd/system/cpupower.service
-  become: true
-  shell: cat /lib/systemd/system/cpupower.service
-  register: response
+# - name: Show /lib/systemd/system/cpupower.service
+#   become: true
+#   shell: cat /lib/systemd/system/cpupower.service
+#   register: response
 
-- name: debug output
-  debug: 
-    msg: "{{ response }}"
+# - name: debug output
+#   debug: 
+#     msg: "{{ response }}"
 
-- name: Start cpupower
-  become: true
-  service:
-    name: cpupower
-    state: restarted
-    enabled: yes
-  register: service
+# - name: Start cpupower
+#   become: true
+#   service:
+#     name: cpupower
+#     state: restarted
+#     enabled: yes
+#   register: service
 
-- name: debug output
-  debug: 
-    msg: "{{ service }}"
+# - name: debug output
+#   debug: 
+#     msg: "{{ service }}"
