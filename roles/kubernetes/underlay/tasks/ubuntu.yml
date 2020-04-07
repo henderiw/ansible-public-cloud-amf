@@ -69,11 +69,11 @@
   debug: 
     msg: "{{ response }}"
 
-- name: Update /etc/systemd/system/kubelet.service.d/10-kubeadm.conf node-ip
-  become: true
-  shell: grep -q 'Environment="KUBELET_EXTRA_ARGS=--eviction-hard=memory.available<100Mi,nodefs.available<1Gi,nodefs.inodesFree<5%,imagefs.available<1Gi --eviction-minimum-reclaim=memory.available=0Mi,nodefs.available=500Mi,imagefs.available=500Mi --node-ip={{ hostvars[inventory_hostname]["kubernetes_node_ip"] }}"' /etc/systemd/system/kubelet.service.d/10-kubeadm.conf && echo exists || echo 'Environment="KUBELET_EXTRA_ARGS=--eviction-hard=memory.available<100Mi,nodefs.available<1Gi,nodefs.inodesFree<5%,imagefs.available<1Gi --eviction-minimum-reclaim=memory.available=0Mi,nodefs.available=500Mi,imagefs.available=500Mi --node-ip={{ hostvars[inventory_hostname]["kubernetes_node_ip"] }}"' >> /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
-  register: result
-  changed_when: result.stdout.find('exists') == -1
+# - name: Update /etc/systemd/system/kubelet.service.d/10-kubeadm.conf node-ip
+#   become: true
+#   shell: grep -q 'Environment="KUBELET_EXTRA_ARGS=--eviction-hard=memory.available<100Mi,nodefs.available<1Gi,nodefs.inodesFree<5%,imagefs.available<1Gi --eviction-minimum-reclaim=memory.available=0Mi,nodefs.available=500Mi,imagefs.available=500Mi --node-ip={{ hostvars[inventory_hostname]["kubernetes_node_ip"] }}"' /etc/systemd/system/kubelet.service.d/10-kubeadm.conf && echo exists || echo 'Environment="KUBELET_EXTRA_ARGS=--eviction-hard=memory.available<100Mi,nodefs.available<1Gi,nodefs.inodesFree<5%,imagefs.available<1Gi --eviction-minimum-reclaim=memory.available=0Mi,nodefs.available=500Mi,imagefs.available=500Mi --node-ip={{ hostvars[inventory_hostname]["kubernetes_node_ip"] }}"' >> /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
+#   register: result
+#   changed_when: result.stdout.find('exists') == -1
 
 - name: Update /etc/systemd/system/kubelet.service.d/10-kubeadm.conf cpu-manager-policy
   become: true
