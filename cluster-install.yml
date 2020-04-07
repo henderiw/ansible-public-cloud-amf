@@ -59,7 +59,7 @@
   gather_facts: no
   become: yes
   roles:
-    - { role: kubernetes/node, tags: node }
+    #- { role: kubernetes/node, tags: node }
 
 - hosts: kube_cluster
   gather_facts: no
