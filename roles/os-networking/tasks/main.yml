@@ -12,6 +12,8 @@
 - name: delete interface/route from the base route table in linux
   become: true
   shell: ip route del 10.2.0.0/24 dev eth1
+  register: response
+  failed_when: "response.rc != 0 and 'No such process' not in response.stderr"
 
 - name: show interface/route from the base route table in linux
   become: true
