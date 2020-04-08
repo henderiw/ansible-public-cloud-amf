@@ -1,0 +1,24 @@
+---
+- name: add route table in linux networking
+  become: true
+  shell: echo "1   rt_external" >> /etc/iproute2/rt_tables
+
+- name: add interface/route to the new route table in linux
+  become: true
+  shell: ip route add 10.2.0.0/24 dev eth1 table rt_external
+
+- name: delete interface/route from the base route table in linux
+  become: true
+  shell: ip route del 10.2.0.0/24 dev eth1
+
+- name: delete interface/route from the base route table in linux
+  become: true
+  shell: ip route show table rt_external
+  register: result
+
+- name: debug output
+  debug:
+    msg: result
+
+
+ 
