@@ -6,19 +6,21 @@
 - name: add interface/route to the new route table in linux
   become: true
   shell: ip route add 10.2.0.0/24 dev eth1 table rt_external
+  register: response
+  failed_when: "response.rc != 0 and 'File exists' not in response.stderr"
 
 - name: delete interface/route from the base route table in linux
   become: true
   shell: ip route del 10.2.0.0/24 dev eth1
 
-- name: delete interface/route from the base route table in linux
+- name: show interface/route from the base route table in linux
   become: true
   shell: ip route show table rt_external
-  register: result
+  register: response
 
 - name: debug output
   debug:
-    msg: "{{ result }}"
+    msg: "{{ response }}"
 
 
  
