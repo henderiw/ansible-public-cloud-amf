@@ -33,3 +33,12 @@
   debug:
     msg: "{{ discoveryToken.stdout }}"
   run_once: true
+
+- name: add node to the cluster
+  become: true
+  shell: kubeadm join --token {{ token }} {{ groups['master'][0] }}:6443 --discovery-token-ca-cert-hash  sha256:{{ discoveryToken }}
+  register: result
+
+- name: show result
+  debug:
+    msg: "{{ result }}"
