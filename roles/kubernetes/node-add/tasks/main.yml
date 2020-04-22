@@ -8,6 +8,7 @@
 - name: show result
   debug:
     msg: "{{ result }}"
+  run_once: true
 
 - name: create token
   become: true
@@ -19,6 +20,7 @@
 - name: show token
   debug:
     msg: "{{ token }}"
+  run_once: true
 
 - name: create a discovery token
   become: true
@@ -30,3 +32,4 @@
 - name: show discoveryToken
   debug:
     msg: "{{ discoveryToken }}"
+  run_once: true
