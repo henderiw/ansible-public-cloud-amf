@@ -1,6 +1,8 @@
 - name: check token
   shell: sudo kubeadm token list
   register: result
+  delegate_to: "{{ groups['master'][0] }}"
+  run_once: true
 
 - name: show result
   debug:
@@ -9,6 +11,8 @@
 - name: create token
   shell: sudo kubeadm token create
   register: token
+  delegate_to: "{{ groups['master'][0] }}"
+  run_once: true
 
 - name: show token
   debug:
@@ -17,6 +21,8 @@
 - name: create a discovery token
   shell: openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outform der 2>/dev/null | openssl dgst -sha256 -hex | sed 's/^.* //'
   register: discovery-token
+  delegate_to: "{{ groups['master'][0] }}"
+  run_once: true
 
 - name: show discovery-token
   debug:

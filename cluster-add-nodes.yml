@@ -1,0 +1,6 @@
+---
+- name: add nodes to the cluster
+  hosts: node
+  gather_facts: no
+  roles:
+    - { role: kubernetes/node-add, tags: node-add }
