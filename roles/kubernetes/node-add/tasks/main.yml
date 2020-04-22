@@ -19,7 +19,7 @@
 
 - name: show token
   debug:
-    msg: "{{ token }}"
+    msg: "{{ token.stdout }}"
   run_once: true
 
 - name: create a discovery token
@@ -31,5 +31,5 @@
 
 - name: show discoveryToken
   debug:
-    msg: "{{ discoveryToken }}"
+    msg: "{{ discoveryToken.stdout }}"
   run_once: true
