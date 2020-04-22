@@ -1,0 +1,23 @@
+- name: check token
+  shell: sudo kubeadm token list
+  register: result
+
+- name: show result
+  debug:
+    msg: "{{ result }}"
+
+- name: create token
+  shell: sudo kubeadm token create
+  register: token
+
+- name: show token
+  debug:
+    msg: "{{ token }}"
+
+- name: create a discovery token
+  shell: openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outform der 2>/dev/null | openssl dgst -sha256 -hex | sed 's/^.* //'
+  register: discovery-token
+
+- name: show discovery-token
+  debug:
+    msg: "{{ discovery-token }}"
