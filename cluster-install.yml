@@ -6,17 +6,17 @@
   become_user: root
   become_method: sudo
   roles:
-    #- { role: os, tags: os }
-    -  { role: os-networking, tags: os-networking }
-    #- { role: swap, tags: swap }
-    #- { role: packages, tags: packages }
+    - { role: os, tags: os }
+    #-  { role: os-networking, tags: os-networking }
+    - { role: swap, tags: swap }
+    - { role: packages, tags: packages }
     ##- { role: os-lxcfs, tags: os-lxcfs }
     ##- { role: ping, tags: ping }
-    #- { role: ntp, tags: ntp }
-    #- { role: docker, tags: docker }
-    #- { role: kubernetes/underlay, tags: underlay }
-    #- { role: ssh, tags: ssh }
-    #- { role: glusterfs/general, tags: glusterfs-general }
+    - { role: ntp, tags: ntp }
+    - { role: docker, tags: docker }
+    - { role: kubernetes/underlay, tags: underlay }
+    - { role: ssh, tags: ssh }
+    - { role: glusterfs/general, tags: glusterfs-general }
 
 - name: Setup glusterfs server 
   hosts: glusterfs
@@ -34,7 +34,7 @@
   become_user: root
   become_method: sudo
   roles:
-    #- { role: glusterfs/client, tags: glusterfs/client }
+    - { role: glusterfs/client, tags: glusterfs/client }
 
 - hosts: master
   gather_facts: no
@@ -91,4 +91,4 @@
   become: yes
   roles:
     #- { role: sriov, tags: sriov }
-    #- { role: cni/static-if-ipam, tags: cni/static-if-ipam }
+    - { role: cni/static-if-ipam, tags: cni/static-if-ipam }
